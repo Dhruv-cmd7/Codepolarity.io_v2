@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | Codepolarity.io</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Doto:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+    }
+    .main-heading, h1, h2, h3, h4, h5, h6 {
+      font-family: 'Doto', sans-serif !important;
+    }
+    .profile-card {
+      background: #181c23;
+      border-radius: 1.25rem;
+      box-shadow: 0 2px 16px #000a;
+      border: 1px solid #23272f;
+    }
+    .stat-card {
+      background: #10131a;
+      border-radius: 0.75rem;
+      border: 1px solid #23272f;
+      box-shadow: 0 1px 8px #0006;
+    }
+    .progress-bar-bg {
+      background: #23272f;
+      border-radius: 0.5rem;
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, #60a7fa 0%, #00ffd0 100%);
+      border-radius: 0.5rem;
+    }
+    .bottom-nav {
+      background: #181c23;
+      border-top: 1px solid #23272f;
+      box-shadow: 0 -2px 12px #000a;
+    }
+    .nav-active {
+      color: #60a7fa !important;
+    }
+    .username-input {
+      background: #23272f;
+      color: #fff;
+      border: 1px solid #333;
+    }
+    .username-input:focus {
+      border-color: #60a7fa;
+      outline: none;
+    }
+    .hamburger-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: #60a7fa;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .hamburger-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    .hamburger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+    .hamburger-standalone {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0;
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .hamburger-standalone span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: #60a7fa;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s cubic-bezier(0.4,0,0.2,1), background 0.3s;
+      transform-origin: 50% 50%;
+    }
+    .hamburger-standalone span:nth-child(1) {
+      /* Top bar */
+      transform: translateY(0px) rotate(0deg);
+    }
+    .hamburger-standalone span:nth-child(2) {
+      /* Middle bar */
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .hamburger-standalone span:nth-child(3) {
+      /* Bottom bar */
+      transform: translateY(0px) rotate(0deg);
+    }
+    .hamburger-standalone.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger-standalone.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0.5);
+    }
+    .hamburger-standalone.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  </style>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-[#0a0a0a]">
+  <!-- TEST BUTTON FOR JS DEBUG -->
+  <button id="js-test-btn" style="background:#ff0;color:#000;padding:10px 20px;font-size:18px;margin:20px auto;display:block;">TEST JAVASCRIPT</button>
+  <!-- Top Bar -->
+  <div class="flex items-center px-4 py-4 bg-transparent border-b border-[#23272f]">
+    <a href="index.html" class="text-[#60a7fa] hover:text-[#00ffd0] flex items-center mr-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"><path stroke="#60a7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <h2 class="main-heading text-2xl font-bold flex-1 text-center pr-8">Profile</h2>
+    <!-- Standalone Hamburger Icon -->
+    <button id="hamburger-standalone" class="hamburger-standalone ml-2" aria-label="Menu" type="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <!-- Profile Card -->
+  <div class="flex-1 flex flex-col items-center justify-start w-full px-2 py-6">
+    <div class="profile-card w-full max-w-lg mx-auto flex flex-col items-center p-8">
+      <div id="profile-info" class="flex flex-col items-center w-full"></div>
+      <button id="logout-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Logout</button>
+      <button id="login-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Login with Google</button>
+    </div>
+    <!-- Stat Cards -->
+    <div id="stat-cards" class="w-full max-w-lg grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8"></div>
+    <!-- Progress Section -->
+    <div class="w-full max-w-lg mt-8">
+      <h3 class="main-heading text-lg font-bold mb-2">Progress</h3>
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-gray-300">Overall Progress</span>
+        <span id="overall-progress-label" class="font-bold">0%</span>
+      </div>
+      <div class="progress-bar-bg h-3 w-full mb-4">
+        <div id="overall-progress-bar" class="progress-bar h-3" style="width:0%"></div>
+      </div>
+    </div>
+    <!-- Typing Tutor Section -->
+    <div class="w-full max-w-lg mt-8">
+      <h3 class="main-heading text-lg font-bold mb-2">Typing Tutor</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="stat-card flex flex-col gap-2 p-4 items-center">
+          <span class="text-gray-400">Words Per Minute</span>
+          <span id="stat-wpm" class="text-2xl font-bold">0</span>
+        </div>
+        <div class="stat-card flex flex-col gap-2 p-4 items-center">
+          <span class="text-gray-400">Accuracy</span>
+          <span id="stat-accuracy" class="text-2xl font-bold">0%</span>
+        </div>
+      </div>
+    </div>
+    <!-- Completed Exercises Section -->
+    <div class="w-full max-w-lg mt-8">
+      <h3 class="main-heading text-lg font-bold mb-2">Completed Exercises</h3>
+      <div id="completed-exercises" class="flex flex-col gap-3"></div>
+    </div>
+  </div>
+  <script>
+    function renderProfile(user, userData) {
+      const info = document.getElementById('profile-info');
+      if (user) {
+        // Join date
+        let joinDate = '';
+        if (user.metadata && user.metadata.creationTime) {
+          const date = new Date(user.metadata.creationTime);
+          joinDate = `Joined ${date.getFullYear()}`;
+        }
+        info.innerHTML = `
+          <div class="flex flex-col items-center gap-2">
+            <div class="rounded-full border-4 border-blue-400 shadow-lg bg-center bg-cover w-28 h-28 mb-2" style="background-image:url('${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User')}')"></div>
+            <div class="text-2xl font-bold main-heading">${user.displayName || 'User'}</div>
+            <form id="username-form" class="flex flex-col items-center gap-1 mt-1 mb-2 w-full">
+              <input id="username" name="username" type="text" class="username-input rounded px-3 py-1 w-44 text-center mb-1" value="${userData?.username || ''}" placeholder="@username" maxlength="24" autocomplete="off"/>
+              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded text-sm">Save Username</button>
+              <div id="username-status" class="text-xs mt-1"></div>
+            </form>
+            <div class="text-gray-400 text-base">${user.email || ''}</div>
+            <div class="text-blue-400 text-sm mt-1">${userData?.username ? '@' + userData.username : ''}</div>
+            <div class="text-gray-500 text-xs mt-1">${joinDate}</div>
+          </div>
+        `;
+        document.getElementById('logout-btn').style.display = '';
+        document.getElementById('login-btn').style.display = 'none';
+        // Username form logic
+        const usernameForm = document.getElementById('username-form');
+        if (usernameForm) {
+          usernameForm.onsubmit = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const status = document.getElementById('username-status');
+            if (!username) {
+              status.textContent = 'Username cannot be empty.';
+              status.style.color = 'red';
+              return;
+            }
+            status.textContent = 'Saving...';
+            status.style.color = '#fff';
+            try {
+              await firebase.firestore().collection('users').doc(user.uid).set({ username }, { merge: true });
+              status.textContent = 'Username saved!';
+              status.style.color = 'limegreen';
+            } catch (err) {
+              status.textContent = 'Error saving username.';
+              status.style.color = 'red';
+            }
+          };
+        }
+        // Stat cards
+        const statCards = document.getElementById('stat-cards');
+        statCards.innerHTML = `
+          <div class="stat-card flex flex-col gap-1 items-center p-4">
+            <span class="text-gray-400">Courses</span>
+            <span class="text-2xl font-bold">${userData?.coursesWatched ?? 0}</span>
+          </div>
+          <div class="stat-card flex flex-col gap-1 items-center p-4">
+            <span class="text-gray-400">Exercises</span>
+            <span class="text-2xl font-bold">${userData?.exercisesCompleted ?? 0}</span>
+          </div>
+          <div class="stat-card flex flex-col gap-1 items-center p-4">
+            <span class="text-gray-400">Projects</span>
+            <span class="text-2xl font-bold">${userData?.projects ?? 0}</span>
+          </div>
+        `;
+        // Progress bar
+        const progress = userData?.overallProgress ?? 0;
+        document.getElementById('overall-progress-label').textContent = progress + '%';
+        document.getElementById('overall-progress-bar').style.width = progress + '%';
+        // Typing stats
+        document.getElementById('stat-wpm').textContent = userData?.highestWPM ?? 0;
+        document.getElementById('stat-accuracy').textContent = (userData?.highestAccuracy ?? 0) + '%';
+        // Completed exercises
+        const completed = userData?.completedExercises || [];
+        const completedDiv = document.getElementById('completed-exercises');
+        if (completed.length === 0) {
+          completedDiv.innerHTML = '<div class="text-gray-500 text-sm">No exercises completed yet.</div>';
+        } else {
+          completedDiv.innerHTML = completed.map(ex => `
+            <div class="flex items-center gap-4 bg-[#181c23] px-4 min-h-[56px] py-2 rounded-lg justify-between">
+              <div class="flex flex-col justify-center">
+                <p class="text-white text-base font-medium line-clamp-1">${ex.title || 'Exercise'}</p>
+                <p class="text-blue-400 text-xs font-normal line-clamp-2">${ex.language || ''}</p>
+              </div>
+              <div class="shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#60a7fa" viewBox="0 0 24 24"><path d="M20.285 6.709a1 1 0 0 0-1.414 0L9 16.58l-3.871-3.87a1 1 0 1 0-1.415 1.415l4.578 4.578a1 1 0 0 0 1.414 0l10.578-10.578a1 1 0 0 0 0-1.415z"/></svg>
+              </div>
+            </div>
+          `).join('');
+        }
+      } else {
+        info.innerHTML = `<div class="text-lg text-gray-300 mb-4">You are not logged in.</div>`;
+        document.getElementById('logout-btn').style.display = 'none';
+        document.getElementById('login-btn').style.display = '';
+        document.getElementById('stat-cards').innerHTML = '';
+        document.getElementById('overall-progress-label').textContent = '0%';
+        document.getElementById('overall-progress-bar').style.width = '0%';
+        document.getElementById('stat-wpm').textContent = '0';
+        document.getElementById('stat-accuracy').textContent = '0%';
+        document.getElementById('completed-exercises').innerHTML = '';
+      }
+    }
+    async function fetchUserData(uid) {
+      try {
+        const doc = await firebase.firestore().collection('users').doc(uid).get();
+        return doc.exists ? doc.data() : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    firebase.auth().onAuthStateChanged(async function(user) {
+      if (user) {
+        const userData = await fetchUserData(user.uid);
+        renderProfile(user, userData);
+      } else {
+        renderProfile(null, null);
+      }
+    });
+    document.getElementById('logout-btn').onclick = function() {
+      firebase.auth().signOut().then(() => window.location.reload());
+    };
+    document.getElementById('login-btn').onclick = function() {
+      firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    };
+  </script>
+</body>
+<script>
+  // TEST BUTTON SCRIPT
+  document.getElementById('js-test-btn').onclick = function() {
+    alert('JavaScript is working!');
+  };
+  // Hamburger animation logic (guaranteed to run after DOM is loaded)
+  const btn = document.getElementById('hamburger-standalone');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.toggle('active');
+      alert('Hamburger clicked!');
+      console.log('Hamburger clicked, active:', btn.classList.contains('active'));
+    });
+  } else {
+    alert('Hamburger button not found!');
+  }
+</script>
+</html> 

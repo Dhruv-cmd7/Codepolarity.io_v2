@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In</title>
+  <link rel="stylesheet" href="../styles/Signin.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Raleway', Arial, sans-serif;
+      background: #0a101a;
+    }
+
+    .split-container {
+      display: flex;
+      height: 100vh;
+      min-height: 600px;
+    }
+
+    .split-left,
+    .split-right {
+      flex: 1 1 0;
+      width: 50vw;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .split-left {
+      background: #000;
+      padding: 0;
+      min-width: 350px;
+      max-width: 50vw;
+    }
+
+    .split-left-inner {
+      width: 100%;
+      max-width: 370px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .split-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+      margin-left: 0.2rem;
+    }
+
+    .split-logo img {
+      height: 32px;
+    }
+
+    .split-form-headline {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.7rem;
+      margin-top: 0;
+      text-align: left;
+      letter-spacing: 0.01em;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 13px 0 13px 0;
+      border: none;
+      border-radius: 8px;
+      background: rgba(96, 167, 250, 0.13);
+      color: #60a7fa;
+      font-size: 1.08rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      transition: background 0.16s;
+      justify-content: flex-start;
+    }
+
+    .social-btn img {
+      height: 22px;
+      width: 22px;
+      margin-left: 12px;
+    }
+
+    .social-btn:hover,
+    .social-btn:focus {
+      background: #1d4ed8;
+      color: #fff;
+    }
+
+    .split-divider {
+      border: none;
+      border-top: 1px solid #23304a;
+      margin: 18px 0 10px 0;
+      width: 100%;
+    }
+
+    .split-input {
+      width: 100%;
+      padding: 15px 14px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      margin-bottom: 0.7rem;
+      outline: none;
+      text-transform: none;
+      letter-spacing: 0.01em;
+      transition: background 0.18s, box-shadow 0.18s, border 0.18s;
+    }
+
+    .split-input:hover,
+    .split-input:focus {
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow: 0 0 0 2px #60a7fa44;
+      border-color: #60a7fa;
+    }
+
+    .split-input::placeholder {
+      color: #b6c6e3;
+      font-size: 0.98rem;
+      letter-spacing: 0.08em;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 13px 0;
+      background: #fff;
+      color: #111;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1.08rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.2rem;
+      margin-bottom: 0.7rem;
+      transition: background 0.16s, color 0.16s, border 0.16s;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    }
+
+    .primary-btn:disabled {
+      background: #f3f4f6;
+      color: #b6c6e3;
+      border: 1px solid #e5e7eb;
+      cursor: not-allowed;
+    }
+
+    .primary-btn:hover:not(:disabled),
+    .primary-btn:focus:not(:disabled) {
+      background: #e5e7eb;
+      color: #111;
+      border: 1px solid #bfc3c9;
+      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.07);
+    }
+
+    .split-legal {
+      font-size: 0.93rem;
+      color: #b6c6e3;
+      margin: 0.7rem 0 0.2rem 0;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .split-legal a {
+      color: #60a7fa;
+      text-decoration: underline;
+    }
+
+    .split-links {
+      font-size: 0.97rem;
+      color: #b6c6e3;
+      margin-top: 0.7rem;
+      text-align: left;
+    }
+
+    .split-links a {
+      color: #60a7fa;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    .split-links a:hover {
+      text-decoration: underline;
+    }
+
+    .split-help {
+      font-size: 0.93rem;
+      color: #b6c6e3;
+      margin-top: 0.5rem;
+      text-align: left;
+    }
+
+    .split-right {
+      background: #000 url("../assets/images/pattern.png") center center/cover no-repeat;
+      min-width: 350px;
+      max-width: 50vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .split-right-inner {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .split-brand-icon {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 1.2rem auto;
+      display: block;
+      z-index: 2;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: none;
+      color: #b6c6e3;
+      text-decoration: none;
+      font-size: 1.08rem;
+      font-weight: 500;
+      z-index: 10;
+      transition: background 0.18s, color 0.18s;
+      box-shadow: none;
+      border: none;
+      padding: 0;
+    }
+
+    .back-btn:hover,
+    .back-btn:focus {
+      background: rgba(96, 167, 250, 0.10);
+      color: #60a7fa;
+      box-shadow: 0 2px 8px 0 rgba(96, 167, 250, 0.08);
+    }
+
+    .back-btn img {
+      width: 20px;
+      height: 20px;
+      display: block;
+      filter: brightness(0) invert(1);
+      transition: filter 0.18s;
+    }
+
+    .back-btn:hover img,
+    .back-btn:focus img {
+      filter: brightness(0) invert(1);
+    }
+
+    /* Ensure password fields are never uppercased */
+    input[type="password"] {
+      text-transform: none !important;
+    }
+
+    @media (max-width: 900px) {
+      .split-container {
+        flex-direction: column;
+      }
+
+      .split-left,
+      .split-right {
+        max-width: 100vw;
+        min-width: 0;
+        width: 100vw;
+        min-height: 320px;
+      }
+
+      .split-right {
+        min-height: 220px;
+        height: 220px;
+        display: none !important;
+      }
+      .split-brand-icon {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .split-logo {
+        top: 12px;
+        left: 12px;
+        margin-bottom: 1.2rem;
+      }
+      .split-form {
+        max-width: 98vw;
+        padding: 0 2vw;
+      }
+      .split-form-headline {
+        font-size: 1.4rem;
+      }
+      .split-left-inner {
+        max-width: 98vw;
+        padding: 0 2vw;
+      }
+      .split-input, .primary-btn, .social-btn {
+        font-size: 1rem;
+        padding: 12px 10px;
+      }
+      .split-brand-icon {
+        width: 28px;
+        height: 28px;
+      }
+      .back-btn {
+        top: 10px;
+        left: 10px;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .split-form-headline {
+        font-size: 1.1rem;
+      }
+      .split-logo img {
+        height: 22px;
+      }
+      .split-brand-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .split-input, .primary-btn, .social-btn {
+        font-size: 0.95rem;
+        padding: 10px 6px;
+      }
+      .split-left-inner {
+        padding: 0 1vw;
+      }
+      .back-btn {
+        width: 26px;
+        height: 26px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+  <div class="split-container">
+    <div class="split-left">
+      <a href="#" class="back-btn" id="back-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <div class="split-left-inner">
+        <div class="split-logo">
+          <img src="../assets/images/logoC.svg" alt="Logo" />
+        </div>
+        <form class="split-form" id="login-form" autocomplete="off">
+          <div class="split-form-headline">Log in to Codepolarity</div>
+
+          <button class="social-btn" type="button"><img src="../assets/images/google.png" alt="Google" />Continue with
+            Google</button>
+          <button class="social-btn" type="button"><img src="../assets/images/github.png" alt="GitHub" />Continue with
+            GitHub</button>
+          <hr class="split-divider" />
+          <!-- Email/username/password fields removed -->
+          <div class="split-legal">
+            By continuing, you agree to Codepolarity's <a href="#">Terms of Service</a> and <a href="#">Privacy
+              Policy</a>.
+          </div>
+          <div class="split-help">
+            <a href="#">Get help</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="split-right">
+      <div class="split-right-inner">
+        <img src="../assets/images/logoC.svg" class="split-brand-icon" alt="Brand Icon" />
+      </div>
+    </div>
+  </div>
+  <script>
+    // Firebase config (same as signup.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.appspot.com",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
+    // --- Firestore test block ---
+    try {
+      const db = firebase.firestore();
+      console.log('Firestore initialized:', db);
+      db.collection('usernames').limit(1).get().then(
+        snap => console.log('Firestore test:', snap.size),
+        err => console.error('Firestore test error:', err)
+      );
+    } catch (err) {
+      console.error('Firestore init error:', err);
+    }
+
+    // Social sign in
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        if (this.textContent.includes('Google')) {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          auth.signInWithPopup(provider)
+            .then(result => {
+              window.location.href = 'index.html';
+            })
+            .catch(error => {
+              alert('Google sign in error: ' + error.message);
+            });
+        } else if (this.textContent.includes('GitHub')) {
+          const provider = new firebase.auth.GithubAuthProvider();
+          auth.signInWithPopup(provider)
+            .then(result => {
+              window.location.href = 'index.html';
+            })
+            .catch(error => {
+              alert('GitHub sign in error: ' + error.message);
+            });
+        }
+      });
+    });
+    // Remove all email/password and username login/signup JS
+  </script>
+  <script>
+    // Show/hide password toggle
+    document.getElementById('toggle-password').addEventListener('click', function () {
+      var passInput = document.getElementById('password-input');
+      var eyeIcon = document.getElementById('eye-icon');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.81 21.81 0 0 1 5.06-6.06M1 1l22 22"/><circle cx="12" cy="12" r="3"/>';
+      } else {
+        passInput.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    });
+  </script>
+  <script>
+    // Extra JS workaround to clear autofilled values on page load
+    window.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        var passInput = document.getElementById('password-input');
+        if (passInput) passInput.value = '';
+      }, 300);
+    });
+  </script>
+  <script>
+    // Smart back button: go back in history if possible, else go home
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+
+</html>

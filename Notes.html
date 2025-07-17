@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodePolarity - Quick Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="../styles/notes.css">
+    <script src="../scripts/config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar: Back, Hamburger, Heading -->
+        <nav class="notes-navbar">
+            <div class="nav-btns">
+                <a href="#" class="back-btn" id="back-btn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            <div class="nav-heading">
+                <h1 class="ce-gradient">Cheat Sheet</h1>
+            </div>
+        </nav>
+        <!-- Sidebar Overlay for mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Left Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-search">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search languages or topics...">
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <h3 class="nav-section-title">Languages</h3>
+                        <ul class="nav-list" id="languagesList">
+                            <!-- Languages will be dynamically added here -->
+                        </ul>
+                    </div>
+                    <div class="nav-section">
+                        <h3 class="nav-section-title">Tools</h3>
+                        <ul class="nav-list" id="toolsList">
+                            <!-- Tools will be dynamically added here -->
+                        </ul>
+                    </div>
+                </nav>
+            </aside>
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <div class="content-header">
+                    <h2 id="currentSection">Select a language or tool</h2>
+                    <div class="content-actions">
+                        <button class="copy-btn" id="copyBtn">
+                            <i class="fas fa-copy"></i>
+                            Copy All
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                            Dark Mode
+                        </button>
+                    </div>
+                </div>
+                <div class="reference-content" id="referenceContent">
+                    <!-- Reference content will be dynamically added here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"></script>
+    <script src="../scripts/notes.js"></script>
+    <script>
+    // Sidebar toggle for mobile UX
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        }
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+    });
+    // Smart back button: go back in history if possible, else go home
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+    </script>
+</body>
+</html> 
