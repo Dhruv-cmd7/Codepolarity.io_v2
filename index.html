@@ -747,8 +747,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // Firebase Auth UI logic
 function updateAuthUIFirebase(user) {
   // Desktop
-  document.getElementById('desktop-login-btn').style.display = user ? 'none' : '';
-  document.getElementById('desktop-profile').style.display = user ? '' : 'none';
+  const loginBtn = document.getElementById('desktop-login-btn');
+  const profileLi = document.getElementById('desktop-profile');
+  if (loginBtn && profileLi) {
+    if (user) {
+      loginBtn.style.display = 'none';
+      profileLi.classList.remove('hidden'); // Remove hidden class to show profile
+    } else {
+      loginBtn.style.display = '';
+      profileLi.classList.add('hidden'); // Add hidden class to hide profile
+    }
+  }
   // Mobile
   document.getElementById('firebase-login-btn-mobile').style.display = user ? 'none' : '';
   document.getElementById('mobile-profile').style.display = user ? 'flex' : 'none';

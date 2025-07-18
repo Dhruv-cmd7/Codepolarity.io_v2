@@ -36,100 +36,37 @@
       background: linear-gradient(90deg, #60a7fa 0%, #00ffd0 100%);
       border-radius: 0.5rem;
     }
-    .bottom-nav {
-      background: #181c23;
-      border-top: 1px solid #23272f;
-      box-shadow: 0 -2px 12px #000a;
+    .edit-avatar-btn {
+      cursor: pointer;
+      opacity: 1;
+      pointer-events: auto;
     }
-    .nav-active {
-      color: #60a7fa !important;
-    }
-    .username-input {
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
       background: #23272f;
       color: #fff;
-      border: 1px solid #333;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #000a;
+      z-index: 9999;
+      font-size: 1rem;
+      opacity: 0.95;
+      display: none;
     }
-    .username-input:focus {
-      border-color: #60a7fa;
-      outline: none;
+    .spinner {
+      border: 4px solid #23272f;
+      border-top: 4px solid #60a7fa;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+      margin: 48px auto;
     }
-    .hamburger-btn {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-      padding: 0;
-    }
-    .hamburger-btn span {
-      display: block;
-      width: 28px;
-      height: 3px;
-      background: #60a7fa;
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    }
-    .hamburger-btn.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-    .hamburger-btn.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger-btn.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-    }
-    .hamburger-standalone {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-      padding: 0;
-      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
-    }
-    .hamburger-standalone span {
-      display: block;
-      width: 28px;
-      height: 3px;
-      background: #60a7fa;
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s cubic-bezier(0.4,0,0.2,1), background 0.3s;
-      transform-origin: 50% 50%;
-    }
-    .hamburger-standalone span:nth-child(1) {
-      /* Top bar */
-      transform: translateY(0px) rotate(0deg);
-    }
-    .hamburger-standalone span:nth-child(2) {
-      /* Middle bar */
-      opacity: 1;
-      transform: scaleX(1);
-    }
-    .hamburger-standalone span:nth-child(3) {
-      /* Bottom bar */
-      transform: translateY(0px) rotate(0deg);
-    }
-    .hamburger-standalone.active span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    .hamburger-standalone.active span:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0.5);
-    }
-    .hamburger-standalone.active span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
   <!-- Firebase App (the core Firebase SDK) -->
@@ -137,12 +74,13 @@
   <!-- Firebase Auth -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
       authDomain: "codepolarity-a8c63.firebaseapp.com",
       projectId: "codepolarity-a8c63",
-      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      storageBucket: "codepolarity-a8c63.appspot.com",
       messagingSenderId: "712143434692",
       appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
       measurementId: "G-R81RELCW6N"
@@ -151,64 +89,103 @@
   </script>
 </head>
 <body class="flex flex-col min-h-screen bg-[#0a0a0a]">
-  <!-- TEST BUTTON FOR JS DEBUG -->
-  <button id="js-test-btn" style="background:#ff0;color:#000;padding:10px 20px;font-size:18px;margin:20px auto;display:block;">TEST JAVASCRIPT</button>
   <!-- Top Bar -->
   <div class="flex items-center px-4 py-4 bg-transparent border-b border-[#23272f]">
     <a href="index.html" class="text-[#60a7fa] hover:text-[#00ffd0] flex items-center mr-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"><path stroke="#60a7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8"><path stroke="#60a7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
     </a>
-    <h2 class="main-heading text-2xl font-bold flex-1 text-center pr-8">Profile</h2>
-    <!-- Standalone Hamburger Icon -->
-    <button id="hamburger-standalone" class="hamburger-standalone ml-2" aria-label="Menu" type="button">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <h2 class="main-heading text-lg md:text-2xl font-bold flex-1 text-center pr-8">Profile</h2>
   </div>
-  <!-- Profile Card -->
-  <div class="flex-1 flex flex-col items-center justify-start w-full px-2 py-6">
-    <div class="profile-card w-full max-w-lg mx-auto flex flex-col items-center p-8">
+  <!-- Enhanced Profile Layout -->
+  <div class="flex-1 flex flex-col md:flex-row items-center md:items-start justify-center w-full px-2 py-8 gap-8 max-w-5xl mx-auto">
+    <!-- Left: User Info -->
+    <div class="profile-card w-full max-w-md flex flex-col items-center p-8 mb-8 md:mb-0">
+      <div class="relative mb-4">
+        <div id="profile-avatar-desktop" class="rounded-full border-4 border-blue-400 shadow-lg bg-center bg-cover w-32 h-32 md:w-40 md:h-40"></div>
+        <button id="edit-avatar-btn" class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 shadow-md transition edit-avatar-btn hidden md:block" title="Change photo">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2a2.828 2.828 0 11-4-4 2.828 2.828 0 014 4z" /></svg>
+        </button>
+        <input type="file" id="avatar-file-input" accept="image/*" class="hidden" />
+      </div>
       <div id="profile-info" class="flex flex-col items-center w-full"></div>
       <button id="logout-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Logout</button>
       <button id="login-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Login with Google</button>
     </div>
-    <!-- Stat Cards -->
-    <div id="stat-cards" class="w-full max-w-lg grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8"></div>
-    <!-- Progress Section -->
-    <div class="w-full max-w-lg mt-8">
-      <h3 class="main-heading text-lg font-bold mb-2">Progress</h3>
-      <div class="flex justify-between items-center mb-2">
-        <span class="text-gray-300">Overall Progress</span>
-        <span id="overall-progress-label" class="font-bold">0%</span>
-      </div>
-      <div class="progress-bar-bg h-3 w-full mb-4">
-        <div id="overall-progress-bar" class="progress-bar h-3" style="width:0%"></div>
-      </div>
-    </div>
-    <!-- Typing Tutor Section -->
-    <div class="w-full max-w-lg mt-8">
-      <h3 class="main-heading text-lg font-bold mb-2">Typing Tutor</h3>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="stat-card flex flex-col gap-2 p-4 items-center">
-          <span class="text-gray-400">Words Per Minute</span>
-          <span id="stat-wpm" class="text-2xl font-bold">0</span>
+    <!-- Right: Stats, Progress, Exercises -->
+    <div class="flex-1 flex flex-col gap-8 w-full max-w-2xl">
+      <!-- Stat Cards -->
+      <div id="stat-cards" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+      <!-- Progress Section -->
+      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
+        <h3 class="main-heading text-lg font-bold mb-2">Progress</h3>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-gray-300">Overall Progress</span>
+          <span id="overall-progress-label" class="font-bold">0%</span>
         </div>
-        <div class="stat-card flex flex-col gap-2 p-4 items-center">
-          <span class="text-gray-400">Accuracy</span>
-          <span id="stat-accuracy" class="text-2xl font-bold">0%</span>
+        <div class="progress-bar-bg h-4 w-full mb-2">
+          <div id="overall-progress-bar" class="progress-bar h-4 transition-all duration-500" style="width:0%"></div>
         </div>
       </div>
-    </div>
-    <!-- Completed Exercises Section -->
-    <div class="w-full max-w-lg mt-8">
-      <h3 class="main-heading text-lg font-bold mb-2">Completed Exercises</h3>
-      <div id="completed-exercises" class="flex flex-col gap-3"></div>
+      <!-- Typing Tutor Section -->
+      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
+        <h3 class="main-heading text-lg font-bold mb-2">Typing Tutor</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="stat-card flex flex-col gap-2 p-4 items-center">
+            <span class="text-gray-400">Words Per Minute</span>
+            <span id="stat-wpm" class="text-2xl font-bold">0</span>
+          </div>
+          <div class="stat-card flex flex-col gap-2 p-4 items-center">
+            <span class="text-gray-400">Accuracy</span>
+            <span id="stat-accuracy" class="text-2xl font-bold">0%</span>
+          </div>
+        </div>
+      </div>
+      <!-- Completed Exercises Section -->
+      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
+        <h3 class="main-heading text-lg font-bold mb-2">Completed Exercises</h3>
+        <div id="completed-exercises" class="flex flex-col gap-3 max-h-64 overflow-y-auto"></div>
+      </div>
     </div>
   </div>
+  <div id="toast" class="toast"></div>
+  <div id="loading-spinner" class="spinner" style="display:none;"></div>
   <script>
+    const toast = document.getElementById('toast');
+    function showToast(msg, isError = false) {
+      toast.textContent = msg;
+      toast.style.background = isError ? '#e53935' : '#23272f';
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+    function setLoading(loading) {
+      document.getElementById('loading-spinner').style.display = loading ? '' : 'none';
+    }
+    // Avatar upload logic
+    document.getElementById('edit-avatar-btn').onclick = function() {
+      document.getElementById('avatar-file-input').click();
+    };
+    document.getElementById('avatar-file-input').onchange = async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      setLoading(true);
+      try {
+        const user = firebase.auth().currentUser;
+        if (!user) throw new Error('Not logged in');
+        const storageRef = firebase.storage().ref();
+        const avatarRef = storageRef.child(`avatars/${user.uid}`);
+        await avatarRef.put(file);
+        const url = await avatarRef.getDownloadURL();
+        await user.updateProfile({ photoURL: url });
+        showToast('Profile photo updated!');
+        renderProfile(user, await fetchUserData(user.uid));
+      } catch (err) {
+        showToast('Failed to update photo', true);
+      }
+      setLoading(false);
+    };
     function renderProfile(user, userData) {
       const info = document.getElementById('profile-info');
+      const avatarDesktop = document.getElementById('profile-avatar-desktop');
       if (user) {
         // Join date
         let joinDate = '';
@@ -216,16 +193,19 @@
           const date = new Date(user.metadata.creationTime);
           joinDate = `Joined ${date.getFullYear()}`;
         }
+        // Set avatar image
+        if (avatarDesktop) {
+          avatarDesktop.style.backgroundImage = `url('${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User')}')`;
+        }
         info.innerHTML = `
           <div class="flex flex-col items-center gap-2">
-            <div class="rounded-full border-4 border-blue-400 shadow-lg bg-center bg-cover w-28 h-28 mb-2" style="background-image:url('${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User')}')"></div>
             <div class="text-2xl font-bold main-heading">${user.displayName || 'User'}</div>
             <form id="username-form" class="flex flex-col items-center gap-1 mt-1 mb-2 w-full">
               <input id="username" name="username" type="text" class="username-input rounded px-3 py-1 w-44 text-center mb-1" value="${userData?.username || ''}" placeholder="@username" maxlength="24" autocomplete="off"/>
-              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded text-sm">Save Username</button>
+              <button id="save-username-btn" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded text-sm">Save Username</button>
               <div id="username-status" class="text-xs mt-1"></div>
             </form>
-            <div class="text-gray-400 text-base">${user.email || ''}</div>
+            <div class="text-gray-400 text-base flex items-center gap-2">${user.email || ''}</div>
             <div class="text-blue-400 text-sm mt-1">${userData?.username ? '@' + userData.username : ''}</div>
             <div class="text-gray-500 text-xs mt-1">${joinDate}</div>
           </div>
@@ -234,6 +214,7 @@
         document.getElementById('login-btn').style.display = 'none';
         // Username form logic
         const usernameForm = document.getElementById('username-form');
+        const saveBtn = document.getElementById('save-username-btn');
         if (usernameForm) {
           usernameForm.onsubmit = async function(e) {
             e.preventDefault();
@@ -246,14 +227,18 @@
             }
             status.textContent = 'Saving...';
             status.style.color = '#fff';
+            saveBtn.disabled = true;
             try {
               await firebase.firestore().collection('users').doc(user.uid).set({ username }, { merge: true });
               status.textContent = 'Username saved!';
               status.style.color = 'limegreen';
+              showToast('Username updated!');
             } catch (err) {
               status.textContent = 'Error saving username.';
               status.style.color = 'red';
+              showToast('Failed to update username', true);
             }
+            saveBtn.disabled = false;
           };
         }
         // Stat cards
@@ -307,23 +292,29 @@
         document.getElementById('stat-wpm').textContent = '0';
         document.getElementById('stat-accuracy').textContent = '0%';
         document.getElementById('completed-exercises').innerHTML = '';
+        if (avatarDesktop) avatarDesktop.style.backgroundImage = '';
       }
     }
     async function fetchUserData(uid) {
+      setLoading(true);
       try {
         const doc = await firebase.firestore().collection('users').doc(uid).get();
         return doc.exists ? doc.data() : {};
       } catch (e) {
         return {};
+      } finally {
+        setLoading(false);
       }
     }
     firebase.auth().onAuthStateChanged(async function(user) {
+      setLoading(true);
       if (user) {
         const userData = await fetchUserData(user.uid);
         renderProfile(user, userData);
       } else {
         renderProfile(null, null);
       }
+      setLoading(false);
     });
     document.getElementById('logout-btn').onclick = function() {
       firebase.auth().signOut().then(() => window.location.reload());
@@ -333,21 +324,4 @@
     };
   </script>
 </body>
-<script>
-  // TEST BUTTON SCRIPT
-  document.getElementById('js-test-btn').onclick = function() {
-    alert('JavaScript is working!');
-  };
-  // Hamburger animation logic (guaranteed to run after DOM is loaded)
-  const btn = document.getElementById('hamburger-standalone');
-  if (btn) {
-    btn.addEventListener('click', function() {
-      btn.classList.toggle('active');
-      alert('Hamburger clicked!');
-      console.log('Hamburger clicked, active:', btn.classList.contains('active'));
-    });
-  } else {
-    alert('Hamburger button not found!');
-  }
-</script>
 </html> 

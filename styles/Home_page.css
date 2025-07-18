@@ -1817,3 +1817,44 @@ main {
   color: #fff !important;
   transform: scale(1.06);
 }
+
+@media (max-width: 768px) {
+  .logo {
+    left: 1px;
+    gap: 0.5px;
+  }
+  #logo-toggle img, .logo img {
+    height: 10px !important;
+    max-height: 10px !important;
+    width: auto !important;
+  }
+  #logo-toggle span, .logo span {
+    font-size: 0.5rem !important;
+    letter-spacing: -3px;
+  }
+  nav {
+    padding: 2px 0.5px 3px 0.5px !important;
+    height: 14px !important;
+  }
+}
+@media (max-width: 480px) {
+  .logo {
+    left: 0px;
+    gap: 0px;
+  }
+  #logo-toggle img, .logo img {
+    height: 4px !important;
+    max-height: 4px !important;
+    width: auto !important;
+  }
+  #logo-toggle span, .logo span {
+    display: none !important;
+  }
+  nav {
+    padding: 0.5px 0px 1px 0px !important;
+    height: 5px !important;
+  }
+  #mobile-menu {
+    padding-top: 5px !important;
+  }
+}
