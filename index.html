@@ -5,61 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Codepolarity.io</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
   <style>
-    body {
-      font-family: 'Roboto Mono', monospace;
-      background-color: #000;
-      color: #fff;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-    h1, h2, h3, h4, h5, h6, .main-heading, .main-text {
-      font-family: 'Doto', sans-serif !important;
-    }
-    .corner-bracket {
-      position: absolute; width: 24px; height: 24px;
-    }
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #000; color: #fff; min-height: 100vh; position: relative; overflow-x: hidden; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text { font-family: 'Doto', sans-serif !important; }
+    .corner-bracket { position: absolute; width: 24px; height: 24px; }
     .top-left { top: 0; left: 0; border-top: 3px solid #fff; border-left: 3px solid #fff; }
     .top-right { top: 0; right: 0; border-top: 3px solid #fff; border-right: 3px solid #fff; }
     .bottom-left { bottom: 0; left: 0; border-bottom: 3px solid #fff; border-left: 3px solid #fff; }
     .bottom-right { bottom: 0; right: 0; border-bottom: 3px solid #fff; border-right: 3px solid #fff; }
-    .small-red-dot, .small-white-dot {
-      width: 4px; height: 4px; border-radius: 50%; position: absolute;
-    }
+    .small-red-dot, .small-white-dot { width: 4px; height: 4px; border-radius: 50%; position: absolute; }
     .small-red-dot { background: red; }
     .small-white-dot { background: #fff; }
-    .chart-bar {
-      background: linear-gradient(to top, #60a7fa, #00ffd0, #fff);
-      border-top: 1px solid #fff5;
-    }
-    .logo-glow {
-      filter: drop-shadow(0 0 16px #60a7fa88) drop-shadow(0 0 32px #60a7fa44);
-      animation: logoPulse 2.5s infinite alternate;
-    }
-    @keyframes logoPulse {
-      0% { filter: drop-shadow(0 0 8px #60a7fa88) drop-shadow(0 0 16px #60a7fa44); }
-      100% { filter: drop-shadow(0 0 24px #60a7fa) drop-shadow(0 0 48px #60a7fa44); }
-    }
-    .right-img-glow {
-      box-shadow: 0 0 80px 10px #60a7fa55, 0 0 120px 40px #00ffd022;
-      border-radius: 1.25rem;
-      background: rgba(30, 41, 59, 0.15);
-      position: relative;
-    }
-    .usage-breakdown-chart {
-      background: #000;
-      border-radius: 0.5rem;
-      border: 1px solid #222;
-      box-shadow: 0 2px 12px #000a;
-      min-width: 0;
-      overflow: visible;
-    }
-    .rotate-360 {
-      transform: rotate(360deg);
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .chart-bar { background: linear-gradient(to top, #60a7fa, #00ffd0, #fff); border-top: 1px solid #fff5; }
+    .logo-glow { filter: drop-shadow(0 0 16px #60a7fa88) drop-shadow(0 0 32px #60a7fa44); animation: logoPulse 2.5s infinite alternate; }
+    @keyframes logoPulse { 0% { filter: drop-shadow(0 0 8px #60a7fa88) drop-shadow(0 0 16px #60a7fa44); } 100% { filter: drop-shadow(0 0 24px #60a7fa) drop-shadow(0 0 48px #60a7fa44); } }
+    .right-img-glow { box-shadow: 0 0 80px 10px #60a7fa55, 0 0 120px 40px #00ffd022; border-radius: 1.25rem; background: rgba(30, 41, 59, 0.15); position: relative; }
+    .usage-breakdown-chart { background: #000; border-radius: 0.5rem; border: 1px solid #222; box-shadow: 0 2px 12px #000a; min-width: 0; overflow: visible; }
+    .rotate-360 { transform: rotate(360deg); transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
   </style>
   <style>
     /* Code Editor Animation Styles */
@@ -101,10 +64,15 @@
   </script>
 </head>
 <body class="pt-8 md:pt-16 p-4 md:p-8">
-<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md" style="height: 64px;">
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
 <style>
   nav {
-    background: rgba(0,0,0,0.45); /* fallback for browsers without backdrop-filter */
+    background: rgba(30, 41, 59, 0.45) !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  body.light nav {
+    background: rgba(255,255,255,0.75) !important;
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
@@ -136,9 +104,22 @@
         <li><a href="#speedcode" class="block px-4 py-2 hover:bg-gray-800">SpeedCode</a></li>
       </ul>
     </li>
-    <li><a href="#about" class="hover:text-blue-400 transition">About</a></li>
-    <li><a href="#contact" class="hover:text-blue-400 transition">Contact</a></li>
-    <li id="desktop-login-btn"><button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition" id="firebase-login-btn">Login</button></li>
+    <li><a href="about.html" class="hover:text-blue-400 transition">About</a></li>
+    <li>
+      <button id="theme-toggle" class="relative w-12 h-7 flex items-center bg-gray-900 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
+        <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
+          <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+          </svg>
+          <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
+          </svg>
+        </span>
+        <span class="sr-only">Toggle dark/light mode</span>
+      </button>
+    </li>
+    <li id="desktop-login-btn"><a href="login.html" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition" id="firebase-login-btn">Login</a></li>
     <li id="desktop-profile" class="relative hidden">
       <button id="profile-btn" class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-800 focus:outline-none">
         <span class="inline-block w-7 h-7 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
@@ -151,10 +132,43 @@
     </li>
   </ul>
 </nav>
-<!-- Mobile Hamburger -->
-<button id="mobile-menu-btn" class="md:hidden fixed right-6 z-50 p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 10px;" aria-label="Open menu">
-  <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-</button>
+<!-- Mobile: Theme toggle + Hamburger -->
+<div class="flex items-center md:hidden fixed top-5 right-6 z-50 gap-2">
+  <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-blue-700 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark/light mode">
+    <span class="sr-only">Toggle dark/light mode</span>
+    <svg id="theme-toggle-mobile-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
+    </svg>
+  </button>
+  <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</div>
+<script>
+  // Mobile theme toggle logic
+  const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+  const themeToggleMobileIcon = document.getElementById('theme-toggle-mobile-icon');
+  function setThemeMobile(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('light');
+      themeToggleMobileIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>';
+    } else {
+      document.body.classList.remove('light');
+      themeToggleMobileIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>';
+    }
+    localStorage.setItem('theme', mode);
+  }
+  themeToggleMobile.onclick = function() {
+    const isLight = document.body.classList.toggle('light');
+    setThemeMobile(isLight ? 'light' : 'dark');
+  };
+  // On load, set theme from localStorage for mobile toggle
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') setThemeMobile('light');
+    else setThemeMobile('dark');
+  })();
+</script>
 <!-- Mobile Menu Overlay -->
 <div id="mobile-menu" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: rgba(0,0,0,0.8);">
   <a href="index.html" class="block w-full py-2 border-b border-gray-700">Home</a>
@@ -178,10 +192,9 @@
       <a href="#speedcode" class="block py-1">SpeedCode</a>
     </div>
   </div>
-  <a href="#about" class="block w-full py-2 border-b border-gray-700">About</a>
-  <a href="#contact" class="block w-full py-2 border-b border-gray-700">Contact</a>
+  <a href="about.html" class="block w-full py-2 border-b border-gray-700">About</a>
   <div class="flex-1"></div>
-  <button id="firebase-login-btn-mobile" class="block w-full py-2 bg-blue-500 text-white rounded text-center mb-6">Login</button>
+  <a id="firebase-login-btn-mobile" href="login.html" class="block w-full py-2 bg-blue-500 text-white rounded text-center mb-6">Login</a>
   <div id="mobile-profile" class="w-full flex-col items-center hidden mb-6">
     <div class="flex items-center gap-2 mb-2">
       <span class="inline-block w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
@@ -288,10 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
       <h1 class="text-2xl sm:text-4xl font-bold mb-2"></h1>
     </header>
     <main class="space-y-8 sm:space-y-10">
-      <section class="mt-8 sm:mt-12 mb-6">
-        <h2 class="font-bold tracking-tight text-2xl sm:text-4xl md:text-5xl" style="line-height:1;">
-          <span class="block text-lg sm:text-2xl font-normal">welcome to</span>
-          <span class="block mt-1">codepolarity <span class="text-blue-400">•</span></span>
+      <section class="mt-0 mb-6">
+        <h2 class="font-bold tracking-tight text-2xl sm:text-4xl md:text-6xl lg:text-7xl" style="line-height:1;">
+          <span class="block text-lg sm:text-2xl md:text-3xl font-bold">welcome to</span>
+          <span class="block mt-1 md:mt-2">codepolarity <span class="text-blue-400">•</span></span>
         </h2>
         <p class="mt-3 sm:mt-4 text-gray-400 text-sm sm:text-base">An all-in-one coding environment designed to help you learn, build, and grow — with structure, clarity, and purpose</p>
         <div class="mt-5 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs hero-btn-group">
@@ -354,9 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </main>
   </div>
   <!-- RIGHT PANEL -->
-  <div style="position: relative; display: flex; align-items: center; justify-content: center; min-height: 240px; background: #000;">
-    <div class="w-full flex justify-center items-start" style="min-height:180px; min-width:0; margin-top:16px;">
-      <pre class="p-0 m-0 text-sm sm:text-base md:text-xl leading-relaxed font-mono text-left whitespace-pre-wrap bg-transparent border-none shadow-none max-w-full overflow-x-auto" id="editor-content" style="min-height:80px; background:none; border:none; font-size:0.95rem;"></pre>
+  <div class="right-panel-3d" style="position: relative; display: flex; align-items: center; justify-content: center; min-height: 340px; background: #000;">
+    <div class="w-full flex justify-center items-start" style="min-height:240px; min-width:0; margin-top:16px;">
+      <pre class="p-0 m-0 text-base sm:text-lg md:text-2xl leading-relaxed font-mono text-left whitespace-pre-wrap bg-transparent border-none shadow-none max-w-full overflow-x-auto" id="editor-content" style="min-height:160px; background:none; border:none; font-size:1.25rem;"></pre>
     </div>
   </div>
 </div>
@@ -827,5 +840,200 @@ if (profileBtn && profileMenu) {
   });
 }
 </script>
+<script>
+  // Animated theme toggle logic with sliding knob and crossfade icons
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeKnob = document.getElementById('theme-toggle-knob');
+  const sunIcon = document.getElementById('theme-toggle-sun');
+  const moonIcon = document.getElementById('theme-toggle-moon');
+  function setTheme(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('light');
+      themeToggle.classList.add('light');
+      themeKnob.style.transform = 'translateX(20px)';
+      themeKnob.classList.add('bg-yellow-400', 'text-blue-700');
+      themeKnob.classList.remove('bg-blue-500', 'text-white');
+      sunIcon.style.opacity = 1;
+      moonIcon.style.opacity = 0;
+    } else {
+      document.body.classList.remove('light');
+      themeToggle.classList.remove('light');
+      themeKnob.style.transform = 'translateX(0)';
+      themeKnob.classList.remove('bg-yellow-400', 'text-blue-700');
+      themeKnob.classList.add('bg-blue-500', 'text-white');
+      sunIcon.style.opacity = 0;
+      moonIcon.style.opacity = 1;
+    }
+    localStorage.setItem('theme', mode);
+  }
+  themeToggle.onclick = function() {
+    const isLight = document.body.classList.toggle('light');
+    setTheme(isLight ? 'light' : 'dark');
+  };
+  // On load, set theme from localStorage
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') setTheme('light');
+    else setTheme('dark');
+  })();
+</script>
+<style>
+  #theme-toggle { min-width: 48px; box-shadow: 0 2px 8px #60a7fa22; }
+  #theme-toggle:hover, #theme-toggle:focus { box-shadow: 0 0 0 3px #60a7fa55, 0 2px 8px #60a7fa22; }
+  .light #theme-toggle { background: #f3f4f6 !important; border-color: #facc15 !important; }
+  .light #theme-toggle-knob { background: #facc15 !important; color: #2563eb !important; }
+  body.light { background: #fff !important; color: #222 !important; }
+  body.light .bg-black, body.light .bg-gray-900 { background: #f3f4f6 !important; }
+  body.light .text-white { color: #222 !important; }
+  body.light .text-gray-400 { color: #444 !important; }
+  body.light .text-blue-400 { color: #2563eb !important; }
+  body.light .border-gray-800 { border-color: #e5e7eb !important; }
+  body.light .shadow-lg, body.light .shadow-2xl { box-shadow: 0 4px 24px #0001 !important; }
+  body.light nav, body.light .backdrop-blur-md { background: rgba(255,255,255,0.85) !important; backdrop-filter: blur(12px); }
+  body.light .usage-breakdown-chart { background: #fff !important; border-color: #e5e7eb !important; }
+  body.light .hero-btn-group a { background: #2563eb !important; color: #fff !important; border-color: #2563eb !important; }
+  body.light .hero-btn-group a:hover { background: #3b82f6 !important; color: #fff !important; }
+  body.light .border { border-color: #2563eb !important; }
+  body.light .drop-shadow, body.light .drop-shadow-xl { filter: drop-shadow(0 2px 8px #2563eb22); }
+  body.light .shadow-md { box-shadow: 0 2px 8px #2563eb22 !important; }
+  body.light .rounded-xl, body.light .rounded-2xl { background: #f9fafb !important; }
+  body.light .bg-gradient-to-b, body.light .bg-gradient-to-br { background: linear-gradient(to bottom, #e0e7ef 0%, #fff 100%) !important; }
+  body.light .bg-gradient-to-tr { background: linear-gradient(to top right, #e0e7ef 0%, #fff 100%) !important; }
+  body.light .hover\:bg-gray-800:hover { background: #e5e7eb !important; }
+  body.light .hover\:bg-blue-100:hover { background: #dbeafe !important; }
+  body.light .hover\:bg-blue-600:hover { background: #1d4ed8 !important; }
+  body.light .hover\:text-blue-400:hover { color: #2563eb !important; }
+  body.light .focus\:ring-blue-400:focus { box-shadow: 0 0 0 2px #2563eb55 !important; }
+  body.light .bg-white { background: #fff !important; }
+  body.light .bg-yellow-400 { background: #facc15 !important; }
+  body.light .text-yellow-400 { color: #facc15 !important; }
+  body.light .bg-blue-700 { background: #2563eb !important; }
+  body.light .bg-blue-900 { background: #e0e7ef !important; }
+  body.light .bg-blue-800 { background: #dbeafe !important; }
+  body.light .bg-blue-200 { background: #bfdbfe !important; }
+  body.light .bg-blue-100 { background: #dbeafe !important; }
+  body.light .bg-blue-50 { background: #eff6ff !important; }
+  body.light .bg-gray-600 { background: #e5e7eb !important; }
+  body.light .bg-gray-400 { background: #e5e7eb !important; }
+  body.light .bg-gray-300 { background: #f3f4f6 !important; }
+  body.light .bg-gray-200 { background: #f9fafb !important; }
+  body.light .bg-gray-100 { background: #fff !important; }
+  body.light .bg-red-900\/30 { background: #fee2e2 !important; }
+  body.light .text-red-400 { color: #b91c1c !important; }
+  /* Logo color invert for light mode */
+  body.light #logo-main, body.light .logo-glow, body.light .drop-shadow-xl, body.light .drop-shadow, body.light img[src*='cp.svg'] {
+    filter: invert(1) hue-rotate(180deg) drop-shadow(0 2px 8px #2563eb22) !important;
+  }
+  /* 3D code editor area background for light mode */
+  body.light .right-panel-3d {
+    background: #fff !important;
+    color: #222 !important;
+    border-color: #e5e7eb !important;
+  }
+  /* Button border for light mode */
+  body.light .border, body.light .hero-btn-group a, body.light .rounded-lg, body.light .rounded-xl {
+    border-color: #2563eb !important;
+  }
+  body.light .hero-btn-group a, body.light .rounded-lg, body.light .rounded-xl {
+    box-shadow: 0 2px 8px #2563eb22 !important;
+  }
+  body.light #editor-content span.hl-keyword { color: #2563eb !important; }
+  body.light #editor-content span.hl-string { color: #b45309 !important; }
+  body.light #editor-content span.hl-function { color: #059669 !important; }
+  body.light #editor-content span.hl-comment { color: #6b7280 !important; }
+  body.light #editor-content span.hl-variable { color: #222 !important; }
+</style>
+<style>
+  body.light #mobile-menu {
+    background: rgba(255,255,255,0.95) !important;
+    color: #222 !important;
+    backdrop-filter: blur(18px);
+  }
+  body.light #mobile-menu a,
+  body.light #mobile-menu button {
+    color: #2563eb !important;
+    border-color: #e5e7eb !important;
+    background: transparent !important;
+  }
+  body.light #mobile-menu .border-b {
+    border-color: #e5e7eb !important;
+  }
+  body.light #mobile-menu .text-white {
+    color: #222 !important;
+  }
+  body.light #mobile-menu .bg-blue-500 {
+    background: #2563eb !important;
+    color: #fff !important;
+  }
+  body.light #mobile-menu .bg-blue-500:hover {
+    background: #1d4ed8 !important;
+  }
+  body.light #mobile-menu .text-blue-400 {
+    color: #2563eb !important;
+  }
+</style>
+<!-- Footer -->
+<footer class="w-full mt-24 px-4 py-12 md:py-16 bg-transparent text-white border-t border-gray-800" id="site-footer">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0">
+    <!-- Logo and Description -->
+    <div class="flex-1 min-w-[220px] flex flex-col gap-4">
+      <div class="flex items-center gap-3 mb-2">
+        <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
+      </div>
+      <p class="text-gray-400 max-w-xs text-base">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
+    </div>
+    <!-- Navigation Columns -->
+    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Features</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-blue-400 transition">Typing Tutor</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">SpeedCode</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Code Editor</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Resources</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-blue-400 transition">Free Courses</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Cheat Sheet</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Practice Papers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Company</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="about.html" class="hover:text-blue-400 transition">About Us</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Follow Us</h4>
+        <div class="flex gap-4 mt-2">
+          <a href="#" aria-label="Facebook" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
+          <a href="#" aria-label="X" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
+          <a href="#" aria-label="Instagram" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+          <a href="#" aria-label="GitHub" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<style>
+  body.light #site-footer {
+    background: #fff !important;
+    color: #222 !important;
+    border-color: #e5e7eb !important;
+  }
+  body.light #site-footer .text-gray-400, body.light #site-footer .text-gray-300 {
+    color: #111 !important;
+  }
+  body.light #site-footer .hover\:text-blue-400:hover {
+    color: #2563eb !important;
+  }
+  body.light #site-footer .border-gray-800 {
+    border-color: #e5e7eb !important;
+  }
+</style>
 </body>
 </html>
