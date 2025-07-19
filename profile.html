@@ -1,81 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile | Codepolarity.io</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Doto:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Roboto Mono', monospace;
-      background: #0a0a0a;
-      color: #fff;
-      min-height: 100vh;
+    body { font-family: 'Space Grotesk', sans-serif; background: #000; color: #fff; }
+    h1, h2, h3, h4, h5, h6, .main-heading { font-family: 'Doto', sans-serif !important; }
+    .profile-bg { background: #000; }
+    .profile-card { background: #111827; border: 1px solid #222; border-radius: 1rem; box-shadow: 0 2px 12px #000a; transition: border 0.2s, box-shadow 0.2s; }
+    .profile-border { border-color: #222; }
+    .profile-muted { color: #9ca3af; }
+    .profile-accent { color: #60a7fa; }
+    .profile-tab-active { border-bottom: 3px solid #60a7fa; color: #fff; }
+    .profile-tab-inactive { border-bottom: 3px solid transparent; color: #9ca3af; }
+    .profile-scrollbar::-webkit-scrollbar { display: none; }
+    .profile-avatar { border: 3px solid #60a7fa; box-shadow: 0 0 16px #60a7fa44; }
+    .profile-card:hover { border-color: #60a7fa; box-shadow: 0 4px 24px #60a7fa22; }
+    .profile-link:hover { color: #60a7fa !important; }
+    .stat-icon { color: #60a7fa; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: none; } }
+    .transition-bg { transition: background 0.3s; }
+    .light body { background: #fff !important; color: #222 !important; }
+    .light .profile-bg { background: #fff !important; }
+    .light .profile-card { background: #f3f4f6 !important; border-color: #e5e7eb !important; color: #222 !important; }
+    .light .profile-muted { color: #444 !important; }
+    .light .profile-tab-active { border-bottom: 3px solid #2563eb !important; color: #222 !important; }
+    .light .profile-tab-inactive { color: #888 !important; }
+    .light .profile-avatar { border: 3px solid #2563eb !important; box-shadow: 0 0 16px #2563eb44 !important; }
+    .light .profile-link:hover { color: #2563eb !important; }
+    .light .stat-icon { color: #2563eb !important; }
+    .light .profile-accent { color: #2563eb !important; }
+    .light .profile-card:hover { border-color: #2563eb !important; box-shadow: 0 4px 24px #2563eb22 !important; }
+    nav {
+      background: rgba(30, 41, 59, 0.45) !important;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
-    .main-heading, h1, h2, h3, h4, h5, h6 {
-      font-family: 'Doto', sans-serif !important;
+    body.light nav {
+      background: rgba(255,255,255,0.75) !important;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
-    .profile-card {
-      background: #181c23;
-      border-radius: 1.25rem;
-      box-shadow: 0 2px 16px #000a;
-      border: 1px solid #23272f;
+  </style>
+</head>
+<body class="profile-bg min-h-screen flex flex-col transition-bg">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <div class="flex items-center gap-3 cursor-pointer ml-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+    <ul class="hidden md:flex space-x-8 text-lg font-medium items-center mr-6">
+      <li><a href="index.html" class="hover:text-blue-400 transition">Home</a></li>
+      <li class="relative group" id="resources-dropdown">
+        <button id="resources-btn" class="hover:text-blue-400 transition flex items-center focus:outline-none" aria-haspopup="true" aria-expanded="false" type="button">
+          Resources
+          <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <ul id="resources-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+          <li><a href="Courses.html" class="block px-4 py-2 hover:bg-gray-800">Courses</a></li>
+          <li><a href="#cheatsheets" class="block px-4 py-2 hover:bg-gray-800">Cheatsheets</a></li>
+        </ul>
+      </li>
+      <li class="relative group" id="practice-dropdown">
+        <button id="practice-btn" class="hover:text-blue-400 transition flex items-center focus:outline-none" aria-haspopup="true" aria-expanded="false" type="button">
+          Practice
+          <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <ul id="practice-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+          <li><a href="typing_t.html" class="block px-4 py-2 hover:bg-gray-800">Typing</a></li>
+          <li><a href="#speedcode" class="block px-4 py-2 hover:bg-gray-800">SpeedCode</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html" class="hover:text-blue-400 transition">About</a></li>
+      <li>
+        <button id="theme-toggle" class="relative w-12 h-7 flex items-center bg-gray-900 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
+          <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
+            <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+            </svg>
+            <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
+            </svg>
+          </span>
+          <span class="sr-only">Toggle dark/light mode</span>
+        </button>
+      </li>
+      <li id="desktop-login-btn"><button id="navbar-login-btn" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Login</button></li>
+      <li id="desktop-profile" class="relative hidden">
+        <button id="profile-btn" class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-800 focus:outline-none">
+          <span id="navbar-avatar" class="inline-block w-7 h-7 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <ul id="profile-menu" class="absolute right-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+          <li><a href="profile.html" class="block px-4 py-2 hover:bg-gray-800">View Profile</a></li>
+          <li><button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Mobile: Theme toggle + Hamburger -->
+    <div class="flex items-center md:hidden fixed top-2 right-6 z-50 gap-2">
+      <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-blue-700 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark/light mode">
+        <span class="sr-only">Toggle dark/light mode</span>
+        <svg id="theme-toggle-mobile-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
+        </svg>
+      </button>
+      <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 top-0 z-40 flex flex-col items-center justify-start pt-0 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none backdrop-blur-2xl" style="backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); background: rgba(17,24,39,0.85);">
+      <a href="index.html" class="block w-full py-2 border-b border-gray-700">Home</a>
+      <div class="w-full">
+        <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-resources-btn">
+          Resources
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="mobile-resources-menu" class="pl-4 flex-col space-y-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+          <a href="Courses.html" class="block py-1">Courses</a>
+          <a href="#cheatsheets" class="block py-1">Cheatsheets</a>
+        </div>
+      </div>
+      <div class="w-full">
+        <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-practice-btn">
+          Practice
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="mobile-practice-menu" class="pl-4 flex-col space-y-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+          <a href="typing_t.html" class="block py-1">Typing</a>
+          <a href="#speedcode" class="block py-1">SpeedCode</a>
+        </div>
+      </div>
+      <a href="about.html" class="block w-full py-2 border-b border-gray-700">About</a>
+      <div class="flex-1"></div>
+      <a id="firebase-login-btn-mobile" href="login.html" class="block w-full py-2 bg-blue-500 text-white rounded text-center mb-6">Login</a>
+      <div id="mobile-profile" class="w-full flex-col items-center hidden mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="inline-block w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
+          <span class="font-semibold">User</span>
+        </div>
+        <a href="profile.html" class="block w-full py-2 text-center border-b border-gray-700">View Profile</a>
+        <button id="mobile-logout-btn" class="block w-full py-2 text-center text-red-400">Logout</button>
+      </div>
+    </div>
+  </nav>
+  <div class="flex flex-col items-center w-full pt-24 pb-8 px-2 md:px-0">
+    <div class="w-full max-w-4xl">
+      <!-- Profile Header -->
+      <div class="flex flex-col md:flex-row items-center gap-6 p-6 bg-gradient-to-br from-blue-900/30 to-transparent rounded-xl mb-4">
+        <div class="relative">
+          <div class="rounded-full bg-center bg-cover min-h-32 w-32 profile-avatar flex items-center justify-center overflow-hidden" id="profile-avatar-container">
+            <img id="profile-avatar-img" class="w-full h-full object-cover" style="display:none;" alt="User Avatar" />
+            <span id="profile-avatar-fallback" class="w-full h-full flex items-center justify-center text-3xl font-bold bg-blue-400 text-white"></span>
+          </div>
+          <button id="edit-avatar-btn" class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 shadow-md transition" title="Change photo">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2a2.828 2.828 0 11-4-4 2.828 2.828 0 014 4z" /></svg>
+          </button>
+          <input type="file" id="avatar-file-input" accept="image/*" class="hidden" />
+        </div>
+        <div class="flex flex-col justify-center">
+          <p class="main-heading text-2xl font-bold leading-tight">Olivia Zhang</p>
+          <!-- Username and Edit Profile button removed -->
+        </div>
+      </div>
+      <!-- Stats Cards -->
+      <div class="flex flex-wrap gap-3 px-4 py-3">
+        <div class="flex min-w-[111px] flex-1 flex-col gap-2 profile-card p-3 items-start">
+          <div class="flex items-center gap-2"><svg class="w-5 h-5 stat-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17v-2a4 4 0 014-4h10a4 4 0 014 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="text-2xl font-bold stat-num" data-num="23">0</span></div>
+          <p class="profile-muted text-sm">Problems</p>
+        </div>
+        <div class="flex min-w-[111px] flex-1 flex-col gap-2 profile-card p-3 items-start">
+          <div class="flex items-center gap-2"><svg class="w-5 h-5 stat-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg><span class="text-2xl font-bold stat-num" data-num="1500">0</span></div>
+          <p class="profile-muted text-sm">Code Hours</p>
+        </div>
+        <div class="flex min-w-[111px] flex-1 flex-col gap-2 profile-card p-3 items-start">
+          <div class="flex items-center gap-2"><svg class="w-5 h-5 stat-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 00-3-3.87"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 21v-2a4 4 0 013-3.87"/><circle cx="12" cy="7" r="4"/></svg><span class="text-2xl font-bold stat-num" data-num="85">0</span></div>
+          <p class="profile-muted text-sm">WPM</p>
+        </div>
+        <div class="flex min-w-[111px] flex-1 flex-col gap-2 profile-card p-3 items-start">
+          <div class="flex items-center gap-2"><svg class="w-5 h-5 stat-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m4 4v-4a4 4 0 00-8 0v4"/></svg><span class="text-2xl font-bold stat-num" data-num="320">0</span></div>
+          <p class="profile-muted text-sm">AI Interactions</p>
+        </div>
+      </div>
+      <!-- Tabs -->
+      <div class="flex border-b profile-border px-4 gap-8 mt-4" id="profile-tabs">
+        <button class="flex flex-col items-center justify-center profile-tab-inactive pb-3 pt-4 text-sm font-bold cursor-pointer profile-link tab-btn" data-tab="assignments">Problems</button>
+        <button class="flex flex-col items-center justify-center profile-tab-inactive pb-3 pt-4 text-sm font-bold cursor-pointer profile-link tab-btn" data-tab="typing">Typing Practice History</button>
+        <button class="flex flex-col items-center justify-center profile-tab-inactive pb-3 pt-4 text-sm font-bold cursor-pointer profile-link tab-btn" data-tab="notes">Saved Cheatsheets</button>
+      </div>
+      <!-- Tab Contents -->
+      <div class="tab-content active" id="tab-assignments">
+        <div class="flex justify-between items-center px-4 pt-6 pb-2">
+          <h3 class="main-heading text-lg font-bold">Recent Problems</h3>
+          <a href="#" class="profile-link text-sm font-bold">View All</a>
+        </div>
+        <div class="flex flex-col gap-3 px-4" id="assignments-list">
+          <div class="text-gray-400 text-center py-8">Loading problems...</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-typing">
+        <div class="flex justify-between items-center px-4 pt-6 pb-2">
+          <h3 class="main-heading text-lg font-bold">Typing Practice History</h3>
+          <a href="#" class="profile-link text-sm font-bold">View All</a>
+        </div>
+        <div class="flex flex-col gap-6 px-4 py-6">
+          <div id="typing-history-chart"></div>
+          <div id="typing-history-list"></div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-notes">
+        <div class="flex justify-between items-center px-4 pt-6 pb-2">
+          <h3 class="main-heading text-lg font-bold">Saved Cheatsheets</h3>
+          <a href="#" class="profile-link text-sm font-bold">View All</a>
+        </div>
+        <div class="flex flex-col gap-3 px-4 pb-12" id="saved-cheatsheets-list">
+          <div class="text-gray-400 text-center py-8">Loading saved cheatsheets...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer (copied from main site) -->
+  <footer class="w-full mt-24 px-4 py-16 md:py-20 text-white" id="site-footer">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0">
+      <div class="flex-1 min-w-[220px] flex flex-col gap-4">
+        <div class="flex items-center gap-3 mb-2">
+          <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
+        </div>
+        <p class="text-gray-400 max-w-xs text-base">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
+      </div>
+      <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
+        <div>
+          <h4 class="font-bold mb-3 text-lg">Features</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-blue-400 transition">Typing Tutor</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition">SpeedCode</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition">Code Editor</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3 text-lg">Resources</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-blue-400 transition">Free Courses</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition">Cheat Sheet</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition">Practice Papers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3 text-lg">Company</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="about.html" class="hover:text-blue-400 transition">About Us</a></li>
+            <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3 text-lg">Follow Us</h4>
+          <div class="flex gap-6 mt-4">
+            <a href="#" aria-label="Facebook" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
+            <a href="#" aria-label="X" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
+            <a href="#" aria-label="Instagram" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+            <a href="#" aria-label="GitHub" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <style>
+    body.light #site-footer {
+      color: #222 !important;
+      border-color: #e5e7eb !important;
     }
-    .stat-card {
-      background: #10131a;
-      border-radius: 0.75rem;
-      border: 1px solid #23272f;
-      box-shadow: 0 1px 8px #0006;
+    body.light #site-footer .text-gray-400, body.light #site-footer .text-gray-300 {
+      color: #111 !important;
     }
-    .progress-bar-bg {
-      background: #23272f;
-      border-radius: 0.5rem;
+    body.light #site-footer .hover\:text-blue-400:hover {
+      color: #2563eb !important;
     }
-    .progress-bar {
-      background: linear-gradient(90deg, #60a7fa 0%, #00ffd0 100%);
-      border-radius: 0.5rem;
+    body.light #site-footer .border-gray-800 {
+      border-color: #e5e7eb !important;
     }
-    .edit-avatar-btn {
-      cursor: pointer;
-      opacity: 1;
-      pointer-events: auto;
+    body.light #firebase-login-btn {
+      color: #fff !important;
     }
-    .toast {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      background: #23272f;
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px #000a;
-      z-index: 9999;
-      font-size: 1rem;
-      opacity: 0.95;
-      display: none;
-    }
-    .spinner {
-      border: 4px solid #23272f;
-      border-top: 4px solid #60a7fa;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 1s linear infinite;
-      margin: 48px auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @media (max-width: 640px) {
+      #site-footer {
+        padding: 2rem 1rem !important;
+      }
+      #site-footer .max-w-7xl {
+        flex-direction: column !important;
+        gap: 2.5rem !important;
+        align-items: center !important;
+      }
+      #site-footer .flex-1.grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        width: 100%;
+      }
+      #site-footer .flex-1 {
+        min-width: 0 !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+      #site-footer .font-bold.mb-3.text-lg {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      #site-footer ul.space-y-2 {
+        gap: 0.5rem !important;
+      }
+      #site-footer .flex.gap-6.mt-4, #site-footer .flex.gap-6 {
+        justify-content: center !important;
+        margin-top: 1.5rem !important;
+        gap: 1.5rem !important;
+      }
+      #site-footer #footer-logo {
+        margin: 0 auto 1rem auto !important;
+        display: block !important;
+      }
+      #site-footer p.max-w-xs {
+        max-width: 100% !important;
+        font-size: 1rem !important;
+        margin: 0 auto 1.5rem auto !important;
+      }
     }
   </style>
   <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <!-- Firebase Auth -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <!-- Firebase Firestore -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase Storage -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script>
+    // Firebase config (same as index.html)
     const firebaseConfig = {
       apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
       authDomain: "codepolarity-a8c63.firebaseapp.com",
@@ -86,219 +351,290 @@
       measurementId: "G-R81RELCW6N"
     };
     firebase.initializeApp(firebaseConfig);
-  </script>
-</head>
-<body class="flex flex-col min-h-screen bg-[#0a0a0a]">
-  <!-- Top Bar -->
-  <div class="flex items-center px-4 py-4 bg-transparent border-b border-[#23272f]">
-    <a href="index.html" class="text-[#60a7fa] hover:text-[#00ffd0] flex items-center mr-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8"><path stroke="#60a7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-    </a>
-    <h2 class="main-heading text-lg md:text-2xl font-bold flex-1 text-center pr-8">Profile</h2>
-  </div>
-  <!-- Enhanced Profile Layout -->
-  <div class="flex-1 flex flex-col md:flex-row items-center md:items-start justify-center w-full px-2 py-8 gap-8 max-w-5xl mx-auto">
-    <!-- Left: User Info -->
-    <div class="profile-card w-full max-w-md flex flex-col items-center p-8 mb-8 md:mb-0">
-      <div class="relative mb-4">
-        <div id="profile-avatar-desktop" class="rounded-full border-4 border-blue-400 shadow-lg bg-center bg-cover w-32 h-32 md:w-40 md:h-40"></div>
-        <button id="edit-avatar-btn" class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 shadow-md transition edit-avatar-btn hidden md:block" title="Change photo">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2a2.828 2.828 0 11-4-4 2.828 2.828 0 014 4z" /></svg>
-        </button>
-        <input type="file" id="avatar-file-input" accept="image/*" class="hidden" />
-      </div>
-      <div id="profile-info" class="flex flex-col items-center w-full"></div>
-      <button id="logout-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Logout</button>
-      <button id="login-btn" class="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded hidden">Login with Google</button>
-    </div>
-    <!-- Right: Stats, Progress, Exercises -->
-    <div class="flex-1 flex flex-col gap-8 w-full max-w-2xl">
-      <!-- Stat Cards -->
-      <div id="stat-cards" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-      <!-- Progress Section -->
-      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
-        <h3 class="main-heading text-lg font-bold mb-2">Progress</h3>
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-gray-300">Overall Progress</span>
-          <span id="overall-progress-label" class="font-bold">0%</span>
-        </div>
-        <div class="progress-bar-bg h-4 w-full mb-2">
-          <div id="overall-progress-bar" class="progress-bar h-4 transition-all duration-500" style="width:0%"></div>
-        </div>
-      </div>
-      <!-- Typing Tutor Section -->
-      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
-        <h3 class="main-heading text-lg font-bold mb-2">Typing Tutor</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="stat-card flex flex-col gap-2 p-4 items-center">
-            <span class="text-gray-400">Words Per Minute</span>
-            <span id="stat-wpm" class="text-2xl font-bold">0</span>
-          </div>
-          <div class="stat-card flex flex-col gap-2 p-4 items-center">
-            <span class="text-gray-400">Accuracy</span>
-            <span id="stat-accuracy" class="text-2xl font-bold">0%</span>
-          </div>
-        </div>
-      </div>
-      <!-- Completed Exercises Section -->
-      <div class="bg-[#181c23] rounded-xl p-6 shadow border border-[#23272f]">
-        <h3 class="main-heading text-lg font-bold mb-2">Completed Exercises</h3>
-        <div id="completed-exercises" class="flex flex-col gap-3 max-h-64 overflow-y-auto"></div>
-      </div>
-    </div>
-  </div>
-  <div id="toast" class="toast"></div>
-  <div id="loading-spinner" class="spinner" style="display:none;"></div>
-  <script>
-    const toast = document.getElementById('toast');
-    function showToast(msg, isError = false) {
-      toast.textContent = msg;
-      toast.style.background = isError ? '#e53935' : '#23272f';
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 2500);
-    }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // UI Elements
+    const avatarDiv = document.getElementById('profile-avatar');
+    const editAvatarBtn = document.getElementById('edit-avatar-btn');
+    const avatarInput = document.getElementById('avatar-file-input');
+    const nameEl = document.querySelector('.main-heading');
+    const usernameEl = document.querySelector('.profile-muted.text-base');
+    const editProfileBtn = document.querySelector('button.bg-blue-500');
+    const statNums = document.querySelectorAll('.stat-num');
+    const statCards = document.querySelectorAll('.profile-card');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = {
+      assignments: document.getElementById('tab-assignments'),
+      typing: document.getElementById('tab-typing'),
+      notes: document.getElementById('tab-notes'),
+    };
+    // Loading indicator
+    let loadingDiv = document.createElement('div');
+    loadingDiv.innerHTML = '<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"><div class="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"></div></div>';
+    loadingDiv.style.display = 'none';
+    document.body.appendChild(loadingDiv);
     function setLoading(loading) {
-      document.getElementById('loading-spinner').style.display = loading ? '' : 'none';
+      loadingDiv.style.display = loading ? '' : 'none';
     }
-    // Avatar upload logic
-    document.getElementById('edit-avatar-btn').onclick = function() {
-      document.getElementById('avatar-file-input').click();
-    };
-    document.getElementById('avatar-file-input').onchange = async function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      setLoading(true);
-      try {
-        const user = firebase.auth().currentUser;
-        if (!user) throw new Error('Not logged in');
-        const storageRef = firebase.storage().ref();
-        const avatarRef = storageRef.child(`avatars/${user.uid}`);
-        await avatarRef.put(file);
-        const url = await avatarRef.getDownloadURL();
-        await user.updateProfile({ photoURL: url });
-        showToast('Profile photo updated!');
-        renderProfile(user, await fetchUserData(user.uid));
-      } catch (err) {
-        showToast('Failed to update photo', true);
-      }
-      setLoading(false);
-    };
+
+    // Auth state
     function renderProfile(user, userData) {
-      const info = document.getElementById('profile-info');
-      const avatarDesktop = document.getElementById('profile-avatar-desktop');
-      if (user) {
-        // Join date
-        let joinDate = '';
-        if (user.metadata && user.metadata.creationTime) {
-          const date = new Date(user.metadata.creationTime);
-          joinDate = `Joined ${date.getFullYear()}`;
+      if (!user) {
+        const avatarContainer = document.getElementById('profile-avatar-container');
+        const avatarImg = document.getElementById('profile-avatar-img');
+        const avatarFallback = document.getElementById('profile-avatar-fallback');
+        avatarContainer.style.backgroundImage = "url('https://ui-avatars.com/api/?name=User')";
+        avatarImg.style.display = 'none';
+        avatarFallback.style.display = 'flex';
+        avatarFallback.textContent = 'U';
+        avatarFallback.style.background = '#60a7fa';
+        avatarContainer.style.backgroundSize = 'cover';
+        editAvatarBtn.style.display = 'none';
+      }
+      // Remove login button if present
+      let loginBtn = document.getElementById('login-btn');
+      if (loginBtn) loginBtn.remove();
+      // Avatar
+      const avatarContainer = document.getElementById('profile-avatar-container');
+      const avatarImg = document.getElementById('profile-avatar-img');
+      const avatarFallback = document.getElementById('profile-avatar-fallback');
+      let avatarUrl = user.photoURL;
+      if (!avatarUrl) {
+        avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.uid || 'User');
+      }
+      avatarImg.src = avatarUrl;
+      avatarImg.style.display = 'block';
+      avatarFallback.style.display = 'none';
+      avatarImg.onerror = function() {
+        avatarImg.style.display = 'none';
+        avatarFallback.style.display = 'flex';
+        avatarFallback.textContent = user.displayName ? user.displayName[0] : 'U';
+        avatarFallback.style.background = '#60a7fa';
+      };
+      avatarImg.onload = function() {
+        avatarImg.style.display = 'block';
+        avatarFallback.style.display = 'none';
+      };
+      // If no photoURL and no user ID, show fallback immediately
+      if (!avatarUrl) {
+        avatarImg.style.display = 'none';
+        avatarFallback.style.display = 'flex';
+        avatarFallback.textContent = user.displayName ? user.displayName[0] : 'U';
+        avatarFallback.style.background = '#60a7fa';
+      }
+      // Name
+      nameEl.textContent = user.displayName || 'User';
+      // Edit profile
+      editProfileBtn.style.display = '';
+      // Stats
+      statNums[0].textContent = userData?.problems ?? 0;
+      statNums[1].textContent = userData?.codeHours ?? 0;
+      statNums[2].textContent = userData?.wpm ?? 0;
+      statNums[3].textContent = userData?.ai ?? 0;
+      // Render assignments
+      renderAssignments(user.uid);
+    }
+
+    // Render assignments with user progress
+    async function renderAssignments(uid) {
+      setLoading(true);
+      const list = document.getElementById('assignments-list');
+      try {
+        // Fetch all assignments
+        const assignmentsSnap = await db.collection('assignments').get();
+        const assignments = [];
+        assignmentsSnap.forEach(doc => assignments.push({ id: doc.id, ...doc.data() }));
+        // Fetch user progress
+        const progressSnap = await db.collection('users').doc(uid).collection('assignmentProgress').get();
+        const progressMap = {};
+        progressSnap.forEach(doc => progressMap[doc.id] = doc.data());
+        // Render
+        if (assignments.length === 0) {
+          list.innerHTML = '<div class="text-gray-400 text-center py-8">No problems available.</div>';
+          return;
         }
-        // Set avatar image
-        if (avatarDesktop) {
-          avatarDesktop.style.backgroundImage = `url('${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User')}')`;
-        }
-        info.innerHTML = `
-          <div class="flex flex-col items-center gap-2">
-            <div class="text-2xl font-bold main-heading">${user.displayName || 'User'}</div>
-            <form id="username-form" class="flex flex-col items-center gap-1 mt-1 mb-2 w-full">
-              <input id="username" name="username" type="text" class="username-input rounded px-3 py-1 w-44 text-center mb-1" value="${userData?.username || ''}" placeholder="@username" maxlength="24" autocomplete="off"/>
-              <button id="save-username-btn" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded text-sm">Save Username</button>
-              <div id="username-status" class="text-xs mt-1"></div>
-            </form>
-            <div class="text-gray-400 text-base flex items-center gap-2">${user.email || ''}</div>
-            <div class="text-blue-400 text-sm mt-1">${userData?.username ? '@' + userData.username : ''}</div>
-            <div class="text-gray-500 text-xs mt-1">${joinDate}</div>
+        list.innerHTML = '';
+        assignments.forEach(assignment => {
+          const userProgress = progressMap[assignment.id] || { status: 'Not Started' };
+          const statusColor = userProgress.status === 'Completed' ? 'bg-green-400' : userProgress.status === 'In Progress' ? 'bg-yellow-400' : 'bg-gray-500';
+          const statusText = userProgress.status || 'Not Started';
+          const solveLink = assignment.speedcodeLink || '#';
+          const card = document.createElement('div');
+          card.className = 'flex items-center gap-4 profile-card px-4 min-h-[72px] py-2 justify-between hover:scale-[1.01] transition-transform mb-2';
+          card.innerHTML = `
+            <div class="flex items-center gap-4">
+              <div class="flex items-center justify-center rounded-lg bg-gray-900 shrink-0 w-12 h-12">
+                <svg class="w-6 h-6 stat-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
-        `;
-        document.getElementById('logout-btn').style.display = '';
-        document.getElementById('login-btn').style.display = 'none';
-        // Username form logic
-        const usernameForm = document.getElementById('username-form');
-        const saveBtn = document.getElementById('save-username-btn');
-        if (usernameForm) {
-          usernameForm.onsubmit = async function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const status = document.getElementById('username-status');
-            if (!username) {
-              status.textContent = 'Username cannot be empty.';
-              status.style.color = 'red';
-              return;
-            }
-            status.textContent = 'Saving...';
-            status.style.color = '#fff';
-            saveBtn.disabled = true;
-            try {
-              await firebase.firestore().collection('users').doc(user.uid).set({ username }, { merge: true });
-              status.textContent = 'Username saved!';
-              status.style.color = 'limegreen';
-              showToast('Username updated!');
-            } catch (err) {
-              status.textContent = 'Error saving username.';
-              status.style.color = 'red';
-              showToast('Failed to update username', true);
-            }
-            saveBtn.disabled = false;
-          };
-        }
-        // Stat cards
-        const statCards = document.getElementById('stat-cards');
-        statCards.innerHTML = `
-          <div class="stat-card flex flex-col gap-1 items-center p-4">
-            <span class="text-gray-400">Courses</span>
-            <span class="text-2xl font-bold">${userData?.coursesWatched ?? 0}</span>
-          </div>
-          <div class="stat-card flex flex-col gap-1 items-center p-4">
-            <span class="text-gray-400">Exercises</span>
-            <span class="text-2xl font-bold">${userData?.exercisesCompleted ?? 0}</span>
-          </div>
-          <div class="stat-card flex flex-col gap-1 items-center p-4">
-            <span class="text-gray-400">Projects</span>
-            <span class="text-2xl font-bold">${userData?.projects ?? 0}</span>
-          </div>
-        `;
-        // Progress bar
-        const progress = userData?.overallProgress ?? 0;
-        document.getElementById('overall-progress-label').textContent = progress + '%';
-        document.getElementById('overall-progress-bar').style.width = progress + '%';
-        // Typing stats
-        document.getElementById('stat-wpm').textContent = userData?.highestWPM ?? 0;
-        document.getElementById('stat-accuracy').textContent = (userData?.highestAccuracy ?? 0) + '%';
-        // Completed exercises
-        const completed = userData?.completedExercises || [];
-        const completedDiv = document.getElementById('completed-exercises');
-        if (completed.length === 0) {
-          completedDiv.innerHTML = '<div class="text-gray-500 text-sm">No exercises completed yet.</div>';
-        } else {
-          completedDiv.innerHTML = completed.map(ex => `
-            <div class="flex items-center gap-4 bg-[#181c23] px-4 min-h-[56px] py-2 rounded-lg justify-between">
               <div class="flex flex-col justify-center">
-                <p class="text-white text-base font-medium line-clamp-1">${ex.title || 'Exercise'}</p>
-                <p class="text-blue-400 text-xs font-normal line-clamp-2">${ex.language || ''}</p>
-              </div>
-              <div class="shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#60a7fa" viewBox="0 0 24 24"><path d="M20.285 6.709a1 1 0 0 0-1.414 0L9 16.58l-3.871-3.87a1 1 0 1 0-1.415 1.415l4.578 4.578a1 1 0 0 0 1.414 0l10.578-10.578a1 1 0 0 0 0-1.415z"/></svg>
+                <p class="text-base font-medium">${assignment.title}</p>
+                <span class="inline-block ${statusColor} text-xs text-black font-bold px-2 py-0.5 rounded mb-1 status-badge">${statusText}</span>
+                <p class="profile-muted text-sm">${assignment.description || ''}</p>
               </div>
             </div>
-          `).join('');
-        }
-      } else {
-        info.innerHTML = `<div class="text-lg text-gray-300 mb-4">You are not logged in.</div>`;
-        document.getElementById('logout-btn').style.display = 'none';
-        document.getElementById('login-btn').style.display = '';
-        document.getElementById('stat-cards').innerHTML = '';
-        document.getElementById('overall-progress-label').textContent = '0%';
-        document.getElementById('overall-progress-bar').style.width = '0%';
-        document.getElementById('stat-wpm').textContent = '0';
-        document.getElementById('stat-accuracy').textContent = '0%';
-        document.getElementById('completed-exercises').innerHTML = '';
-        if (avatarDesktop) avatarDesktop.style.backgroundImage = '';
+            <div class="shrink-0 flex flex-col items-end gap-2">
+              <a href="${solveLink}" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded shadow transition mb-1">Solve in SpeedCode</a>
+              ${userProgress.status !== 'Completed' ? `<button class="bg-green-500 hover:bg-green-600 text-white text-xs font-bold px-4 py-1 rounded shadow transition mark-completed-btn" data-id="${assignment.id}">Mark as Completed</button>` : ''}
+          </div>
+        `;
+          list.appendChild(card);
+        });
+        // Add event listeners for 'Mark as Completed' buttons
+        list.querySelectorAll('.mark-completed-btn').forEach(btn => {
+          btn.addEventListener('click', async function() {
+            const assignmentId = btn.getAttribute('data-id');
+            btn.disabled = true;
+            btn.textContent = 'Marking...';
+            try {
+              await db.collection('users').doc(uid).collection('assignmentProgress').doc(assignmentId).set({ status: 'Completed', lastSolvedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+              // Update UI immediately
+              const badge = btn.closest('.profile-card').querySelector('.status-badge');
+              badge.textContent = 'Completed';
+              badge.className = 'inline-block bg-green-400 text-xs text-black font-bold px-2 py-0.5 rounded mb-1 status-badge';
+              btn.remove();
+            } catch (e) {
+              btn.textContent = 'Error';
+              btn.disabled = false;
+              alert('Failed to mark as completed.');
+            }
+          });
+        });
+      } catch (e) {
+        list.innerHTML = '<div class="text-red-400 text-center py-8">Failed to load problems.</div>';
+      } finally {
+        setLoading(false);
       }
     }
+    // Render typing practice history
+    async function renderTypingHistory(uid) {
+      setLoading(true);
+      const list = document.getElementById('typing-history-list');
+      const chartContainer = document.getElementById('typing-history-chart');
+      try {
+        // Fetch typing sessions (most recent first)
+        const snap = await db.collection('users').doc(uid).collection('typingHistory').orderBy('date', 'desc').limit(30).get();
+        const sessions = [];
+        snap.forEach(doc => sessions.push({ id: doc.id, ...doc.data() }));
+        // List
+        if (sessions.length === 0) {
+          list.innerHTML = '<div class="text-gray-400 text-center py-8">No typing practice history yet.</div>';
+          chartContainer.innerHTML = '';
+          return;
+        }
+        list.innerHTML = '';
+        sessions.forEach(session => {
+          const date = session.date && session.date.toDate ? session.date.toDate() : null;
+          const dateStr = date ? date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+          const item = document.createElement('div');
+          item.className = 'flex items-center justify-between profile-card px-4 py-2 mb-2';
+          item.innerHTML = `
+            <div class="flex flex-col">
+              <span class="font-bold text-lg">${session.wpm ?? '-'} WPM</span>
+              <span class="text-xs profile-muted">Accuracy: ${session.accuracy ?? '-'}%</span>
+          </div>
+            <div class="text-xs profile-muted">${dateStr}</div>
+          `;
+          list.appendChild(item);
+        });
+        // Chart
+        chartContainer.innerHTML = '<canvas id="wpmHistoryChart" height="120"></canvas>';
+        const ctx = document.getElementById('wpmHistoryChart').getContext('2d');
+        const labels = sessions.map(s => s.date && s.date.toDate ? s.date.toDate().toLocaleDateString() : '').reverse();
+        const data = sessions.map(s => s.wpm ?? 0).reverse();
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'WPM',
+              data: data,
+              borderColor: '#60a7fa',
+              backgroundColor: 'rgba(96,167,250,0.1)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 3,
+              pointBackgroundColor: '#60a7fa',
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: '#222' } },
+              y: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: '#222' }, beginAtZero: true }
+            }
+          }
+        });
+      } catch (e) {
+        list.innerHTML = '<div class="text-red-400 text-center py-8">Failed to load typing history.</div>';
+        chartContainer.innerHTML = '';
+      } finally {
+        setLoading(false);
+      }
+    }
+    // Render saved cheatsheets
+    async function renderSavedCheatsheets(uid) {
+      setLoading(true);
+      const list = document.getElementById('saved-cheatsheets-list');
+      try {
+        const snap = await db.collection('users').doc(uid).collection('savedCheatsheets').orderBy('dateSaved', 'desc').get();
+        const cheatsheets = [];
+        snap.forEach(doc => cheatsheets.push({ id: doc.id, ...doc.data() }));
+        if (cheatsheets.length === 0) {
+          list.innerHTML = '<div class="text-gray-400 text-center py-8">No saved cheatsheets yet.</div>';
+          return;
+        }
+        list.innerHTML = '';
+        cheatsheets.forEach(sheet => {
+          const date = sheet.dateSaved && sheet.dateSaved.toDate ? sheet.dateSaved.toDate() : null;
+          const dateStr = date ? date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+          const item = document.createElement('div');
+          item.className = 'flex items-center justify-between profile-card px-4 py-2 mb-2';
+          item.innerHTML = `
+            <div class="flex flex-col">
+              <span class="font-bold text-base">${sheet.title || 'Untitled Cheatsheet'}</span>
+              <span class="text-xs profile-muted">${sheet.description || ''}</span>
+              <a href="${sheet.link || '#'}" target="_blank" class="text-blue-400 hover:underline text-xs mt-1">View Cheatsheet</a>
+              </div>
+            <div class="flex flex-col items-end gap-2">
+              <span class="text-xs profile-muted">${dateStr}</span>
+              <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-1 rounded shadow transition remove-cheatsheet-btn" data-id="${sheet.id}">Remove</button>
+            </div>
+          `;
+          list.appendChild(item);
+        });
+        // Remove button logic
+        list.querySelectorAll('.remove-cheatsheet-btn').forEach(btn => {
+          btn.addEventListener('click', async function() {
+            const id = btn.getAttribute('data-id');
+            btn.disabled = true;
+            btn.textContent = 'Removing...';
+            try {
+              await db.collection('users').doc(uid).collection('savedCheatsheets').doc(id).delete();
+              btn.closest('.profile-card').remove();
+              if (!list.querySelector('.profile-card')) {
+                list.innerHTML = '<div class="text-gray-400 text-center py-8">No saved cheatsheets yet.</div>';
+              }
+            } catch (e) {
+              btn.textContent = 'Error';
+              btn.disabled = false;
+              alert('Failed to remove cheatsheet.');
+            }
+          });
+        });
+      } catch (e) {
+        list.innerHTML = '<div class="text-red-400 text-center py-8">Failed to load saved cheatsheets.</div>';
+      } finally {
+        setLoading(false);
+      }
+    }
+    // Fetch user data from Firestore
     async function fetchUserData(uid) {
       setLoading(true);
       try {
-        const doc = await firebase.firestore().collection('users').doc(uid).get();
+        const doc = await db.collection('users').doc(uid).get();
         return doc.exists ? doc.data() : {};
       } catch (e) {
         return {};
@@ -306,21 +642,407 @@
         setLoading(false);
       }
     }
-    firebase.auth().onAuthStateChanged(async function(user) {
+    // Save username
+    async function saveUsername(uid, username) {
       setLoading(true);
+      try {
+        await db.collection('users').doc(uid).set({ username }, { merge: true });
+      } finally {
+        setLoading(false);
+      }
+    }
+    // Edit profile logic
+    editProfileBtn.onclick = async function() {
+      const user = auth.currentUser;
+      if (!user) return;
+      const newName = prompt('Enter new display name:', user.displayName || '');
+      if (newName && newName !== user.displayName) {
+        setLoading(true);
+        await user.updateProfile({ displayName: newName });
+        setLoading(false);
+        renderProfile(user, await fetchUserData(user.uid));
+      }
+      const newUsername = prompt('Enter new username:', (await fetchUserData(user.uid)).username || '');
+      if (newUsername) {
+        await saveUsername(user.uid, newUsername);
+        renderProfile(user, await fetchUserData(user.uid));
+      }
+    };
+    // Avatar upload
+    editAvatarBtn.onclick = function() {
+      avatarInput.accept = 'image/*';
+      avatarInput.click();
+    };
+    avatarInput.onchange = async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file.');
+        return;
+      }
+      setLoading(true);
+      const statusMsg = document.createElement('div');
+      statusMsg.textContent = 'Uploading avatar...';
+      statusMsg.style.position = 'fixed';
+      statusMsg.style.top = '80px';
+      statusMsg.style.right = '24px';
+      statusMsg.style.background = '#23272f';
+      statusMsg.style.color = '#fff';
+      statusMsg.style.padding = '10px 20px';
+      statusMsg.style.borderRadius = '8px';
+      statusMsg.style.zIndex = 9999;
+      document.body.appendChild(statusMsg);
+      try {
+        const user = auth.currentUser;
+        if (!user) throw new Error('Not logged in');
+        const storageRef = storage.ref();
+        const avatarRef = storageRef.child(`avatars/${user.uid}`);
+        await avatarRef.put(file);
+        const url = await avatarRef.getDownloadURL();
+        await user.updateProfile({ photoURL: url });
+        await db.collection('users').doc(user.uid).set({ photoURL: url }, { merge: true });
+        // Update avatar everywhere
+        renderProfile(user, await fetchUserData(user.uid));
+        updateNavbarAuthUI(user);
+        statusMsg.textContent = 'Avatar updated!';
+        statusMsg.style.background = '#10b981';
+        setTimeout(() => statusMsg.remove(), 1800);
+      } catch (err) {
+        statusMsg.textContent = 'Failed to update avatar.';
+        statusMsg.style.background = '#e53935';
+        setTimeout(() => statusMsg.remove(), 2500);
+      }
+      setLoading(false);
+    };
+    // Auth state
+    auth.onAuthStateChanged(async function(user) {
       if (user) {
         const userData = await fetchUserData(user.uid);
         renderProfile(user, userData);
+        // Auto-mark assignment as completed if URL has ?completed=assignmentId
+        const params = new URLSearchParams(window.location.search);
+        const completedId = params.get('completed');
+        if (completedId) {
+          try {
+            await db.collection('users').doc(user.uid).collection('assignmentProgress').doc(completedId).set({ status: 'Completed', lastSolvedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+            alert('Assignment marked as completed!');
+            // Optionally, remove the param from the URL
+            params.delete('completed');
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Refresh assignments UI
+            renderAssignments(user.uid);
+          } catch (e) {
+            alert('Failed to auto-mark assignment as completed.');
+          }
+        }
+        // Render typing history
+        renderTypingHistory(user.uid);
+        // Render saved cheatsheets
+        renderSavedCheatsheets(user.uid);
       } else {
         renderProfile(null, null);
+        document.getElementById('typing-history-list').innerHTML = '<div class="text-gray-400 text-center py-8">Login to view your typing practice history.</div>';
+        document.getElementById('typing-history-chart').innerHTML = '';
+        document.getElementById('saved-cheatsheets-list').innerHTML = '<div class="text-gray-400 text-center py-8">Login to view your saved cheatsheets.</div>';
       }
-      setLoading(false);
     });
-    document.getElementById('logout-btn').onclick = function() {
-      firebase.auth().signOut().then(() => window.location.reload());
-    };
-    document.getElementById('login-btn').onclick = function() {
+    // Logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        auth.signOut();
+      };
+    }
+    // Tabs logic (already present)
+    // Make first tab active by default
+    tabBtns[0].classList.add('profile-tab-active');
+    tabBtns[0].classList.remove('profile-tab-inactive');
+    tabContents[tabBtns[0].getAttribute('data-tab')].classList.add('active');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        tabBtns.forEach(b => b.classList.remove('profile-tab-active'));
+        tabBtns.forEach(b => b.classList.add('profile-tab-inactive'));
+        btn.classList.add('profile-tab-active');
+        btn.classList.remove('profile-tab-inactive');
+        Object.keys(tabContents).forEach(key => tabContents[key].classList.remove('active'));
+        tabContents[btn.getAttribute('data-tab')].classList.add('active');
+      });
+    });
+    // Navbar Auth UI logic
+    function updateNavbarAuthUI(user) {
+      const loginBtn = document.getElementById('desktop-login-btn');
+      const profileLi = document.getElementById('desktop-profile');
+      const avatarSpan = document.getElementById('navbar-avatar');
+      if (loginBtn && profileLi) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileLi.classList.remove('hidden');
+          // Set avatar or initial
+          let avatarUrl = user.photoURL;
+          if (!avatarUrl) {
+            if (user.displayName) {
+              avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName);
+            } else {
+              avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.uid || 'User');
+            }
+          }
+          if (avatarSpan) {
+            avatarSpan.style.backgroundImage = avatarUrl.startsWith('http') ? `url('${avatarUrl}')` : '';
+            avatarSpan.style.backgroundSize = 'cover';
+            avatarSpan.textContent = user.displayName ? user.displayName[0] : 'U';
+          }
+        } else {
+          loginBtn.style.display = '';
+          profileLi.classList.add('hidden');
+        }
+      }
+    }
+    // Firebase Auth state for navbar
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateNavbarAuthUI(user);
+    });
+    // Login button
+    document.getElementById('navbar-login-btn').onclick = function() {
       firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    };
+    // Logout button
+    document.getElementById('logout-btn').onclick = function() {
+      firebase.auth().signOut();
+      // Hide dropdown
+      document.getElementById('profile-menu').classList.add('opacity-0', 'invisible');
+      document.getElementById('profile-menu').classList.remove('opacity-100', 'visible');
+    };
+    // Profile dropdown logic
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileBtn && profileMenu) {
+      let open = false;
+      profileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        profileMenu.classList.toggle('opacity-0', !open);
+        profileMenu.classList.toggle('invisible', !open);
+        profileMenu.classList.toggle('opacity-100', open);
+        profileMenu.classList.toggle('visible', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+          open = false;
+          profileMenu.classList.add('opacity-0', 'invisible');
+          profileMenu.classList.remove('opacity-100', 'visible');
+        }
+      });
+    }
+    // Dropdown for Resources (works on hover and click)
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('resources-btn');
+      const menu = document.getElementById('resources-menu');
+      const practiceBtn = document.getElementById('practice-btn');
+      const practiceMenu = document.getElementById('practice-menu');
+      let open = false;
+
+      // Show/hide on click (for mobile/touch)
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        menu.classList.toggle('opacity-100', open);
+        menu.classList.toggle('visible', open);
+        menu.classList.toggle('opacity-0', !open);
+        menu.classList.toggle('invisible', !open);
+        btn.setAttribute('aria-expanded', open);
+        // Close Practice dropdown if open
+        if (practiceMenu && practiceMenu.classList.contains('opacity-100')) {
+          practiceMenu.classList.remove('opacity-100', 'visible');
+          practiceMenu.classList.add('opacity-0', 'invisible');
+          if (practiceBtn) practiceBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+          open = false;
+          menu.classList.remove('opacity-100', 'visible');
+          menu.classList.add('opacity-0', 'invisible');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Close dropdown when selecting an item
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          open = false;
+          menu.classList.remove('opacity-100', 'visible');
+          menu.classList.add('opacity-0', 'invisible');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    });
+    // Dropdown for Practice (works on hover and click)
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('practice-btn');
+      const menu = document.getElementById('practice-menu');
+      const resourcesBtn = document.getElementById('resources-btn');
+      const resourcesMenu = document.getElementById('resources-menu');
+      let open = false;
+      if (btn && menu) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          open = !open;
+          menu.classList.toggle('opacity-100', open);
+          menu.classList.toggle('visible', open);
+          menu.classList.toggle('opacity-0', !open);
+          menu.classList.toggle('invisible', !open);
+          btn.setAttribute('aria-expanded', open);
+          // Close Resources dropdown if open
+          if (resourcesMenu && resourcesMenu.classList.contains('opacity-100')) {
+            resourcesMenu.classList.remove('opacity-100', 'visible');
+            resourcesMenu.classList.add('opacity-0', 'invisible');
+            if (resourcesBtn) resourcesBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+        document.addEventListener('click', function(e) {
+          if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    });
+    // Mobile theme toggle logic
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const themeToggleMobileIcon = document.getElementById('theme-toggle-mobile-icon');
+    function setThemeMobile(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light');
+        themeToggleMobileIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>';
+      } else {
+        document.body.classList.remove('light');
+        themeToggleMobileIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>';
+      }
+      localStorage.setItem('theme', mode);
+    }
+    themeToggleMobile.onclick = function() {
+      const isLight = document.body.classList.toggle('light');
+      setThemeMobile(isLight ? 'light' : 'dark');
+    };
+    // On load, set theme from localStorage for mobile toggle
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') setThemeMobile('light');
+      else setThemeMobile('dark');
+    })();
+    // Mobile menu open/close logic with sliding animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileResourcesBtn = document.getElementById('mobile-resources-btn');
+      const mobileResourcesMenu = document.getElementById('mobile-resources-menu');
+      const mobilePracticeBtn = document.getElementById('mobile-practice-btn');
+      const mobilePracticeMenu = document.getElementById('mobile-practice-menu');
+      let mobileMenuOpen = false;
+      function openMenu() {
+        mobileMenu.classList.remove('translate-x-full', 'pointer-events-none');
+        mobileMenu.classList.add('translate-x-0');
+        document.body.style.overflow = 'hidden';
+        mobileMenuOpen = true;
+      }
+      function closeMenu() {
+        mobileMenu.classList.add('translate-x-full', 'pointer-events-none');
+        mobileMenu.classList.remove('translate-x-0');
+        document.body.style.overflow = '';
+        mobileMenuOpen = false;
+        // Close dropdowns
+        closeMobileDropdown(mobileResourcesMenu);
+        closeMobileDropdown(mobilePracticeMenu);
+      }
+      mobileMenuBtn.addEventListener('click', function() {
+        if (mobileMenuOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (mobileMenuOpen && e.key === 'Escape') {
+          closeMenu();
+        }
+      });
+      // Dropdowns in mobile menu with slide
+      function toggleMobileDropdown(menu) {
+        if (menu.style.maxHeight && menu.style.maxHeight !== '0px') {
+          closeMobileDropdown(menu);
+        } else {
+          menu.classList.remove('max-h-0');
+          menu.classList.add('max-h-32');
+          menu.style.maxHeight = menu.scrollHeight + 'px';
+        }
+      }
+      function closeMobileDropdown(menu) {
+        menu.classList.add('max-h-0');
+        menu.classList.remove('max-h-32');
+        menu.style.maxHeight = '0px';
+      }
+      mobileResourcesBtn.addEventListener('click', function() {
+        toggleMobileDropdown(mobileResourcesMenu);
+      });
+      mobilePracticeBtn.addEventListener('click', function() {
+        toggleMobileDropdown(mobilePracticeMenu);
+      });
+      // Close menu when clicking outside (optional, for overlay)
+      mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) closeMenu();
+      });
+    });
+    // Mobile Auth UI logic
+    function updateMobileAuthUI(user) {
+      const loginBtn = document.getElementById('firebase-login-btn-mobile');
+      const profileDiv = document.getElementById('mobile-profile');
+      if (loginBtn && profileDiv) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileDiv.style.display = 'flex';
+          // Set avatar and name
+          const avatar = profileDiv.querySelector('span.inline-block');
+          const name = profileDiv.querySelector('span.font-semibold');
+          let avatarUrl = user.photoURL;
+          if (!avatarUrl) {
+            avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.uid || 'User');
+          }
+          if (avatar) {
+            avatar.style.backgroundImage = `url('${avatarUrl}')`;
+            avatar.style.backgroundSize = 'cover';
+            avatar.textContent = user.displayName ? user.displayName[0] : 'U';
+          }
+          if (name) name.textContent = user.displayName || 'User';
+        } else {
+          loginBtn.style.display = '';
+          profileDiv.style.display = 'none';
+        }
+      }
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateMobileAuthUI(user);
+    });
+    document.getElementById('firebase-login-btn-mobile').onclick = function() {
+      firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    };
+    document.getElementById('mobile-logout-btn').onclick = function() {
+      firebase.auth().signOut();
+      // Also close mobile menu
+      document.getElementById('mobile-menu').classList.add('translate-x-full', 'pointer-events-none');
+      document.getElementById('mobile-menu').classList.remove('translate-x-0');
+      document.body.style.overflow = '';
     };
   </script>
 </body>

@@ -446,6 +446,24 @@ let aiInteractions = 5; // Replace with real-time value from Polaris
 let displayCoding = codingLines, displayWPM = typingWPM, displayAI = aiInteractions;
 function lerp(a, b, t) { return a + (b - a) * t; }
 
+// Set initial metrics immediately on DOMContentLoaded
+function setInitialMetrics() {
+  const coding = document.getElementById('metric-coding');
+  const wpm = document.getElementById('metric-wpm');
+  const ai = document.getElementById('metric-ai');
+  if (coding) coding.textContent = `Lines of Code: ${codingLines}`;
+  if (wpm) wpm.textContent = `WPM: ${typingWPM}`;
+  if (ai) ai.textContent = `AI Interactions: ${aiInteractions}`;
+  // Also update mobile metrics immediately
+  const codingM = document.getElementById('metric-coding-mobile');
+  const wpmM = document.getElementById('metric-wpm-mobile');
+  const aiM = document.getElementById('metric-ai-mobile');
+  if (codingM) codingM.textContent = `Lines of Code: ${codingLines}`;
+  if (wpmM) wpmM.textContent = `WPM: ${typingWPM}`;
+  if (aiM) aiM.textContent = `AI Interactions: ${aiInteractions}`;
+}
+document.addEventListener('DOMContentLoaded', setInitialMetrics);
+
 function animateWave() {
   phase += 0.04;
   // Smoothly interpolate displayed values
@@ -973,7 +991,7 @@ if (profileBtn && profileMenu) {
   }
 </style>
 <!-- Footer -->
-<footer class="w-full mt-24 px-4 py-12 md:py-16 bg-transparent text-white border-t border-gray-800" id="site-footer">
+<footer class="w-full mt-24 px-4 py-16 md:py-20 text-white" id="site-footer">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0">
     <!-- Logo and Description -->
     <div class="flex-1 min-w-[220px] flex flex-col gap-4">
@@ -1009,11 +1027,11 @@ if (profileBtn && profileMenu) {
       </div>
       <div>
         <h4 class="font-bold mb-3 text-lg">Follow Us</h4>
-        <div class="flex gap-4 mt-2">
-          <a href="#" aria-label="Facebook" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
-          <a href="#" aria-label="X" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
-          <a href="#" aria-label="Instagram" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
-          <a href="#" aria-label="GitHub" class="hover:text-blue-400 transition"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
+        <div class="flex gap-6 mt-4">
+          <a href="#" aria-label="Facebook" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
+          <a href="#" aria-label="X" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
+          <a href="#" aria-label="Instagram" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+          <a href="#" aria-label="GitHub" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
         </div>
       </div>
     </div>
@@ -1021,7 +1039,6 @@ if (profileBtn && profileMenu) {
 </footer>
 <style>
   body.light #site-footer {
-    background: #fff !important;
     color: #222 !important;
     border-color: #e5e7eb !important;
   }
@@ -1033,6 +1050,50 @@ if (profileBtn && profileMenu) {
   }
   body.light #site-footer .border-gray-800 {
     border-color: #e5e7eb !important;
+  }
+  body.light #firebase-login-btn {
+    color: #fff !important;
+  }
+  @media (max-width: 640px) {
+    #site-footer {
+      padding: 2rem 1rem !important;
+    }
+    #site-footer .max-w-7xl {
+      flex-direction: column !important;
+      gap: 2.5rem !important;
+      align-items: center !important;
+    }
+    #site-footer .flex-1.grid {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+      width: 100%;
+    }
+    #site-footer .flex-1 {
+      min-width: 0 !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+    #site-footer .font-bold.mb-3.text-lg {
+      font-size: 1.1rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    #site-footer ul.space-y-2 {
+      gap: 0.5rem !important;
+    }
+    #site-footer .flex.gap-6.mt-4, #site-footer .flex.gap-6 {
+      justify-content: center !important;
+      margin-top: 1.5rem !important;
+      gap: 1.5rem !important;
+    }
+    #site-footer #footer-logo {
+      margin: 0 auto 1rem auto !important;
+      display: block !important;
+    }
+    #site-footer p.max-w-xs {
+      max-width: 100% !important;
+      font-size: 1rem !important;
+      margin: 0 auto 1.5rem auto !important;
+    }
   }
 </style>
 </body>

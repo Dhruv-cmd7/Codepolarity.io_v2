@@ -704,12 +704,10 @@ class KeyPolarity {
     // Calculate final stats
     const wpm = Math.round(this.calculateWPM(this.currentIndex, this.timeLimit));
     const accuracy = Math.round(this.calculateAccuracy(this.currentIndex, this.targetText.length));
-    
     // Update popup values with animations
     this.resultWpm.textContent = wpm;
     this.resultAccuracy.textContent = accuracy + '%';
     this.resultTime.textContent = this.timeLimit + 's';
-    
     // Add visual feedback based on performance
     if (wpm >= 60) {
       this.resultWpm.style.color = '#10b981'; // Green for good performance
@@ -718,7 +716,62 @@ class KeyPolarity {
     } else {
       this.resultWpm.style.color = '#ef4444'; // Red for poor performance
     }
-    
+    // Save to Firestore if possible
+    (async () => {
+      try {
+        // Load Firebase if not present
+        if (typeof firebase === 'undefined') {
+          await new Promise((resolve, reject) => {
+            const script1 = document.createElement('script');
+            script1.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js';
+            script1.onload = () => {
+              const script2 = document.createElement('script');
+              script2.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js';
+              script2.onload = () => {
+                const script3 = document.createElement('script');
+                script3.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js';
+                script3.onload = resolve;
+                script3.onerror = reject;
+                document.head.appendChild(script3);
+              };
+              script2.onerror = reject;
+              document.head.appendChild(script2);
+            };
+            script1.onerror = reject;
+            document.head.appendChild(script1);
+          });
+        }
+        if (!firebase.apps.length) {
+          firebase.initializeApp({
+            apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+            authDomain: "codepolarity-a8c63.firebaseapp.com",
+            projectId: "codepolarity-a8c63",
+            storageBucket: "codepolarity-a8c63.appspot.com",
+            messagingSenderId: "712143434692",
+            appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+            measurementId: "G-R81RELCW6N"
+          });
+        }
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        // Wait for auth state
+        auth.onAuthStateChanged(async function(user) {
+          if (!user) {
+            alert('Sign in to save your typing history!');
+            return;
+          }
+          const sessionId = db.collection('users').doc(user.uid).collection('typingHistory').doc().id;
+          await db.collection('users').doc(user.uid).collection('typingHistory').doc(sessionId).set({
+            wpm,
+            accuracy,
+            date: firebase.firestore.FieldValue.serverTimestamp(),
+            duration: this.timeLimit
+          });
+        }.bind(this));
+      } catch (e) {
+        // Ignore errors
+      }
+    })();
     // Show popup
     this.resultPopup.classList.add('active');
   }
