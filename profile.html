@@ -25,26 +25,481 @@
     .tab-content.active { display: block; animation: fadeIn 0.4s; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: none; } }
     .transition-bg { transition: background 0.3s; }
-    .light body { background: #fff !important; color: #222 !important; }
-    .light .profile-bg { background: #fff !important; }
-    .light .profile-card { background: #f3f4f6 !important; border-color: #e5e7eb !important; color: #222 !important; }
-    .light .profile-muted { color: #444 !important; }
+    .light body { background: #f9fafb !important; color: #222 !important; }
+    .light .profile-bg { background: #f9fafb !important; }
+    .light .profile-card { background: #fff !important; border-color: #e5e7eb !important; color: #222 !important; box-shadow: 0 2px 12px #2563eb11 !important; }
+    .light .profile-muted { color: #666 !important; }
     .light .profile-tab-active { border-bottom: 3px solid #2563eb !important; color: #222 !important; }
     .light .profile-tab-inactive { color: #888 !important; }
-    .light .profile-avatar { border: 3px solid #2563eb !important; box-shadow: 0 0 16px #2563eb44 !important; }
+    .light .profile-avatar { border: 3px solid #2563eb !important; box-shadow: 0 0 16px #2563eb22 !important; background: #e0e7ef !important; }
     .light .profile-link:hover { color: #2563eb !important; }
     .light .stat-icon { color: #2563eb !important; }
     .light .profile-accent { color: #2563eb !important; }
     .light .profile-card:hover { border-color: #2563eb !important; box-shadow: 0 4px 24px #2563eb22 !important; }
+    .light nav {
+      background: rgba(255,255,255,0.85) !important;
+      color: #222 !important;
+      border-bottom: 1px solid #e5e7eb !important;
+    }
+    .light nav a, .light nav button, .light nav li { color: #222 !important; }
+    .light nav .hover\:text-blue-400:hover { color: #2563eb !important; }
+    .light #site-footer {
+      background: #f3f4f6 !important;
+      color: #222 !important;
+      border-top: 1px solid #e5e7eb !important;
+    }
+    .light #site-footer .text-gray-400, .light #site-footer .text-gray-300 {
+      color: #111 !important;
+    }
+    .light #site-footer .hover\:text-blue-400:hover {
+      color: #2563eb !important;
+    }
+    .light #site-footer .border-gray-800 {
+      border-color: #e5e7eb !important;
+    }
+    .light #firebase-login-btn {
+      color: #fff !important;
+    }
+    .light .bg-gray-900, .light .bg-black { background: #fff !important; }
+    .light .text-white { color: #222 !important; }
+    .light .text-gray-400 { color: #666 !important; }
+    .light .text-blue-400 { color: #2563eb !important; }
+    .light .border-gray-800 { border-color: #e5e7eb !important; }
+    .light .shadow-lg, .light .shadow-2xl { box-shadow: 0 4px 24px #2563eb11 !important; }
+    .light .rounded-xl, .light .rounded-2xl { background: #fff !important; }
+    .light .bg-gradient-to-br { background: linear-gradient(120deg, #e0e7ef 0%, #fff 100%) !important; }
+    .light .from-blue-900\/30 { background-color: #e0e7ef !important; }
+    .light .status-badge.bg-green-400 { background: #22c55e !important; color: #fff !important; }
+    .light .status-badge.bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+    .light .status-badge.bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
     nav {
       background: rgba(30, 41, 59, 0.45) !important;
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
+      z-index: 10000 !important;
     }
     body.light nav {
       background: rgba(255,255,255,0.75) !important;
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
+    }
+    /* --- Light Theme Full Profile Page Fixes --- */
+    .light .bg-gray-900, .light .bg-black { background: #fff !important; }
+    .light .border-gray-700, .light .border-gray-800 { border-color: #e5e7eb !important; }
+    .light .text-white { color: #222 !important; }
+    .light .text-gray-400, .light .text-gray-300 { color: #666 !important; }
+    .light .text-blue-400 { color: #2563eb !important; }
+    .light .hover\:text-blue-400:hover { color: #2563eb !important; }
+    .light .profile-card { background: #fff !important; color: #222 !important; border-color: #e5e7eb !important; }
+    .light .profile-card:hover { box-shadow: 0 4px 24px #2563eb22 !important; border-color: #2563eb !important; }
+    .light .profile-avatar { background: #e0e7ef !important; border-color: #2563eb !important; }
+    .light .profile-link { color: #2563eb !important; }
+    .light .profile-link:hover { color: #1d4ed8 !important; }
+    .light .status-badge.bg-green-400 { background: #22c55e !important; color: #fff !important; }
+    .light .status-badge.bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+    .light .status-badge.bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
+    .light .main-heading { color: #222 !important; }
+    .light .tab-content { background: #fff !important; }
+    .light .dropdown-anim, .light #resources-menu, .light #practice-menu, .light #profile-menu {
+      background: #fff !important;
+      color: #222 !important;
+      border-color: #e5e7eb !important;
+      box-shadow: 0 2px 12px #2563eb11 !important;
+    }
+    .light #mobile-menu {
+      position: fixed !important;
+      top: 64px !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: calc(100vh - 64px) !important;
+      z-index: 9999 !important;
+      background: rgba(255,255,255,0.95) !important;
+      background-color: rgba(255,255,255,0.95) !important;
+      color: #222 !important;
+      min-height: unset !important;
+      border: none !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .light #mobile-menu a, .light #mobile-menu button {
+      color: #2563eb !important;
+      background: transparent !important;
+    }
+    .light #mobile-menu .border-b { border-color: #e5e7eb !important; }
+    .light #mobile-menu .text-white { color: #222 !important; }
+    .light #mobile-menu .bg-blue-500 { background: #2563eb !important; color: #fff !important; }
+    .light #mobile-menu .bg-blue-500:hover { background: #1d4ed8 !important; }
+    .light #mobile-menu .text-blue-400 { color: #2563eb !important; }
+    .light #mobile-menu .profile-card { background: #fff !important; color: #222 !important; border-color: #e5e7eb !important; }
+    .light #mobile-menu .profile-avatar { background: #e0e7ef !important; border-color: #2563eb !important; }
+    .light #mobile-menu .font-semibold { color: #222 !important; }
+    .light .bg-gradient-to-br { background: linear-gradient(120deg, #e0e7ef 0%, #fff 100%) !important; }
+    .light .from-blue-900\/30 { background-color: #e0e7ef !important; }
+    .light .shadow-lg, .light .shadow-2xl { box-shadow: 0 4px 24px #2563eb11 !important; }
+    .light .rounded-xl, .light .rounded-2xl { background: #fff !important; }
+    .light .focus\:ring-blue-400:focus { box-shadow: 0 0 0 2px #2563eb55 !important; }
+    .light .bg-blue-500 { background: #2563eb !important; color: #fff !important; }
+    .light .bg-blue-500:hover { background: #1d4ed8 !important; }
+    .light .bg-green-500 { background: #22c55e !important; color: #fff !important; }
+    .light .bg-green-500:hover { background: #16a34a !important; }
+    .light .bg-red-500 { background: #ef4444 !important; color: #fff !important; }
+    .light .bg-red-500:hover { background: #dc2626 !important; }
+    .light .bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+    .light .bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
+    .light .border { border-color: #e5e7eb !important; }
+    .light .font-bold { color: #222 !important; }
+    .light .text-xs { color: #444 !important; }
+    .light .text-sm { color: #444 !important; }
+    .light .text-lg { color: #222 !important; }
+    .light .text-base { color: #222 !important; }
+    .light .stat-icon { color: #2563eb !important; }
+    .light .profile-accent { color: #2563eb !important; }
+    .light .profile-tab-active { border-bottom: 3px solid #2563eb !important; color: #222 !important; }
+    .light .profile-tab-inactive { color: #888 !important; }
+    .light .profile-muted { color: #666 !important; }
+    .light .tab-btn { color: #222 !important; }
+    .light .tab-btn.profile-tab-inactive { color: #888 !important; }
+    .light .tab-btn.profile-tab-active { color: #222 !important; border-bottom: 3px solid #2563eb !important; }
+    .light html, .light body, .light .profile-bg, .light .min-h-screen, .light .flex, .light .w-full {
+      background: #f9fafb !important;
+    }
+    /* --- Desktop Profile Light Theme --- */
+    @media (min-width: 768px) {
+      .light .profile-bg, .light .min-h-screen, .light .flex, .light .w-full {
+        background: #f9fafb !important;
+      }
+      .light .profile-card {
+        background: #fff !important;
+        color: #222 !important;
+        border-color: #e5e7eb !important;
+        box-shadow: 0 2px 12px #2563eb11 !important;
+      }
+      .light .profile-card:hover {
+        box-shadow: 0 4px 24px #2563eb22 !important;
+        border-color: #2563eb !important;
+      }
+      .light .profile-avatar {
+        background: #e0e7ef !important;
+        border-color: #2563eb !important;
+      }
+      .light .main-heading, .light .stat-num, .light .stat-icon {
+        color: #222 !important;
+      }
+      .light .tab-content {
+        background: #fff !important;
+        color: #222 !important;
+      }
+      .light .profile-link { color: #2563eb !important; }
+      .light .profile-link:hover { color: #1d4ed8 !important; }
+      .light .status-badge.bg-green-400 { background: #22c55e !important; color: #fff !important; }
+      .light .status-badge.bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+      .light .status-badge.bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
+      .light .profile-tab-active { border-bottom: 3px solid #2563eb !important; color: #222 !important; }
+      .light .profile-tab-inactive { color: #888 !important; }
+      .light .profile-muted { color: #666 !important; }
+      .light .dropdown-anim, .light #resources-menu, .light #practice-menu, .light #profile-menu {
+        background: #fff !important;
+        color: #222 !important;
+        border-color: #e5e7eb !important;
+        box-shadow: 0 2px 12px #2563eb11 !important;
+      }
+      .light nav {
+        background: rgba(255,255,255,0.85) !important;
+        color: #222 !important;
+        border-bottom: 1px solid #e5e7eb !important;
+      }
+      .light nav a, .light nav button, .light nav li { color: #222 !important; }
+      .light nav .hover\:text-blue-400:hover { color: #2563eb !important; }
+    }
+    /* --- Enhanced Light Theme for Profile Desktop --- */
+    .light html, .light body, .light .profile-bg, .light .min-h-screen, .light .flex, .light .w-full {
+      background: #f5f7fa !important;
+    }
+    .light .profile-card {
+      background: #fff !important;
+      color: #1a202c !important;
+      border-color: #e5e7eb !important;
+      box-shadow: 0 4px 24px #2563eb0d !important;
+      border-radius: 1rem !important;
+    }
+    .light .profile-card:hover {
+      box-shadow: 0 8px 32px #2563eb22 !important;
+      border-color: #2563eb !important;
+    }
+    .light .profile-avatar {
+      background: #e0e7ef !important;
+      border-color: #2563eb !important;
+      box-shadow: 0 0 16px #2563eb22 !important;
+    }
+    .light .main-heading, .light .stat-num, .light .stat-icon {
+      color: #1a202c !important;
+    }
+    .light .profile-muted, .light .text-gray-400, .light .text-gray-300 {
+      color: #888 !important;
+    }
+    .light .tab-content {
+      background: #fff !important;
+      color: #1a202c !important;
+      border-radius: 1rem !important;
+      box-shadow: 0 2px 12px #2563eb0a !important;
+    }
+    .light .profile-link { color: #2563eb !important; }
+    .light .profile-link:hover { color: #1d4ed8 !important; }
+    .light .status-badge.bg-green-400 { background: #22c55e !important; color: #fff !important; }
+    .light .status-badge.bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+    .light .status-badge.bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
+    .light .profile-tab-active { border-bottom: 3px solid #2563eb !important; color: #1a202c !important; }
+    .light .profile-tab-inactive { color: #888 !important; }
+    .light .dropdown-anim, .light #resources-menu, .light #practice-menu, .light #profile-menu {
+      background: #fff !important;
+      color: #1a202c !important;
+      border-color: #e5e7eb !important;
+      box-shadow: 0 4px 24px #2563eb11 !important;
+      border-radius: 0.75rem !important;
+    }
+    .light nav {
+      background: rgba(255,255,255,0.92) !important;
+      color: #1a202c !important;
+      border-bottom: 1px solid #e5e7eb !important;
+      box-shadow: 0 2px 8px #2563eb0a !important;
+    }
+    .light nav a, .light nav button, .light nav li { color: #1a202c !important; }
+    .light nav .hover\:text-blue-400:hover { color: #2563eb !important; }
+    .light .bg-gradient-to-br, .light .profile-header-gradient {
+      background: linear-gradient(120deg, #e3eafc 0%, #f5f7fa 100%) !important;
+    }
+    .light .from-blue-900\/30 { background-color: #e3eafc !important; }
+    .light .rounded-xl, .light .rounded-2xl { background: #fff !important; border-radius: 1rem !important; }
+    .light .shadow-lg, .light .shadow-2xl { box-shadow: 0 4px 24px #2563eb11 !important; }
+    .light .focus\:ring-blue-400:focus { box-shadow: 0 0 0 2px #2563eb55 !important; }
+    .light .bg-blue-500 { background: #2563eb !important; color: #fff !important; }
+    .light .bg-blue-500:hover { background: #1d4ed8 !important; }
+    .light .bg-green-500 { background: #22c55e !important; color: #fff !important; }
+    .light .bg-green-500:hover { background: #16a34a !important; }
+    .light .bg-red-500 { background: #ef4444 !important; color: #fff !important; }
+    .light .bg-red-500:hover { background: #dc2626 !important; }
+    .light .bg-yellow-400 { background: #facc15 !important; color: #222 !important; }
+    .light .bg-gray-500 { background: #e5e7eb !important; color: #888 !important; }
+    .light .border { border-color: #e5e7eb !important; }
+    .light .font-bold { color: #1a202c !important; }
+    .light .text-xs { color: #666 !important; }
+    .light .text-sm { color: #666 !important; }
+    .light .text-lg { color: #1a202c !important; }
+    .light .text-base { color: #1a202c !important; }
+    .light .stat-icon { color: #2563eb !important; }
+    .light .profile-accent { color: #2563eb !important; }
+    .light .tab-btn { color: #1a202c !important; }
+    .light .tab-btn.profile-tab-inactive { color: #888 !important; }
+    .light .tab-btn.profile-tab-active { color: #1a202c !important; border-bottom: 3px solid #2563eb !important; }
+    /* --- Force main background to light in light theme --- */
+    .light, .light body, .light html, .light .profile-bg, .light .min-h-screen, .light .flex, .light .w-full {
+      background: #f5f7fa !important;
+    }
+    /* --- Only one background in light theme, no section backgrounds --- */
+    .light .profile-bg, .light .min-h-screen, .light .flex, .light .w-full, .light .tab-content {
+      background: transparent !important;
+    }
+    .light, .light body, .light html {
+      background: #f5f7fa !important;
+    }
+    /* --- Footer inherits main background in light theme --- */
+    .light #site-footer {
+      background: transparent !important;
+      border-top: none !important;
+      color: #222 !important;
+    }
+    /* --- Navbar logo black in light theme --- */
+    .light #logo-main,
+    .light .logo img,
+    .light img[src*='logo'],
+    .light img[src*='cp.svg'] {
+      filter: brightness(0) invert(0) grayscale(1) !important;
+    }
+    /* --- Theme toggle button in light mode --- */
+    .light #theme-toggle {
+      background: #f3f4f6 !important;
+      border-color: #facc15 !important;
+    }
+    .light #theme-toggle-knob {
+      background: #facc15 !important;
+      color: #2563eb !important;
+    }
+    .light #theme-toggle-sun {
+      color: #2563eb !important;
+      opacity: 1 !important;
+    }
+    .light #theme-toggle-moon {
+      color: #2563eb !important;
+      opacity: 0 !important;
+    }
+    /* --- Dropdown menu animation (matches homepage) --- */
+    .dropdown-anim {
+      transform: translateY(-16px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 150ms cubic-bezier(0.4,0,0.2,1),
+                  transform 150ms cubic-bezier(0.4,0,0.2,1),
+                  visibility 150ms cubic-bezier(0.4,0,0.2,1);
+    }
+    .opacity-100.visible.dropdown-anim {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(0);
+    }
+    .opacity-0.invisible.dropdown-anim {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transform: translateY(-16px);
+    }
+    /* --- Navbar avatar image always visible, styled for both themes --- */
+    #navbar-avatar {
+      background-size: cover !important;
+      background-position: center !important;
+      border-radius: 9999px !important;
+      border: 2px solid #2563eb;
+      box-shadow: 0 2px 8px #2563eb22;
+      overflow: hidden;
+      color: #fff;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .light #navbar-avatar {
+      border: 2px solid #facc15;
+      box-shadow: 0 2px 8px #facc1522;
+      color: #2563eb;
+      background-color: #e0e7ef !important;
+    }
+    /* --- Mobile menu background: solid, readable, no blur, no border --- */
+    #mobile-menu {
+      position: fixed !important;
+      top: 64px !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: calc(100vh - 64px) !important;
+      z-index: 9999 !important;
+      background: rgba(17,24,39,0.85) !important;
+      background-color: rgba(17,24,39,0.85) !important;
+      color: #fff !important;
+      min-height: unset !important;
+      border: none !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .light #mobile-menu {
+      position: fixed !important;
+      top: 64px !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: calc(100vh - 64px) !important;
+      z-index: 9999 !important;
+      background: rgba(255,255,255,0.95) !important;
+      background-color: rgba(255,255,255,0.95) !important;
+      color: #222 !important;
+      min-height: unset !important;
+      border: none !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    #mobile-menu > * {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+    /* --- Force strong blur for mobile menu in both themes --- */
+    #mobile-menu {
+      backdrop-filter: blur(32px) !important;
+      -webkit-backdrop-filter: blur(32px) !important;
+    }
+    .light #mobile-menu {
+      backdrop-filter: blur(32px) !important;
+      -webkit-backdrop-filter: blur(32px) !important;
+    }
+    /* --- Final: Match homepage mobile menu blur and color for both modes --- */
+    #mobile-menu {
+      background: rgba(17,24,39,0.85) !important;
+      background-color: rgba(17,24,39,0.85) !important;
+      color: #fff !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .light #mobile-menu {
+      background: rgba(255,255,255,0.95) !important;
+      background-color: rgba(255,255,255,0.95) !important;
+      color: #222 !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    #mobile-menu > * {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+    /* --- EXACT MATCH: Homepage mobile menu style for profile page --- */
+    #mobile-menu {
+      background: rgba(0,0,0,0.8) !important;
+      color: #fff !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .light #mobile-menu {
+      background: rgba(255,255,255,0.95) !important;
+      color: #222 !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .light #mobile-menu a,
+    .light #mobile-menu button {
+      color: #2563eb !important;
+      border-color: #e5e7eb !important;
+      background: transparent !important;
+    }
+    .light #mobile-menu .border-b {
+      border-color: #e5e7eb !important;
+    }
+    .light #mobile-menu .text-white {
+      color: #222 !important;
+    }
+    .light #mobile-menu .bg-blue-500 {
+      background: #2563eb !important;
+      color: #fff !important;
+    }
+    .light #mobile-menu .bg-blue-500:hover {
+      background: #1d4ed8 !important;
+    }
+    .light #mobile-menu .text-blue-400 {
+      color: #2563eb !important;
+    }
+    #mobile-menu > * {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+    /* --- MORE BLUR: Homepage mobile menu style for profile page --- */
+    #mobile-menu {
+      background: rgba(0,0,0,0.8) !important;
+      color: #fff !important;
+      backdrop-filter: blur(32px) !important;
+      -webkit-backdrop-filter: blur(32px) !important;
+    }
+    .light #mobile-menu {
+      background: rgba(255,255,255,0.95) !important;
+      color: #222 !important;
+      backdrop-filter: blur(32px) !important;
+      -webkit-backdrop-filter: blur(32px) !important;
+    }
+    /* --- MAXIMUM BLUR for mobile menu in both modes --- */
+    #mobile-menu {
+      background: rgba(0,0,0,0.6) !important;
+      color: #fff !important;
+      backdrop-filter: blur(40px) !important;
+      -webkit-backdrop-filter: blur(40px) !important;
+    }
+    .light #mobile-menu {
+      background: rgba(255,255,255,0.6) !important;
+      color: #222 !important;
+      backdrop-filter: blur(40px) !important;
+      -webkit-backdrop-filter: blur(40px) !important;
     }
   </style>
 </head>
@@ -167,7 +622,7 @@
           <input type="file" id="avatar-file-input" accept="image/*" class="hidden" />
         </div>
         <div class="flex flex-col justify-center">
-          <p class="main-heading text-2xl font-bold leading-tight">Olivia Zhang</p>
+          <p class="main-heading text-2xl font-bold leading-tight"></p>
           <!-- Username and Edit Profile button removed -->
         </div>
       </div>
@@ -777,19 +1232,21 @@
         if (user) {
           loginBtn.style.display = 'none';
           profileLi.classList.remove('hidden');
-          // Set avatar or initial
-          let avatarUrl = user.photoURL;
-          if (!avatarUrl) {
-            if (user.displayName) {
-              avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName);
-            } else {
-              avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.uid || 'User');
-            }
-          }
+          // Set avatar image or initial
           if (avatarSpan) {
-            avatarSpan.style.backgroundImage = avatarUrl.startsWith('http') ? `url('${avatarUrl}')` : '';
-            avatarSpan.style.backgroundSize = 'cover';
-            avatarSpan.textContent = user.displayName ? user.displayName[0] : 'U';
+            if (user.photoURL) {
+              avatarSpan.style.backgroundImage = `url('${user.photoURL}')`;
+              avatarSpan.style.backgroundColor = 'transparent';
+              avatarSpan.textContent = '';
+            } else {
+              let initial = 'U';
+              if (user.displayName && user.displayName.length > 0) {
+                initial = user.displayName[0];
+              }
+              avatarSpan.style.backgroundImage = '';
+              avatarSpan.style.backgroundColor = '#60a7fa';
+              avatarSpan.textContent = initial;
+            }
           }
         } else {
           loginBtn.style.display = '';
@@ -812,27 +1269,6 @@
       document.getElementById('profile-menu').classList.add('opacity-0', 'invisible');
       document.getElementById('profile-menu').classList.remove('opacity-100', 'visible');
     };
-    // Profile dropdown logic
-    const profileBtn = document.getElementById('profile-btn');
-    const profileMenu = document.getElementById('profile-menu');
-    if (profileBtn && profileMenu) {
-      let open = false;
-      profileBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        open = !open;
-        profileMenu.classList.toggle('opacity-0', !open);
-        profileMenu.classList.toggle('invisible', !open);
-        profileMenu.classList.toggle('opacity-100', open);
-        profileMenu.classList.toggle('visible', open);
-      });
-      document.addEventListener('click', function(e) {
-        if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
-          open = false;
-          profileMenu.classList.add('opacity-0', 'invisible');
-          profileMenu.classList.remove('opacity-100', 'visible');
-        }
-      });
-    }
     // Dropdown for Resources (works on hover and click)
     document.addEventListener('DOMContentLoaded', function() {
       const btn = document.getElementById('resources-btn');
@@ -941,6 +1377,52 @@
       const saved = localStorage.getItem('theme');
       if (saved === 'light') setThemeMobile('light');
       else setThemeMobile('dark');
+    })();
+    // Desktop theme toggle logic (animated, matches home page)
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleKnob = document.getElementById('theme-toggle-knob');
+    const themeToggleSun = document.getElementById('theme-toggle-sun');
+    const themeToggleMoon = document.getElementById('theme-toggle-moon');
+    function setTheme(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light');
+        if (themeToggle) themeToggle.classList.add('light');
+        if (themeToggleKnob) {
+          themeToggleKnob.style.transform = 'translateX(20px)';
+          themeToggleKnob.classList.add('bg-yellow-400', 'text-blue-700');
+          themeToggleKnob.classList.remove('bg-blue-500', 'text-white');
+        }
+        if (themeToggleSun) themeToggleSun.style.opacity = 1;
+        if (themeToggleMoon) themeToggleMoon.style.opacity = 0;
+      } else {
+        document.body.classList.remove('light');
+        if (themeToggle) themeToggle.classList.remove('light');
+        if (themeToggleKnob) {
+          themeToggleKnob.style.transform = 'translateX(0)';
+          themeToggleKnob.classList.remove('bg-yellow-400', 'text-blue-700');
+          themeToggleKnob.classList.add('bg-blue-500', 'text-white');
+        }
+        if (themeToggleSun) themeToggleSun.style.opacity = 0;
+        if (themeToggleMoon) themeToggleMoon.style.opacity = 1;
+      }
+      localStorage.setItem('theme', mode);
+    }
+    if (themeToggle) {
+      themeToggle.onclick = function() {
+        const isLight = document.body.classList.toggle('light');
+        setTheme(isLight ? 'light' : 'dark');
+      };
+    }
+    // On load, set theme from localStorage for both desktop and mobile
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') {
+        setTheme('light');
+        setThemeMobile('light');
+      } else {
+        setTheme('dark');
+        setThemeMobile('dark');
+      }
     })();
     // Mobile menu open/close logic with sliding animation
     document.addEventListener('DOMContentLoaded', function() {
