@@ -10,6 +10,76 @@
     body { font-family: 'Space Grotesk', sans-serif; background: #000; color: #fff; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Doto', sans-serif !important; }
     .login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+    /* Responsive tweaks for login page */
+    @media (max-width: 640px) {
+      .login-card {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        min-height: 100vh !important;
+        justify-content: center !important;
+      }
+      .login-logo {
+        height: 2.5rem !important;
+        top: 1rem !important;
+      }
+      .login-heading {
+        font-size: 1.5rem !important;
+      }
+      .login-subheading {
+        font-size: 1rem !important;
+      }
+      .login-btn {
+        font-size: 1rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      .fixed.top-6.left-6 {
+        top: 0.75rem !important;
+        left: 0.75rem !important;
+        font-size: 0.95rem !important;
+        padding: 0.25rem 0.5rem !important;
+        border-radius: 0.5rem !important;
+        background: none !important;
+      }
+    }
+    /* Enhanced toggle button styles */
+    #theme-toggle {
+      transition: box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 2px 12px #60a7fa33, 0 1.5px 6px #0002;
+      touch-action: manipulation;
+      user-select: none;
+    }
+    #theme-toggle:active {
+      transform: scale(0.96);
+      box-shadow: 0 1px 4px #60a7fa22;
+    }
+    #theme-toggle:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+    #theme-toggle-knob {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    #theme-toggle .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.5s linear;
+      background: rgba(96,167,250,0.25);
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes ripple {
+      to {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
   </style>
   <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -36,17 +106,17 @@
       Back
     </a>
     <!-- Left Side: Login Card -->
-    <div class="flex flex-col justify-center items-center w-full md:w-1/2 bg-black px-4 py-8 space-y-4 relative overflow-hidden pt-28">
+    <div class="flex flex-col justify-center items-center w-full md:w-1/2 bg-black px-4 py-8 space-y-4 relative overflow-hidden pt-28 login-card">
       <!-- Vertical accent bar -->
       <div class="hidden md:block absolute left-0 top-0 h-full w-2 bg-blue-700/80 rounded-r-xl shadow-lg"></div>
       <!-- Floating blurred shapes -->
       <div class="hidden md:block absolute top-12 right-24 w-24 h-24 bg-blue-800 opacity-20 rounded-full blur-2xl animate-float-slow"></div>
       <div class="hidden md:block absolute bottom-16 left-32 w-16 h-16 bg-blue-400 opacity-10 rounded-full blur-2xl animate-float-fast"></div>
       <!-- Avatar Placeholder and Welcome removed -->
-      <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-14 mb-8 drop-shadow z-10 absolute left-1/2 -translate-x-1/2 top-8" style="position:absolute;left:50%;transform:translateX(-50%);top:2rem;" />
+      <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-14 mb-8 drop-shadow z-10 absolute left-1/2 -translate-x-1/2 top-8 login-logo" style="position:absolute;left:50%;transform:translateX(-50%);top:2rem;" />
       <!-- Main content (excluding logo) -->
-      <h2 class="text-3xl font-extrabold mb-1 text-center tracking-tight text-white z-10">Log in to Codepolarity</h2>
-      <p class="text-gray-400 mb-4 text-center text-base font-medium z-10">Access your coding environment and resources</p>
+      <h2 class="text-3xl font-extrabold mb-1 text-center tracking-tight text-white z-10 login-heading">Log in to Codepolarity</h2>
+      <p class="text-gray-400 mb-4 text-center text-base font-medium z-10 login-subheading">Access your coding environment and resources</p>
       <!-- Wavy SVG divider -->
       <div class="w-full flex items-center mb-4 z-10">
         <svg viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-4"><path d="M0 6 Q 30 0 60 6 T 120 6" stroke="#1e40af" stroke-width="2" fill="none"/></svg>
@@ -76,7 +146,6 @@
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.334-5.466-5.931 0-1.31.468-2.381 1.236-3.221-.124-.304-.535-1.527.117-3.182 0 0 1.008-.322 3.3 1.23.957-.266 1.984-.399 3.003-.404 1.018.005 2.046.138 3.006.404 2.289-1.553 3.295-1.23 3.295-1.23.653 1.655.242 2.878.119 3.182.77.84 1.235 1.911 1.235 3.221 0 4.609-2.804 5.624-5.475 5.921.43.372.823 1.104.823 2.226 0 1.606-.015 2.898-.015 3.293 0 .322.218.694.825.576C20.565 21.796 24 17.299 24 12c0-6.627-5.373-12-12-12z"/></svg>
         Log in with GitHub
       </button>
-      <a href="index.html" class="text-blue-400 hover:underline text-sm mt-2 z-10">&larr; Back to Home</a>
       <a href="#" class="text-blue-300 hover:underline text-xs mt-1 z-10">Need help?</a>
       <style>
         @keyframes float-slow { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-16px);} }
@@ -101,19 +170,6 @@
       </style>
     </div>
   </div>
-  <!-- Theme Toggle Button (top right, all screens) -->
-  <button id="theme-toggle" class="fixed top-6 right-8 z-50 w-12 h-7 flex items-center bg-gray-900 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
-    <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
-      <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="5"/>
-        <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
-      </svg>
-      <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
-      </svg>
-    </span>
-    <span class="sr-only">Toggle dark/light mode</span>
-  </button>
   <script>
     // Redirect if already logged in
     firebase.auth().onAuthStateChanged(function(user) {
@@ -152,63 +208,6 @@
         .then(() => { setLoading(false); })
         .catch(err => { setLoading(false); showError(err.message); });
     };
-  </script>
-  <style>
-    body.light { background: #fff !important; color: #222 !important; }
-    body.light .bg-black, body.light .bg-gray-900, body.light .min-h-screen { background: #fff !important; }
-    body.light .rounded-xl, body.light .rounded-2xl, body.light .max-w-sm, body.light .max-w-md { background: #fff !important; border: 1px solid #e5e7eb !important; box-shadow: 0 4px 24px #0001 !important; }
-    body.light .text-white { color: #222 !important; }
-    body.light .text-blue-400 { color: #2563eb !important; }
-    body.light .border-blue-700 { border-color: #2563eb !important; }
-    body.light .shadow-lg, body.light .shadow-2xl { box-shadow: 0 4px 24px #0001 !important; }
-    body.light .drop-shadow-xl, body.light .drop-shadow, body.light img[src*='logoC.svg'] { filter: invert(1) hue-rotate(180deg) drop-shadow(0 2px 8px #2563eb22) !important; }
-    body.light .bg-gray-800 { background: #e5e7eb !important; }
-    body.light .bg-blue-500, body.light .bg-blue-600 { background: #2563eb !important; color: #fff !important; }
-    body.light .border { border-color: #2563eb !important; }
-    body.light .hover\:bg-blue-600:hover { background: #1d4ed8 !important; }
-    body.light .hover\:text-blue-400:hover { color: #2563eb !important; }
-    body.light .text-gray-400, body.light .text-gray-300, body.light .text-gray-500, body.light .text-gray-600, body.light .text-gray-700, body.light .text-gray-800, body.light .text-gray-900 {
-      color: #111 !important;
-    }
-  </style>
-  <script>
-    // Animated theme toggle logic with sliding knob and crossfade icons
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeKnob = document.getElementById('theme-toggle-knob');
-    const sunIcon = document.getElementById('theme-toggle-sun');
-    const moonIcon = document.getElementById('theme-toggle-moon');
-    function setTheme(mode) {
-      if (mode === 'light') {
-        document.body.classList.add('light');
-        themeToggle.classList.add('light');
-        themeKnob.style.transform = 'translateX(20px)';
-        themeKnob.classList.add('bg-yellow-400', 'text-blue-700');
-        themeKnob.classList.remove('bg-blue-500', 'text-white');
-        sunIcon.style.opacity = 1;
-        moonIcon.style.opacity = 0;
-      } else {
-        document.body.classList.remove('light');
-        themeToggle.classList.remove('light');
-        themeKnob.style.transform = 'translateX(0)';
-        themeKnob.classList.remove('bg-yellow-400', 'text-blue-700');
-        themeKnob.classList.add('bg-blue-500', 'text-white');
-        sunIcon.style.opacity = 0;
-        moonIcon.style.opacity = 1;
-      }
-      localStorage.setItem('theme', mode);
-    }
-    if (themeToggle) {
-      themeToggle.onclick = function() {
-        const isLight = document.body.classList.toggle('light');
-        setTheme(isLight ? 'light' : 'dark');
-      };
-    }
-    // On load, set theme from localStorage
-    (function() {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'light') setTheme('light');
-      else setTheme('dark');
-    })();
   </script>
 </body>
 </html>

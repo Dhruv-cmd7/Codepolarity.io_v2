@@ -1,116 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodePolarity - Quick Reference</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
-    <link rel="stylesheet" href="../styles/notes.css">
-    <script src="../scripts/config.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Navigation Bar: Back, Hamburger, Heading -->
-        <nav class="notes-navbar">
-            <div class="nav-btns">
-                <a href="#" class="back-btn" id="back-btn">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-                </a>
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
-                    <span></span><span></span><span></span>
-                </button>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#0d141c]">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+              </div>
+              <h2 class="text-[#0d141c] text-lg font-bold leading-tight tracking-[-0.015em]">Code Companion</h2>
             </div>
-            <div class="nav-heading">
-                <h1 class="ce-gradient">Cheat Sheet</h1>
+            <div class="flex items-center gap-9">
+              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Learn</a>
+              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Practice</a>
+              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Cheat Sheets</a>
             </div>
-        </nav>
-        <!-- Sidebar Overlay for mobile -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        <!-- Main Content -->
-        <div class="content-wrapper">
-            <!-- Left Sidebar -->
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-search">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search languages or topics...">
-                    </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div
+                  class="text-[#49709c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
                 </div>
-                <nav class="sidebar-nav">
-                    <div class="nav-section">
-                        <h3 class="nav-section-title">Languages</h3>
-                        <ul class="nav-list" id="languagesList">
-                            <!-- Languages will be dynamically added here -->
-                        </ul>
-                    </div>
-                    <div class="nav-section">
-                        <h3 class="nav-section-title">Tools</h3>
-                        <ul class="nav-list" id="toolsList">
-                            <!-- Tools will be dynamically added here -->
-                        </ul>
-                    </div>
-                </nav>
-            </aside>
-            <!-- Main Content Area -->
-            <main class="main-content">
-                <div class="content-header">
-                    <h2 id="currentSection">Select a language or tool</h2>
-                    <div class="content-actions">
-                        <button class="copy-btn" id="copyBtn">
-                            <i class="fas fa-copy"></i>
-                            Copy All
-                        </button>
-                        <button class="theme-toggle" id="themeToggle">
-                            <i class="fas fa-moon"></i>
-                            Dark Mode
-                        </button>
-                    </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49709c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmpnsUqM9WCRR2oaKl_Rbn-WSipwX3B8JV7SNFifc-iY6rGjqSLHE-utZ92KG1sjSToM-Oo0lUtzsBa3WY4uYX0oVzsJS8NFxQzU_ou27vqKeGEk6oMBqgwHZNAylUdaGGIR8NsG7952b9ZJcc62ZFvNpWYVNFblupjHPOQuZOcQfGSK3iGFSHYWynMIW6FlIhnyJpGxi9mdjOy6-5Cnjmfdt2s9Fh1Gy5G6puqcnz9S7C4JTY3YnHFT0z3_Payph2cqlC7Thlwr8");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="px-4 py-3">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                  <div
+                    class="text-[#49709c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                    data-icon="MagnifyingGlass"
+                    data-size="24px"
+                    data-weight="regular"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    placeholder="Search cheat sheets"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49709c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                    value=""
+                  />
                 </div>
-                <div class="reference-content" id="referenceContent">
-                    <!-- Reference content will be dynamically added here -->
+              </label>
+            </div>
+            <h2 class="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Languages</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
                 </div>
-            </main>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Python</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">JavaScript</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Java</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">C++</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Ruby</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Swift</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Go</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">PHP</h2>
+              </div>
+            </div>
+            <h2 class="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Topics</h2>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Data Structures</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Algorithms</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Databases</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Networking</h2>
+                    </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Operating Systems</h2>
+                    </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                    </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Security</h2>
+                    </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Machine Learning</h2>
+              </div>
+              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
+                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
+                    ></path>
+                  </svg>
+                </div>
+                <h2 class="text-[#0d141c] text-base font-bold leading-tight">DevOps</h2>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-typescript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-rust.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"></script>
-    <script src="../scripts/notes.js"></script>
-    <script>
-    // Sidebar toggle for mobile UX
-    document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        function toggleSidebar() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-        }
-        sidebarToggle.addEventListener('click', toggleSidebar);
-        sidebarOverlay.addEventListener('click', toggleSidebar);
-    });
-    // Smart back button: go back in history if possible, else go home
-    document.getElementById('back-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    });
-    </script>
 </body>
 </html> 
