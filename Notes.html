@@ -1,257 +1,305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
-      rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-    <title>Stitch Design</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notes | Codepolarity.io</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #000; color: #fff; min-height: 100vh; position: relative; overflow-x: hidden; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text { font-family: 'Doto', sans-serif !important; }
+    .card-dark { background: #181f2a; border: 1px solid #222; border-radius: 0.75rem; color: #fff; box-shadow: 0 2px 12px #000a; transition: border 0.2s, box-shadow 0.2s; }
+    .card-dark:hover { border-color: #60a7fa; box-shadow: 0 4px 24px #60a7fa22; }
+    .search-bar-dark { background: #181f2a; border: 1px solid #222; color: #fff; }
+    .search-bar-dark::placeholder { color: #60a7fa; opacity: 0.7; }
+    .icon-box { display: flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: #10151e; margin-right: 0.75rem; }
+    .avatar { width: 2.5rem; height: 2.5rem; border-radius: 9999px; background: #222; object-fit: cover; }
+    @media (max-width: 640px) {
+      .card-dark { padding: 1rem !important; }
+      .icon-box { width: 2rem; height: 2rem; margin-right: 0.5rem; }
+    }
+  </style>
 </head>
-<body>
-    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
-      <div class="layout-container flex h-full grow flex-col">
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] px-10 py-3">
-          <div class="flex items-center gap-8">
-            <div class="flex items-center gap-4 text-[#0d141c]">
-              <div class="size-4">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+<body class="pt-8 md:pt-16 p-4 md:p-8">
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+<style>
+  nav {
+    background: rgba(30, 41, 59, 0.45) !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  body.light nav {
+    background: rgba(255,255,255,0.75) !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+</style>
+  <div class="flex items-center gap-3 cursor-pointer ml-5" id="logo-toggle">
+    <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+    <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
               </div>
-              <h2 class="text-[#0d141c] text-lg font-bold leading-tight tracking-[-0.015em]">Code Companion</h2>
-            </div>
-            <div class="flex items-center gap-9">
-              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Learn</a>
-              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Practice</a>
-              <a class="text-[#0d141c] text-sm font-medium leading-normal" href="#">Cheat Sheets</a>
-            </div>
-          </div>
-          <div class="flex flex-1 justify-end gap-8">
-            <label class="flex flex-col min-w-40 !h-10 max-w-64">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                <div
-                  class="text-[#49709c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-lg border-r-0"
-                  data-icon="MagnifyingGlass"
-                  data-size="24px"
-                  data-weight="regular"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-                    ></path>
+  <!-- Desktop menu -->
+  <ul class="hidden md:flex space-x-8 text-lg font-medium items-center mr-6">
+    <li><a href="index.html" class="hover:text-blue-400 transition">Home</a></li>
+    <li class="relative group" id="resources-dropdown">
+      <button id="resources-btn" class="hover:text-blue-400 transition flex items-center focus:outline-none" aria-haspopup="true" aria-expanded="false" type="button">
+        Resources
+        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <ul id="resources-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+        <li><a href="Courses.html" class="block px-4 py-2 hover:bg-gray-800">Courses</a></li>
+        <li><a href="Notes.html" class="block px-4 py-2 hover:bg-gray-800">Cheatsheets</a></li>
+      </ul>
+    </li>
+    <li class="relative group" id="practice-dropdown">
+      <button id="practice-btn" class="hover:text-blue-400 transition flex items-center focus:outline-none" aria-haspopup="true" aria-expanded="false" type="button">
+        Practice
+        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <ul id="practice-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+        <li><a href="typing_t.html" class="block px-4 py-2 hover:bg-gray-800">Typing</a></li>
+        <li><a href="#speedcode" class="block px-4 py-2 hover:bg-gray-800">SpeedCode</a></li>
+      </ul>
+    </li>
+    <li><a href="about.html" class="hover:text-blue-400 transition">About</a></li>
+    <li>
+      <button id="theme-toggle" class="relative w-12 h-7 flex items-center bg-gray-900 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
+        <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
+          <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
                   </svg>
-                </div>
-                <input
-                  placeholder="Search"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49709c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                  value=""
-                />
-              </div>
-            </label>
-            <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmpnsUqM9WCRR2oaKl_Rbn-WSipwX3B8JV7SNFifc-iY6rGjqSLHE-utZ92KG1sjSToM-Oo0lUtzsBa3WY4uYX0oVzsJS8NFxQzU_ou27vqKeGEk6oMBqgwHZNAylUdaGGIR8NsG7952b9ZJcc62ZFvNpWYVNFblupjHPOQuZOcQfGSK3iGFSHYWynMIW6FlIhnyJpGxi9mdjOy6-5Cnjmfdt2s9Fh1Gy5G6puqcnz9S7C4JTY3YnHFT0z3_Payph2cqlC7Thlwr8");'
-            ></div>
-          </div>
-        </header>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="px-4 py-3">
-              <label class="flex flex-col min-w-40 h-12 w-full">
-                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                  <div
-                    class="text-[#49709c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-lg border-r-0"
-                    data-icon="MagnifyingGlass"
-                    data-size="24px"
-                    data-weight="regular"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                      <path
-                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-                      ></path>
+          <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
                     </svg>
-                  </div>
-                  <input
-                    placeholder="Search cheat sheets"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49709c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                    value=""
-                  />
-                </div>
-              </label>
-            </div>
-            <h2 class="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Languages</h2>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
+        </span>
+        <span class="sr-only">Toggle dark/light mode</span>
+      </button>
+    </li>
+    <li id="desktop-login-btn"><a href="login.html" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition" id="firebase-login-btn">Login</a></li>
+    <li id="desktop-profile" class="relative hidden">
+      <button id="profile-btn" class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-800 focus:outline-none">
+        <span class="inline-block w-7 h-7 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
+        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <ul id="profile-menu" class="absolute right-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+        <li><a href="profile.html" class="block px-4 py-2 hover:bg-gray-800">View Profile</a></li>
+        <li><button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<!-- Mobile: Theme toggle + Hamburger -->
+<div class="flex items-center md:hidden fixed top-5 right-6 z-50 gap-2">
+  <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-blue-700 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark/light mode">
+    <span class="sr-only">Toggle dark/light mode</span>
+    <svg id="theme-toggle-mobile-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
                   </svg>
+  </button>
+  <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Python</h2>
+<!-- Page Title -->
+<div class="max-w-5xl mx-auto mt-28 md:mt-32 mb-8">
+  <h1 class="main-heading text-3xl md:text-5xl font-bold mb-8 text-blue-400">Cheat Sheets & Notes</h1>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+<!-- Main Content -->
+<div class="max-w-5xl mx-auto mt-28 md:mt-32 mb-16">
+  <div class="mb-8">
+    <input type="text" placeholder="Search cheat sheets" class="search-bar-dark w-full px-5 py-4 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition placeholder-blue-400"/>
+    <span class="absolute left-10 top-1/2 transform -translate-y-1/2 text-blue-400"></span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">JavaScript</h2>
+  <h2 class="main-heading text-2xl md:text-3xl font-bold mb-4">Languages</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-10">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Python -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><g><path fill="#3776AB" d="M63.6 12.1c-6.6.3-12.9.6-18.6 2.1-16.3 4.1-19.3 12.7-19.3 28.6v13.2h38.6v5.1H25.7c-21.1 0-25.2 9.2-25.2 20.7 0 11.5 4.2 20.7 25.2 20.7h8.2v-11.2c0-8.1 6.6-14.7 14.7-14.7h38.6c8.1 0 14.7-6.6 14.7-14.7V42.8c0-15.9-3-24.5-19.3-28.6-5.7-1.5-12-1.8-18.6-2.1zm-16.5 8.7c3.6 0 6.5 2.9 6.5 6.5s-2.9 6.5-6.5 6.5-6.5-2.9-6.5-6.5 2.9-6.5 6.5-6.5z"/><path fill="#FFD43B" d="M64.4 115.9c6.6-.3 12.9-.6 18.6-2.1 16.3-4.1 19.3-12.7 19.3-28.6V72H63.7v-5.1h38.6c21.1 0 25.2-9.2 25.2-20.7 0-11.5-4.2-20.7-25.2-20.7h-8.2v11.2c0 8.1-6.6 14.7-14.7 14.7H25.7c-8.1 0-14.7 6.6-14.7 14.7v13.2c0 15.9 3 24.5 19.3 28.6 5.7 1.5 12 1.8 18.6 2.1zm16.5-8.7c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5 6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5z"/></g></svg>
+      </span>
+      <span class="font-bold">Python</span>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- JavaScript -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#F7DF1E" d="M1.408 1.408h125.184v125.185H1.408z"/><path d="M116.042 116.042H11.958V11.958h104.084z" fill="none"/><path d="M89.5 104.5c-2.5 0-4.5-2-4.5-4.5V80c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v20c0 2.5-2 4.5-4.5 4.5zm-51 0c-2.5 0-4.5-2-4.5-4.5V80c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v20c0 2.5-2 4.5-4.5 4.5z" fill="#000"/></svg>
+      </span>
+      <span class="font-bold">JavaScript</span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Java</h2>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Java -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><g><path fill="#5382A1" d="M64 8c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 104c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z"/><path fill="#E76F00" d="M64 24c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm0 72c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/><path fill="#5382A1" d="M64 40c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm0 40c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z"/></g></svg>
+      </span>
+      <span class="font-bold">Java</span>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- C++ -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><polygon fill="#00599C" points="64,8 120,40 120,88 64,120 8,88 8,40"/><text x="32" y="88" font-size="32" font-family="monospace" fill="#fff" font-weight="bold">C++</text></svg>
+      </span>
+      <span class="font-bold">C++</span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">C++</h2>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- C# -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><polygon fill="#68217A" points="64,8 120,40 120,88 64,120 8,88 8,40"/><text x="32" y="88" font-size="32" font-family="monospace" fill="#fff" font-weight="bold">C#</text></svg>
+      </span>
+      <span class="font-bold">C#</span>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- C -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="64" cy="64" r="56" fill="#00BFFF"/><text x="40" y="88" font-size="48" font-family="monospace" fill="#fff" font-weight="bold">C</text></svg>
+      </span>
+      <span class="font-bold">C</span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Ruby</h2>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- HTML -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#E44D26" d="M19.5 116.1L8.1 0h111.8l-11.4 116.1-44.5 12.3z"/><path fill="#F16529" d="M64 119.2l35.9-10 9.8-109.7H64z"/><path fill="#EBEBEB" d="M64 66.7H47.2l-1.1-12.2H64V42.5H34.7l.3 3.7 3.1 34.7H64z"/><path fill="#fff" d="M64 94.2l-.1.1-14.9-4-1-11.2H36.7l1.9 21.2 25.4 7.1.1-.1z"/></svg>
+      </span>
+      <span class="font-bold">HTML</span>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- CSS -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#1572B6" d="M19.5 116.1L8.1 0h111.8l-11.4 116.1-44.5 12.3z"/><path fill="#33A9DC" d="M64 119.2l35.9-10 9.8-109.7H64z"/><path fill="#fff" d="M64 66.7H47.2l-1.1-12.2H64V42.5H34.7l.3 3.7 3.1 34.7H64z"/><path fill="#EBEBEB" d="M64 94.2l-.1.1-14.9-4-1-11.2H36.7l1.9 21.2 25.4 7.1.1-.1z"/></svg>
+      </span>
+      <span class="font-bold">CSS</span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Swift</h2>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- PHP -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="32" fill="#8993be"/><text x="32" y="80" font-size="40" font-family="monospace" fill="#232531" font-weight="bold">php</text></svg>
+      </span>
+      <span class="font-bold">PHP</span>
               </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Ruby -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="48" fill="#e0115f"/><polygon points="64,24 104,64 64,104 24,64" fill="#fff" opacity=".3"/><polygon points="64,40 88,64 64,88 40,64" fill="#e0115f"/></svg>
+      </span>
+      <span class="font-bold">Ruby</span>
                 </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Go</h2>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="Code" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">PHP</h2>
-              </div>
-            </div>
-            <h2 class="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Topics</h2>
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Data Structures</h2>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Algorithms</h2>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Databases</h2>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Networking</h2>
-                    </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Operating Systems</h2>
-                    </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                    </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Security</h2>
-                    </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">Machine Learning</h2>
-              </div>
-              <div class="flex flex-1 gap-3 rounded-lg border border-[#cedae8] bg-slate-50 p-4 items-center">
-                <div class="text-[#0d141c]" data-icon="File" data-size="24px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path
-                      d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Z"
-                    ></path>
-                  </svg>
-                </div>
-                <h2 class="text-[#0d141c] text-base font-bold leading-tight">DevOps</h2>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Git -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><rect x="24" y="24" width="80" height="80" rx="16" fill="#333"/><path d="M64 40v48M64 88l-16-16M64 88l16-16" stroke="#fff" stroke-width="8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="font-bold">Git</span>
               </div>
             </div>
-          </div>
+  <h2 class="main-heading text-2xl md:text-3xl font-bold mb-4">Topics</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- SQL/Database -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="40" rx="56" ry="24" fill="#2196f3"/><rect x="8" y="40" width="112" height="48" rx="24" fill="#2196f3"/><ellipse cx="64" cy="88" rx="56" ry="24" fill="#1976d2"/><text x="80" y="80" font-size="32" font-family="monospace" fill="#ffd600" font-weight="bold">SQL</text></svg>
+      </span>
+      <span class="font-bold">Databases</span>
+                </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Data Structures -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="64" cy="32" r="16" fill="#ffd600"/><rect x="32" y="64" width="24" height="24" rx="8" fill="#2196f3"/><rect x="72" y="64" width="24" height="24" rx="8" fill="#2196f3"/><rect x="52" y="96" width="24" height="24" rx="8" fill="#2196f3"/><path d="M64 48v32M64 96v-16M64 64l-16 24M64 64l16 24" stroke="#fff" stroke-width="8"/></svg>
+      </span>
+      <span class="font-bold">Data Structures</span>
+              </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Algorithms -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="32" cy="96" r="8" fill="#ffd600"/><circle cx="64" cy="32" r="8" fill="#2196f3"/><circle cx="96" cy="96" r="8" fill="#ffd600"/><path d="M64 40v48M64 40l-32 56M64 40l32 56" stroke="#fff" stroke-width="8"/></svg>
+      </span>
+      <span class="font-bold">Algorithms</span>
+                </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Machine Learning -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="40" fill="#ffb6b6"/><circle cx="64" cy="64" r="16" fill="#fff176"/><g stroke="#222" stroke-width="4"><line x1="64" y1="48" x2="64" y2="24"/><line x1="64" y1="80" x2="64" y2="104"/><line x1="48" y1="64" x2="24" y2="64"/><line x1="80" y1="64" x2="104" y2="64"/></g></svg>
+      </span>
+      <span class="font-bold">Machine Learning</span>
+              </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- DevOps -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><g><circle cx="32" cy="64" r="24" fill="#8bc34a"/><circle cx="64" cy="64" r="24" fill="#ffd600"/><circle cx="96" cy="64" r="24" fill="#64b5f6"/><path d="M56 64h16M80 64h16" stroke="#222" stroke-width="8"/><path d="M56 64a32 32 0 0 1 32-32" stroke="#222" stroke-width="8" fill="none"/><path d="M80 64a32 32 0 0 0-32-32" stroke="#222" stroke-width="8" fill="none"/></g></svg>
+      </span>
+      <span class="font-bold">DevOps</span>
+                </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
+      <span class="icon-box flex items-center justify-center"> <!-- Security -->
+        <svg viewBox="0 0 128 128" width="32" height="32"><path d="M64 16c-32 0-56 24-56 56v28c0 32 24 56 56 56s56-24 56-56V72c0-32-24-56-56-56z" fill="#43a047"/><circle cx="64" cy="96" r="24" fill="#fff"/><path d="M56 96l8 8 12-12" stroke="#43a047" stroke-width="8" fill="none"/></svg>
+      </span>
+      <span class="font-bold">Security</span>
+              </div>
+                </div>
+                    </div>
+<!-- Footer (same as before) -->
+<footer class="w-full mt-24 px-4 py-16 md:py-20 text-white" id="site-footer">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0">
+    <div class="flex-1 min-w-[220px] flex flex-col gap-4">
+      <div class="flex items-center gap-3 mb-2">
+        <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
+                </div>
+      <p class="text-gray-400 max-w-xs text-base">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
+                    </div>
+    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Features</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-blue-400 transition">Typing Tutor</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">SpeedCode</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Code Editor</a></li>
+        </ul>
+                    </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Resources</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-blue-400 transition">Free Courses</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Cheat Sheet</a></li>
+          <li><a href="#" class="hover:text-blue-400 transition">Practice Papers</a></li>
+        </ul>
+                    </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Company</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="about.html" class="hover:text-blue-400 transition">About Us</a></li>
+        </ul>
+                </div>
+      <div>
+        <h4 class="font-bold mb-3 text-lg">Follow Us</h4>
+        <div class="flex gap-6 mt-4">
+          <a href="#" aria-label="Facebook" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
+          <a href="#" aria-label="X" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
+          <a href="#" aria-label="Instagram" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+          <a href="#" aria-label="GitHub" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
         </div>
         </div>
     </div>
+  </div>
+</footer>
+<script>
+  // Animated theme toggle logic with sliding knob and crossfade icons
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeKnob = document.getElementById('theme-toggle-knob');
+  const sunIcon = document.getElementById('theme-toggle-sun');
+  const moonIcon = document.getElementById('theme-toggle-moon');
+  function setTheme(mode) {
+    if (mode === 'light') {
+      document.body.classList.add('light');
+      themeToggle.classList.add('light');
+      themeKnob.style.transform = 'translateX(20px)';
+      themeKnob.classList.add('bg-yellow-400', 'text-blue-700');
+      themeKnob.classList.remove('bg-blue-500', 'text-white');
+      sunIcon.style.opacity = 1;
+      moonIcon.style.opacity = 0;
+    } else {
+      document.body.classList.remove('light');
+      themeToggle.classList.remove('light');
+      themeKnob.style.transform = 'translateX(0)';
+      themeKnob.classList.remove('bg-yellow-400', 'text-blue-700');
+      themeKnob.classList.add('bg-blue-500', 'text-white');
+      sunIcon.style.opacity = 0;
+      moonIcon.style.opacity = 1;
+    }
+    localStorage.setItem('theme', mode);
+  }
+  themeToggle.onclick = function() {
+    const isLight = document.body.classList.toggle('light');
+    setTheme(isLight ? 'light' : 'dark');
+  };
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') setTheme('light');
+    else setTheme('dark');
+  })();
+</script>
 </body>
 </html> 
