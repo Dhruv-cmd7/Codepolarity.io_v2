@@ -4,41 +4,48 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Notes | Codepolarity.io</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: 'Space Grotesk', sans-serif; background-color: #000; color: #fff; min-height: 100vh; position: relative; overflow-x: hidden; }
+    /* Minimal custom CSS for font family only */
+    body { font-family: 'Space Grotesk', sans-serif; }
     h1, h2, h3, h4, h5, h6, .main-heading, .main-text { font-family: 'Doto', sans-serif !important; }
-    .card-dark { background: #181f2a; border: 1px solid #222; border-radius: 0.75rem; color: #fff; box-shadow: 0 2px 12px #000a; transition: border 0.2s, box-shadow 0.2s; }
-    .card-dark:hover { border-color: #60a7fa; box-shadow: 0 4px 24px #60a7fa22; }
-    .search-bar-dark { background: #181f2a; border: 1px solid #222; color: #fff; }
-    .search-bar-dark::placeholder { color: #60a7fa; opacity: 0.7; }
-    .icon-box { display: flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; border-radius: 0.5rem; background: #10151e; margin-right: 0.75rem; }
-    .avatar { width: 2.5rem; height: 2.5rem; border-radius: 9999px; background: #222; object-fit: cover; }
-    @media (max-width: 640px) {
-      .card-dark { padding: 1rem !important; }
-      .icon-box { width: 2rem; height: 2rem; margin-right: 0.5rem; }
+  </style>
+  <style>
+    /* Invert logo color for light theme to make it visible on light backgrounds */
+    #logo-main, #logo-toggle img[src*='cp.svg'], #footer-logo {
+      filter: invert(1) hue-rotate(180deg);
+    }
+    /* In dark mode, revert the filter to show the original light-colored logo */
+    .dark #logo-main, .dark #logo-toggle img[src*='cp.svg'], .dark #footer-logo {
+      filter: none;
+    }
+    /* Remove footer background and border */
+    #site-footer {
+      background: transparent !important;
+      border: none !important;
+    }
+  </style>
+  <style>
+    nav {
+      background: rgba(255,255,255,0.45) !important;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .dark nav {
+      background: rgba(30, 41, 59, 0.45) !important;
     }
   </style>
 </head>
-<body class="pt-8 md:pt-16 p-4 md:p-8">
-<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
-<style>
-  nav {
-    background: rgba(30, 41, 59, 0.45) !important;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-  body.light nav {
-    background: rgba(255,255,255,0.75) !important;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-</style>
+<body class="pt-8 md:pt-16 p-4 md:p-8 bg-white text-gray-900 dark:bg-[#10151e] dark:text-gray-100 min-h-screen overflow-x-hidden">
+
+<!-- Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
   <div class="flex items-center gap-3 cursor-pointer ml-5" id="logo-toggle">
     <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
     <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
-              </div>
+  </div>
   <!-- Desktop menu -->
   <ul class="hidden md:flex space-x-8 text-lg font-medium items-center mr-6">
     <li><a href="index.html" class="hover:text-blue-400 transition">Home</a></li>
@@ -47,9 +54,9 @@
         Resources
         <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
       </button>
-      <ul id="resources-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
-        <li><a href="Courses.html" class="block px-4 py-2 hover:bg-gray-800">Courses</a></li>
-        <li><a href="Notes.html" class="block px-4 py-2 hover:bg-gray-800">Cheatsheets</a></li>
+      <ul id="resources-menu" class="absolute left-0 mt-2 w-40 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+        <li><a href="Courses.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Courses</a></li>
+        <li><a href="Notes.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Cheatsheets</a></li>
       </ul>
     </li>
     <li class="relative group" id="practice-dropdown">
@@ -57,249 +64,470 @@
         Practice
         <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
       </button>
-      <ul id="practice-menu" class="absolute left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
-        <li><a href="typing_t.html" class="block px-4 py-2 hover:bg-gray-800">Typing</a></li>
-        <li><a href="#speedcode" class="block px-4 py-2 hover:bg-gray-800">SpeedCode</a></li>
+      <ul id="practice-menu" class="absolute left-0 mt-2 w-40 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-anim" tabindex="-1">
+        <li><a href="typing_t.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Typing</a></li>
+        <li><a href="#speedcode" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">SpeedCode</a></li>
       </ul>
     </li>
     <li><a href="about.html" class="hover:text-blue-400 transition">About</a></li>
     <li>
-      <button id="theme-toggle" class="relative w-12 h-7 flex items-center bg-gray-900 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
+      <button id="theme-toggle" class="relative w-12 h-7 flex items-center bg-gray-200 dark:bg-gray-800 border border-blue-700 rounded-full p-1 shadow transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 group" aria-label="Toggle dark/light mode">
         <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
-          <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5"/>
             <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
-                  </svg>
-          <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          </svg>
+          <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
-                    </svg>
+          </svg>
         </span>
         <span class="sr-only">Toggle dark/light mode</span>
       </button>
     </li>
     <li id="desktop-login-btn"><a href="login.html" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition" id="firebase-login-btn">Login</a></li>
     <li id="desktop-profile" class="relative hidden">
-      <button id="profile-btn" class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-800 focus:outline-none">
+      <button id="profile-btn" class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none">
         <span class="inline-block w-7 h-7 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
       </button>
-      <ul id="profile-menu" class="absolute right-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
-        <li><a href="profile.html" class="block px-4 py-2 hover:bg-gray-800">View Profile</a></li>
-        <li><button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button></li>
+      <ul id="profile-menu" class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+        <li><a href="profile.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">View Profile</a></li>
+        <li><button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Logout</button></li>
       </ul>
     </li>
   </ul>
 </nav>
+
 <!-- Mobile: Theme toggle + Hamburger -->
 <div class="flex items-center md:hidden fixed top-5 right-6 z-50 gap-2">
-  <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-blue-700 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark/light mode">
+  <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-800 border border-blue-700 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle dark/light mode">
     <span class="sr-only">Toggle dark/light mode</span>
     <svg id="theme-toggle-mobile-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
-                  </svg>
+    </svg>
   </button>
   <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
     <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
-                </div>
-<!-- Page Title -->
-<div class="max-w-5xl mx-auto mt-28 md:mt-32 mb-8">
-  <h1 class="main-heading text-3xl md:text-5xl font-bold mb-8 text-blue-400">Cheat Sheets & Notes</h1>
-              </div>
-<!-- Main Content -->
-<div class="max-w-5xl mx-auto mt-28 md:mt-32 mb-16">
-  <div class="mb-8">
-    <input type="text" placeholder="Search cheat sheets" class="search-bar-dark w-full px-5 py-4 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition placeholder-blue-400"/>
-    <span class="absolute left-10 top-1/2 transform -translate-y-1/2 text-blue-400"></span>
-                </div>
-  <h2 class="main-heading text-2xl md:text-3xl font-bold mb-4">Languages</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-10">
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Python -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><g><path fill="#3776AB" d="M63.6 12.1c-6.6.3-12.9.6-18.6 2.1-16.3 4.1-19.3 12.7-19.3 28.6v13.2h38.6v5.1H25.7c-21.1 0-25.2 9.2-25.2 20.7 0 11.5 4.2 20.7 25.2 20.7h8.2v-11.2c0-8.1 6.6-14.7 14.7-14.7h38.6c8.1 0 14.7-6.6 14.7-14.7V42.8c0-15.9-3-24.5-19.3-28.6-5.7-1.5-12-1.8-18.6-2.1zm-16.5 8.7c3.6 0 6.5 2.9 6.5 6.5s-2.9 6.5-6.5 6.5-6.5-2.9-6.5-6.5 2.9-6.5 6.5-6.5z"/><path fill="#FFD43B" d="M64.4 115.9c6.6-.3 12.9-.6 18.6-2.1 16.3-4.1 19.3-12.7 19.3-28.6V72H63.7v-5.1h38.6c21.1 0 25.2-9.2 25.2-20.7 0-11.5-4.2-20.7-25.2-20.7h-8.2v11.2c0 8.1-6.6 14.7-14.7 14.7H25.7c-8.1 0-14.7 6.6-14.7 14.7v13.2c0 15.9 3 24.5 19.3 28.6 5.7 1.5 12 1.8 18.6 2.1zm16.5-8.7c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5 6.5 2.9 6.5 6.5-2.9 6.5-6.5 6.5z"/></g></svg>
-      </span>
-      <span class="font-bold">Python</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- JavaScript -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#F7DF1E" d="M1.408 1.408h125.184v125.185H1.408z"/><path d="M116.042 116.042H11.958V11.958h104.084z" fill="none"/><path d="M89.5 104.5c-2.5 0-4.5-2-4.5-4.5V80c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v20c0 2.5-2 4.5-4.5 4.5zm-51 0c-2.5 0-4.5-2-4.5-4.5V80c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v20c0 2.5-2 4.5-4.5 4.5z" fill="#000"/></svg>
-      </span>
-      <span class="font-bold">JavaScript</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Java -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><g><path fill="#5382A1" d="M64 8c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 104c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z"/><path fill="#E76F00" d="M64 24c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm0 72c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/><path fill="#5382A1" d="M64 40c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24zm0 40c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z"/></g></svg>
-      </span>
-      <span class="font-bold">Java</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- C++ -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><polygon fill="#00599C" points="64,8 120,40 120,88 64,120 8,88 8,40"/><text x="32" y="88" font-size="32" font-family="monospace" fill="#fff" font-weight="bold">C++</text></svg>
-      </span>
-      <span class="font-bold">C++</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- C# -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><polygon fill="#68217A" points="64,8 120,40 120,88 64,120 8,88 8,40"/><text x="32" y="88" font-size="32" font-family="monospace" fill="#fff" font-weight="bold">C#</text></svg>
-      </span>
-      <span class="font-bold">C#</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- C -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="64" cy="64" r="56" fill="#00BFFF"/><text x="40" y="88" font-size="48" font-family="monospace" fill="#fff" font-weight="bold">C</text></svg>
-      </span>
-      <span class="font-bold">C</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- HTML -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#E44D26" d="M19.5 116.1L8.1 0h111.8l-11.4 116.1-44.5 12.3z"/><path fill="#F16529" d="M64 119.2l35.9-10 9.8-109.7H64z"/><path fill="#EBEBEB" d="M64 66.7H47.2l-1.1-12.2H64V42.5H34.7l.3 3.7 3.1 34.7H64z"/><path fill="#fff" d="M64 94.2l-.1.1-14.9-4-1-11.2H36.7l1.9 21.2 25.4 7.1.1-.1z"/></svg>
-      </span>
-      <span class="font-bold">HTML</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- CSS -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><path fill="#1572B6" d="M19.5 116.1L8.1 0h111.8l-11.4 116.1-44.5 12.3z"/><path fill="#33A9DC" d="M64 119.2l35.9-10 9.8-109.7H64z"/><path fill="#fff" d="M64 66.7H47.2l-1.1-12.2H64V42.5H34.7l.3 3.7 3.1 34.7H64z"/><path fill="#EBEBEB" d="M64 94.2l-.1.1-14.9-4-1-11.2H36.7l1.9 21.2 25.4 7.1.1-.1z"/></svg>
-      </span>
-      <span class="font-bold">CSS</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- PHP -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="32" fill="#8993be"/><text x="32" y="80" font-size="40" font-family="monospace" fill="#232531" font-weight="bold">php</text></svg>
-      </span>
-      <span class="font-bold">PHP</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Ruby -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="48" fill="#e0115f"/><polygon points="64,24 104,64 64,104 24,64" fill="#fff" opacity=".3"/><polygon points="64,40 88,64 64,88 40,64" fill="#e0115f"/></svg>
-      </span>
-      <span class="font-bold">Ruby</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Git -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><rect x="24" y="24" width="80" height="80" rx="16" fill="#333"/><path d="M64 40v48M64 88l-16-16M64 88l16-16" stroke="#fff" stroke-width="8" stroke-linecap="round"/></svg>
-      </span>
-      <span class="font-bold">Git</span>
-              </div>
-            </div>
-  <h2 class="main-heading text-2xl md:text-3xl font-bold mb-4">Topics</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- SQL/Database -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="40" rx="56" ry="24" fill="#2196f3"/><rect x="8" y="40" width="112" height="48" rx="24" fill="#2196f3"/><ellipse cx="64" cy="88" rx="56" ry="24" fill="#1976d2"/><text x="80" y="80" font-size="32" font-family="monospace" fill="#ffd600" font-weight="bold">SQL</text></svg>
-      </span>
-      <span class="font-bold">Databases</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Data Structures -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="64" cy="32" r="16" fill="#ffd600"/><rect x="32" y="64" width="24" height="24" rx="8" fill="#2196f3"/><rect x="72" y="64" width="24" height="24" rx="8" fill="#2196f3"/><rect x="52" y="96" width="24" height="24" rx="8" fill="#2196f3"/><path d="M64 48v32M64 96v-16M64 64l-16 24M64 64l16 24" stroke="#fff" stroke-width="8"/></svg>
-      </span>
-      <span class="font-bold">Data Structures</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Algorithms -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><circle cx="32" cy="96" r="8" fill="#ffd600"/><circle cx="64" cy="32" r="8" fill="#2196f3"/><circle cx="96" cy="96" r="8" fill="#ffd600"/><path d="M64 40v48M64 40l-32 56M64 40l32 56" stroke="#fff" stroke-width="8"/></svg>
-      </span>
-      <span class="font-bold">Algorithms</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Machine Learning -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><ellipse cx="64" cy="64" rx="56" ry="40" fill="#ffb6b6"/><circle cx="64" cy="64" r="16" fill="#fff176"/><g stroke="#222" stroke-width="4"><line x1="64" y1="48" x2="64" y2="24"/><line x1="64" y1="80" x2="64" y2="104"/><line x1="48" y1="64" x2="24" y2="64"/><line x1="80" y1="64" x2="104" y2="64"/></g></svg>
-      </span>
-      <span class="font-bold">Machine Learning</span>
-              </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- DevOps -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><g><circle cx="32" cy="64" r="24" fill="#8bc34a"/><circle cx="64" cy="64" r="24" fill="#ffd600"/><circle cx="96" cy="64" r="24" fill="#64b5f6"/><path d="M56 64h16M80 64h16" stroke="#222" stroke-width="8"/><path d="M56 64a32 32 0 0 1 32-32" stroke="#222" stroke-width="8" fill="none"/><path d="M80 64a32 32 0 0 0-32-32" stroke="#222" stroke-width="8" fill="none"/></g></svg>
-      </span>
-      <span class="font-bold">DevOps</span>
-                </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400">
-      <span class="icon-box flex items-center justify-center"> <!-- Security -->
-        <svg viewBox="0 0 128 128" width="32" height="32"><path d="M64 16c-32 0-56 24-56 56v28c0 32 24 56 56 56s56-24 56-56V72c0-32-24-56-56-56z" fill="#43a047"/><circle cx="64" cy="96" r="24" fill="#fff"/><path d="M56 96l8 8 12-12" stroke="#43a047" stroke-width="8" fill="none"/></svg>
-      </span>
-      <span class="font-bold">Security</span>
-              </div>
-                </div>
-                    </div>
-<!-- Footer (same as before) -->
-<footer class="w-full mt-24 px-4 py-16 md:py-20 text-white" id="site-footer">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0">
-    <div class="flex-1 min-w-[220px] flex flex-col gap-4">
-      <div class="flex items-center gap-3 mb-2">
-        <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
-                </div>
-      <p class="text-gray-400 max-w-xs text-base">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
-                    </div>
-    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
-      <div>
-        <h4 class="font-bold mb-3 text-lg">Features</h4>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="#" class="hover:text-blue-400 transition">Typing Tutor</a></li>
-          <li><a href="#" class="hover:text-blue-400 transition">SpeedCode</a></li>
-          <li><a href="#" class="hover:text-blue-400 transition">Code Editor</a></li>
-        </ul>
-                    </div>
-      <div>
-        <h4 class="font-bold mb-3 text-lg">Resources</h4>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="#" class="hover:text-blue-400 transition">Free Courses</a></li>
-          <li><a href="#" class="hover:text-blue-400 transition">Cheat Sheet</a></li>
-          <li><a href="#" class="hover:text-blue-400 transition">Practice Papers</a></li>
-        </ul>
-                    </div>
-      <div>
-        <h4 class="font-bold mb-3 text-lg">Company</h4>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="about.html" class="hover:text-blue-400 transition">About Us</a></li>
-        </ul>
-                </div>
-      <div>
-        <h4 class="font-bold mb-3 text-lg">Follow Us</h4>
-        <div class="flex gap-6 mt-4">
-          <a href="#" aria-label="Facebook" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
-          <a href="#" aria-label="X" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
-          <a href="#" aria-label="Instagram" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
-          <a href="#" aria-label="GitHub" class="hover:scale-110 hover:text-blue-400 transition-transform duration-200"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
-        </div>
-        </div>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-black/80 dark:bg-white/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white dark:text-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: rgba(0,0,0,0.8);">
+  <a href="index.html" class="block w-full py-2 border-b border-gray-700 dark:border-gray-200">Home</a>
+  <div class="w-full">
+    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 dark:border-gray-200 focus:outline-none" id="mobile-resources-btn">
+      Resources
+      <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div id="mobile-resources-menu" class="pl-4 flex-col space-y-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+      <a href="Courses.html" class="block py-1">Courses</a>
+      <a href="Notes.html" class="block py-1">Cheatsheets</a>
     </div>
+  </div>
+  <div class="w-full">
+    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 dark:border-gray-200 focus:outline-none" id="mobile-practice-btn">
+      Practice
+      <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div id="mobile-practice-menu" class="pl-4 flex-col space-y-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+      <a href="typing_t.html" class="block py-1">Typing</a>
+      <a href="#speedcode" class="block py-1">SpeedCode</a>
+    </div>
+  </div>
+  <a href="about.html" class="block w-full py-2 border-b border-gray-700 dark:border-gray-200">About</a>
+  <div class="flex-1"></div>
+  <a id="firebase-login-btn-mobile" href="login.html" class="block w-full py-2 bg-blue-500 text-white rounded text-center mb-6">Login</a>
+  <div id="mobile-profile" class="w-full flex-col items-center hidden mb-6">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="inline-block w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
+      <span class="font-semibold">User</span>
+    </div>
+    <a href="profile.html" class="block w-full py-2 text-center border-b border-gray-700 dark:border-gray-200">View Profile</a>
+    <button id="mobile-logout-btn" class="block w-full py-2 text-center text-red-400">Logout</button>
+  </div>
+</div>
+
+<!-- Page Title -->
+<div class="max-w-5xl w-full mx-auto mt-28 md:mt-32 mb-8 px-2 sm:px-4 md:px-8">
+  <h1 class="main-heading text-3xl md:text-5xl font-bold mb-4 text-blue-500 dark:text-blue-300 flex items-center gap-3 animate-fadein">
+    <svg class="w-9 h-9 md:w-12 md:h-12 text-yellow-400 animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.07 6.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
+    Cheat Sheets 
+  </h1>
+  <div class="main-text text-lg md:text-2xl text-gray-500 dark:text-gray-300 font-medium mb-2 animate-fadein delay-150">Your Ultimate Coding Reference — Quick, Clear, and Always at Hand!</div>
+</div>
+<style>
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fadein { animation: fadein 0.8s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-fadein.delay-150 { animation-delay: 0.15s; }
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-bounce-slow { animation: bounce-slow 2.2s infinite; }
+</style>
+<!-- Main Content -->
+<div class="max-w-5xl w-full mx-auto mt-28 md:mt-32 mb-16 px-2 sm:px-4 md:px-8">
+  <div class="mb-8">
+    <input type="text" placeholder="Search cheat sheets" class="search-bar-dark w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition placeholder-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700"/>
+  </div>
+  <h2 class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Languages</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/python.png" alt="Python" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Python</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/icons8-javascript-50.png" alt="JavaScript" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">JavaScript</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/java.png" alt="Java" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Java</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/c++.png" alt="C++" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">C++</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/csharp.png" alt="C#" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">C#</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/c.png" alt="C" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">C</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/html.png" alt="HTML" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">HTML</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/css.png" alt="CSS" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">CSS</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/php.png" alt="PHP" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">PHP</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/ruby.png" alt="Ruby" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Ruby</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/typescript.png" alt="TypeScript" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">TypeScript</span>
+    </div>
+     <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/react.png" alt="React" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">React</span>
+    </div>
+  </div>
+  <h2 class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Topics & Tools</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/data structure.png" alt="Data Structures" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Data Structures</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/algorithm.png" alt="Algorithms" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Algorithms</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/mongodb.png" alt="Databases" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Databases</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/machine learning.png" alt="Machine Learning" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Machine Learning</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/ai.png" alt="AI" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">AI</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/docker.png" alt="DevOps" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">DevOps</span>
+    </div>
+     <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/git.png" alt="Git" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Git</span>
+    </div>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/.net framwork.png" alt=".NET" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">.NET</span>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<hr class="border-t border-gray-200 dark:border-gray-700 mb-0 opacity-60"/>
+<footer class="w-full mt-0 px-2 sm:px-4 py-10 md:py-16 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-[#181f2a] transition-colors duration-300" id="site-footer">
+  <div class="max-w-7xl w-full mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0 px-2 sm:px-4">
+    <div class="flex-1 min-w-[220px] flex flex-col gap-4 items-center md:items-start text-center md:text-left mb-8 md:mb-0">
+      <div class="flex items-center gap-3 mb-2 justify-center md:justify-start w-full">
+        <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
+      </div>
+      <p class="text-gray-400 dark:text-gray-700 max-w-xs text-base mx-auto md:mx-0">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
+    </div>
+    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center sm:text-left">
+      <div>
+        <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Features</h4>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">Typing Tutor</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">SpeedCode</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">Code Editor</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Resources</h4>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">Free Courses</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">Cheat Sheet</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition font-medium">Practice Papers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Company</h4>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
+          <li><a href="about.html" class="hover:text-blue-500 transition font-medium">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Follow Us</h4>
+        <div class="flex justify-center sm:justify-start gap-4 mt-4">
+          <a href="#" aria-label="Facebook" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
+          <a href="#" aria-label="X" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
+          <a href="#" aria-label="Instagram" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 3.5zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+          <a href="#" aria-label="GitHub" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full text-center mt-10 text-gray-400 dark:text-gray-700 text-sm opacity-80">
+    &copy; <span id="footer-year"></span> Codepolarity.io. All rights reserved.
   </div>
 </footer>
 <script>
-  // Animated theme toggle logic with sliding knob and crossfade icons
-  const themeToggle = document.getElementById('theme-toggle');
-  const themeKnob = document.getElementById('theme-toggle-knob');
-  const sunIcon = document.getElementById('theme-toggle-sun');
-  const moonIcon = document.getElementById('theme-toggle-moon');
+  // Set current year in footer
+  document.addEventListener('DOMContentLoaded', function() {
+    var year = new Date().getFullYear();
+    var yearSpan = document.getElementById('footer-year');
+    if(yearSpan) yearSpan.textContent = year;
+  });
+</script>
+
+<!-- Theme Toggle Script -->
+<script>
+// Simple theme toggle: toggles 'dark' class on <html>
+document.addEventListener('DOMContentLoaded', function() {
   function setTheme(mode) {
-    if (mode === 'light') {
-      document.body.classList.add('light');
-      themeToggle.classList.add('light');
-      themeKnob.style.transform = 'translateX(20px)';
-      themeKnob.classList.add('bg-yellow-400', 'text-blue-700');
-      themeKnob.classList.remove('bg-blue-500', 'text-white');
-      sunIcon.style.opacity = 1;
-      moonIcon.style.opacity = 0;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeKnob = document.getElementById('theme-toggle-knob');
+    const sunIcon = document.getElementById('theme-toggle-sun');
+    const moonIcon = document.getElementById('theme-toggle-moon');
+    const themeToggleMobileIcon = document.getElementById('theme-toggle-mobile-icon');
+    if (mode === 'dark') {
+      document.documentElement.classList.add('dark');
+      // Animate knob and icons (desktop)
+      if (themeKnob && sunIcon && moonIcon) {
+        themeKnob.style.transform = 'translateX(0)';
+        sunIcon.style.opacity = 0;
+        moonIcon.style.opacity = 1;
+      }
+      // Animate icon (mobile)
+      if (themeToggleMobileIcon) {
+        themeToggleMobileIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>';
+      }
     } else {
-      document.body.classList.remove('light');
-      themeToggle.classList.remove('light');
-      themeKnob.style.transform = 'translateX(0)';
-      themeKnob.classList.remove('bg-yellow-400', 'text-blue-700');
-      themeKnob.classList.add('bg-blue-500', 'text-white');
-      sunIcon.style.opacity = 0;
-      moonIcon.style.opacity = 1;
+      document.documentElement.classList.remove('dark');
+      // Animate knob and icons (desktop)
+      if (themeKnob && sunIcon && moonIcon) {
+        themeKnob.style.transform = 'translateX(20px)';
+        sunIcon.style.opacity = 1;
+        moonIcon.style.opacity = 0;
+      }
+      // Animate icon (mobile)
+      if (themeToggleMobileIcon) {
+        themeToggleMobileIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>';
+      }
     }
     localStorage.setItem('theme', mode);
   }
-  themeToggle.onclick = function() {
-    const isLight = document.body.classList.toggle('light');
-    setTheme(isLight ? 'light' : 'dark');
-  };
-  (function() {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') setTheme('light');
-    else setTheme('dark');
-  })();
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+  if (themeToggle) {
+    themeToggle.onclick = function() {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    };
+  }
+  if (themeToggleMobile) {
+    themeToggleMobile.onclick = function() {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    };
+  }
+  // On load, set theme from localStorage
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') setTheme('light');
+  else setTheme('dark');
+});
 </script>
+<script>
+// Navigation dropdown logic for Resources and Practice
+function setupDropdown(btnId, menuId) {
+  const btn = document.getElementById(btnId);
+  const menu = document.getElementById(menuId);
+  let open = false;
+  if (btn && menu) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      open = !open;
+      menu.classList.toggle('opacity-100', open);
+      menu.classList.toggle('visible', open);
+      menu.classList.toggle('opacity-0', !open);
+      menu.classList.toggle('invisible', !open);
+      btn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function(e) {
+      if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+        open = false;
+        menu.classList.remove('opacity-100', 'visible');
+        menu.classList.add('opacity-0', 'invisible');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function() {
+        open = false;
+        menu.classList.remove('opacity-100', 'visible');
+        menu.classList.add('opacity-0', 'invisible');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  setupDropdown('resources-btn', 'resources-menu');
+  setupDropdown('practice-btn', 'practice-menu');
+});
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  // Firebase config (reuse from login.html)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+    authDomain: "codepolarity-a8c63.firebaseapp.com",
+    projectId: "codepolarity-a8c63",
+    storageBucket: "codepolarity-a8c63.firebasestorage.app",
+    messagingSenderId: "712143434692",
+    appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+    measurementId: "G-R81RELCW6N"
+  };
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  // Firebase Auth UI logic from index.html
+  function updateAuthUIFirebase(user) {
+    // Desktop
+    const loginBtn = document.getElementById('desktop-login-btn');
+    const profileLi = document.getElementById('desktop-profile');
+    if (loginBtn && profileLi) {
+      if (user) {
+        loginBtn.style.display = 'none';
+        profileLi.classList.remove('hidden');
+      } else {
+        loginBtn.style.display = '';
+        profileLi.classList.add('hidden');
+      }
+    }
+    // Mobile
+    const mobileLoginBtn = document.getElementById('firebase-login-btn-mobile');
+    const mobileProfile = document.getElementById('mobile-profile');
+    if(mobileLoginBtn) mobileLoginBtn.style.display = user ? 'none' : '';
+    if(mobileProfile) mobileProfile.style.display = user ? 'flex' : 'none';
+    
+    // Profile info
+    if (user) {
+      // Desktop avatar
+      const avatar = document.querySelector('#desktop-profile .w-7');
+      if (avatar && user.photoURL) {
+        avatar.style.backgroundImage = `url('${user.photoURL}')`;
+        avatar.style.backgroundSize = 'cover';
+        avatar.textContent = '';
+      } else if (avatar) {
+        avatar.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+      }
+      // Mobile avatar and name
+      const avatarM = document.querySelector('#mobile-profile .w-8');
+      const nameM = document.querySelector('#mobile-profile .font-semibold');
+      if (avatarM && user.photoURL) {
+        avatarM.style.backgroundImage = `url('${user.photoURL}')`;
+        avatarM.style.backgroundSize = 'cover';
+        avatarM.textContent = '';
+      } else if (avatarM) {
+        avatarM.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+      }
+      if (nameM) nameM.textContent = user.displayName || 'User';
+    }
+  }
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    updateAuthUIFirebase(user);
+  });
+
+  // Logout handlers
+  const logoutBtn = document.getElementById('logout-btn');
+  const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+  function doLogout() {
+    firebase.auth().signOut().then(function() {
+      // No reload needed, onAuthStateChanged will handle it
+    });
+  }
+  if (logoutBtn) logoutBtn.onclick = doLogout;
+  if (mobileLogoutBtn) mobileLogoutBtn.onclick = doLogout;
+
+  // Desktop profile dropdown
+  const profileBtn = document.getElementById('profile-btn');
+  const profileMenu = document.getElementById('profile-menu');
+  if (profileBtn && profileMenu) {
+    let open = false;
+    profileBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      open = !open;
+      profileMenu.classList.toggle('opacity-0', !open);
+      profileMenu.classList.toggle('invisible', !open);
+      profileMenu.classList.toggle('opacity-100', open);
+      profileMenu.classList.toggle('visible', open);
+    });
+    document.addEventListener('click', function(e) {
+      if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+        open = false;
+        profileMenu.classList.add('opacity-0', 'invisible');
+        profileMenu.classList.remove('opacity-100', 'visible');
+      }
+    });
+  }
+</script>
+<style>
+  /* Footer link and icon hover improvements */
+  #site-footer a:hover {
+    text-decoration: underline;
+  }
+  #site-footer .rounded-full:hover {
+    box-shadow: 0 2px 8px #60a7fa33;
+    background: #e0e7ef !important;
+    color: #2563eb !important;
+  }
+  .dark #site-footer .rounded-full:hover {
+    background: #1e293b !important;
+    color: #60a7fa !important;
+  }
+</style>
+
 </body>
 </html> 
