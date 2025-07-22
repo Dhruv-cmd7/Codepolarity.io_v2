@@ -26,6 +26,17 @@
       background: transparent !important;
       border: none !important;
     }
+    /* Mobile menu styles */
+    #mobile-menu {
+      background: rgba(255, 255, 255, 0.2); /* Light theme */
+      backdrop-filter: blur(10px); /* Apply blur */
+      -webkit-backdrop-filter: blur(10px); /* Safari support */
+      color: #333;
+    }
+    .dark #mobile-menu {
+      background: rgba(0, 0, 0, 0.2); /* Dark theme */
+      color: #fff;
+    }
   </style>
   <style>
     nav {
@@ -36,6 +47,17 @@
     .dark nav {
       background: rgba(30, 41, 59, 0.45) !important;
     }
+  </style>
+  <style>
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: white; /* Light mode background */
+    color: #333;
+  }
+  body.dark {
+    background-color: #000000 !important; /* Ensure dark mode background is black */
+    color: #ffffff !important; /* Ensure text color is white */
+  }
   </style>
 </head>
 <body class="pt-8 md:pt-16 p-4 md:p-8 bg-white text-gray-900 dark:bg-[#10151e] dark:text-gray-100 min-h-screen overflow-x-hidden">
@@ -105,17 +127,19 @@
     <svg id="theme-toggle-mobile-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
     </svg>
-  </button>
-  <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+    </button>
+  <button id="mobile-menu-btn" class="p-2 rounded text-black focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
     <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
 </div>
 
 <!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="fixed inset-0 bg-black/80 dark:bg-white/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white dark:text-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: rgba(0,0,0,0.8);">
-  <a href="index.html" class="block w-full py-2 border-b border-gray-700 dark:border-gray-200">Home</a>
+<div id="mobile-menu"
+  class="fixed inset-0 bg-black/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none"
+  style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);">
+  <a href="index.html" class="block w-full py-2 border-b border-gray-700">Home</a>
   <div class="w-full">
-    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 dark:border-gray-200 focus:outline-none" id="mobile-resources-btn">
+    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-resources-btn">
       Resources
       <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
     </button>
@@ -125,7 +149,7 @@
     </div>
   </div>
   <div class="w-full">
-    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 dark:border-gray-200 focus:outline-none" id="mobile-practice-btn">
+    <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-practice-btn">
       Practice
       <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
     </button>
@@ -134,7 +158,7 @@
       <a href="#speedcode" class="block py-1">SpeedCode</a>
     </div>
   </div>
-  <a href="about.html" class="block w-full py-2 border-b border-gray-700 dark:border-gray-200">About</a>
+  <a href="about.html" class="block w-full py-2 border-b border-gray-700">About</a>
   <div class="flex-1"></div>
   <a id="firebase-login-btn-mobile" href="login.html" class="block w-full py-2 bg-blue-500 text-white rounded text-center mb-6">Login</a>
   <div id="mobile-profile" class="w-full flex-col items-center hidden mb-6">
@@ -142,7 +166,7 @@
       <span class="inline-block w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold">U</span>
       <span class="font-semibold">User</span>
     </div>
-    <a href="profile.html" class="block w-full py-2 text-center border-b border-gray-700 dark:border-gray-200">View Profile</a>
+    <a href="profile.html" class="block w-full py-2 text-center border-b border-gray-700">View Profile</a>
     <button id="mobile-logout-btn" class="block w-full py-2 text-center text-red-400">Logout</button>
   </div>
 </div>
@@ -150,7 +174,7 @@
 <!-- Page Title -->
 <div class="max-w-5xl w-full mx-auto mt-28 md:mt-32 mb-8 px-2 sm:px-4 md:px-8">
   <h1 class="main-heading text-3xl md:text-5xl font-bold mb-4 text-blue-500 dark:text-blue-300 flex items-center gap-3 animate-fadein">
-    <svg class="w-9 h-9 md:w-12 md:h-12 text-yellow-400 animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.07 6.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
+    <svg class="w-9 h-9 md:w-12 md:h-12 text-yellow-400 animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
     Cheat Sheets 
   </h1>
   <div class="main-text text-lg md:text-2xl text-gray-500 dark:text-gray-300 font-medium mb-2 animate-fadein delay-150">Your Ultimate Coding Reference — Quick, Clear, and Always at Hand!</div>
@@ -262,64 +286,74 @@
 </div>
 <!-- Footer -->
 <hr class="border-t border-gray-200 dark:border-gray-700 mb-0 opacity-60"/>
-<footer class="w-full mt-0 px-2 sm:px-4 py-10 md:py-16 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-[#181f2a] transition-colors duration-300" id="site-footer">
-  <div class="max-w-7xl w-full mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-0 px-2 sm:px-4">
-    <div class="flex-1 min-w-[220px] flex flex-col gap-4 items-center md:items-start text-center md:text-left mb-8 md:mb-0">
-      <div class="flex items-center gap-3 mb-2 justify-center md:justify-start w-full">
-        <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
-      </div>
-      <p class="text-gray-400 dark:text-gray-700 max-w-xs text-base mx-auto md:mx-0">Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.</p>
+<footer class="w-full px-4 py-10 md:py-16 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-[#181f2a] transition-colors duration-300" id="site-footer">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-12">
+    <div class="flex-1 flex flex-col gap-4 items-center md:items-start text-center md:text-left">
+      <img src="assets/images/logoC.svg" alt="Codepolarity Logo" class="h-10 w-auto" id="footer-logo" />
+      <p class="text-gray-400 dark:text-gray-500 max-w-xs text-base">
+        Code, Learn, and Collaborate with the best tools at Codepolarity.io. Your all-in-one development platform.
+      </p>
     </div>
-    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center sm:text-left">
+    <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center sm:text-left">
       <div>
         <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Features</h4>
-        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">Typing Tutor</a></li>
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">SpeedCode</a></li>
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">Code Editor</a></li>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-500">
+          <li><a href="#" class="hover:text-blue-500 transition">Typing Tutor</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition">SpeedCode</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition">Code Editor</a></li>
         </ul>
       </div>
       <div>
         <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Resources</h4>
-        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">Free Courses</a></li>
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">Cheat Sheet</a></li>
-          <li><a href="#" class="hover:text-blue-500 transition font-medium">Practice Papers</a></li>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-500">
+          <li><a href="#" class="hover:text-blue-500 transition">Free Courses</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition">Cheat Sheet</a></li>
+          <li><a href="#" class="hover:text-blue-500 transition">Practice Papers</a></li>
         </ul>
       </div>
       <div>
         <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Company</h4>
-        <ul class="space-y-2 text-gray-400 dark:text-gray-700">
-          <li><a href="about.html" class="hover:text-blue-500 transition font-medium">About Us</a></li>
+        <ul class="space-y-2 text-gray-400 dark:text-gray-500">
+          <li><a href="about.html" class="hover:text-blue-500 transition">About Us</a></li>
         </ul>
       </div>
       <div>
         <h4 class="font-bold mb-4 text-lg tracking-wide uppercase">Follow Us</h4>
-        <div class="flex justify-center sm:justify-start gap-4 mt-4">
-          <a href="#" aria-label="Facebook" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/></svg></a>
-          <a href="#" aria-label="X" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/></svg></a>
-          <a href="#" aria-label="Instagram" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 3.5zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
-          <a href="#" aria-label="GitHub" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2 flex items-center justify-center"><svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.025 2.747-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .268.18.579.688.481C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg></a>
+        <div class="flex justify-center sm:justify-start gap-4">
+          <a href="#" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12z"/>
+            </svg>
+          </a>
+          <a href="#" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.53 6.47a.75.75 0 0 0-1.06 0L12 10.94 7.53 6.47a.75.75 0 1 0-1.06 1.06L10.94 12l-4.47 4.47a.75.75 0 1 0 1.06 1.06L12 13.06l4.47 4.47a.75.75 0 0 0 1.06-1.06L13.06 12l4.47-4.47a.75.75 0 0 0 0-1.06z"/>
+            </svg>
+          </a>
+          <a href="#" class="rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition p-2">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 3.5zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
   </div>
-  <div class="w-full text-center mt-10 text-gray-400 dark:text-gray-700 text-sm opacity-80">
+  <div class="w-full text-center mt-10 text-gray-400 dark:text-gray-500 text-sm">
     &copy; <span id="footer-year"></span> Codepolarity.io. All rights reserved.
   </div>
 </footer>
 <script>
   // Set current year in footer
   document.addEventListener('DOMContentLoaded', function() {
-    var year = new Date().getFullYear();
-    var yearSpan = document.getElementById('footer-year');
-    if(yearSpan) yearSpan.textContent = year;
+    const year = new Date().getFullYear();
+    document.getElementById('footer-year').textContent = year;
   });
 </script>
 
 <!-- Theme Toggle Script -->
 <script>
-// Simple theme toggle: toggles 'dark' class on <html>
+// Simple theme toggle: toggles 'dark' class on <html> and 'light' class on <body>
 document.addEventListener('DOMContentLoaded', function() {
   function setTheme(mode) {
     const themeToggle = document.getElementById('theme-toggle');
@@ -329,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggleMobileIcon = document.getElementById('theme-toggle-mobile-icon');
     if (mode === 'dark') {
       document.documentElement.classList.add('dark');
+      document.body.classList.remove('light');
       // Animate knob and icons (desktop)
       if (themeKnob && sunIcon && moonIcon) {
         themeKnob.style.transform = 'translateX(0)';
@@ -341,6 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     } else {
       document.documentElement.classList.remove('dark');
+      document.body.classList.add('light');
       // Animate knob and icons (desktop)
       if (themeKnob && sunIcon && moonIcon) {
         themeKnob.style.transform = 'translateX(20px)';
@@ -375,6 +411,69 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
+// Mobile menu open/close logic with sliding animation
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileResourcesBtn = document.getElementById('mobile-resources-btn');
+  const mobileResourcesMenu = document.getElementById('mobile-resources-menu');
+  const mobilePracticeBtn = document.getElementById('mobile-practice-btn');
+  const mobilePracticeMenu = document.getElementById('mobile-practice-menu');
+  let mobileMenuOpen = false;
+  function openMenu() {
+    mobileMenu.classList.remove('translate-x-full', 'pointer-events-none');
+    mobileMenu.classList.add('translate-x-0');
+    document.body.style.overflow = 'hidden';
+    mobileMenuOpen = true;
+  }
+  function closeMenu() {
+    mobileMenu.classList.add('translate-x-full', 'pointer-events-none');
+    mobileMenu.classList.remove('translate-x-0');
+    document.body.style.overflow = '';
+    mobileMenuOpen = false;
+    // Close dropdowns
+    closeMobileDropdown(mobileResourcesMenu);
+    closeMobileDropdown(mobilePracticeMenu);
+  }
+  mobileMenuBtn.addEventListener('click', function() {
+    if (mobileMenuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (mobileMenuOpen && e.key === 'Escape') {
+      closeMenu();
+    }
+  });
+  // Dropdowns in mobile menu with slide
+  function toggleMobileDropdown(menu) {
+    if (menu.style.maxHeight && menu.style.maxHeight !== '0px') {
+      closeMobileDropdown(menu);
+    } else {
+      menu.classList.remove('max-h-0');
+      menu.classList.add('max-h-32');
+      menu.style.maxHeight = menu.scrollHeight + 'px';
+    }
+  }
+  function closeMobileDropdown(menu) {
+    menu.classList.add('max-h-0');
+    menu.classList.remove('max-h-32');
+    menu.style.maxHeight = '0px';
+  }
+  mobileResourcesBtn.addEventListener('click', function() {
+    toggleMobileDropdown(mobileResourcesMenu);
+  });
+  mobilePracticeBtn.addEventListener('click', function() {
+    toggleMobileDropdown(mobilePracticeMenu);
+  });
+  // Close menu when clicking outside (optional, for overlay)
+  mobileMenu.addEventListener('click', function(e) {
+    if (e.target === mobileMenu) closeMenu();
+  });
+});
+
 // Navigation dropdown logic for Resources and Practice
 function setupDropdown(btnId, menuId) {
   const btn = document.getElementById(btnId);
@@ -527,7 +626,15 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #1e293b !important;
     color: #60a7fa !important;
   }
+
+  /* Hamburger icon color */
+  #mobile-menu-btn svg {
+    color: black; /* Default color for light mode */
+  }
+  .dark #mobile-menu-btn svg {
+    color: white; /* White color for dark mode */
+  }
 </style>
 
 </body>
-</html> 
+</html>

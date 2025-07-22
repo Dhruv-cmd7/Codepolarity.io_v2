@@ -44,6 +44,19 @@
     .hl-function { color: #00ffd0; }
     .hl-comment { color: #6b7280; font-style: italic; }
     .hl-variable { color: #fff; }
+    
+    /* Mobile menu light theme styles */
+    body.light #mobile-menu {
+      background: rgba(255,255,255,0.8) !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: #333;
+    }
+    body.light #mobile-menu a,
+    body.light #mobile-menu button {
+      color: #333;
+      border-color: #e5e7eb;
+    }
   </style>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <!-- Firebase App (the core Firebase SDK) -->
@@ -140,7 +153,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
     </svg>
   </button>
-  <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+  <button id="mobile-menu-btn" class="p-2 rounded text-black focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
     <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
 </div>
@@ -170,7 +183,7 @@
   })();
 </script>
 <!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: rgba(0,0,0,0.8);">
+<div id="mobile-menu" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-40 flex flex-col items-center justify-start pt-24 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);">
   <a href="index.html" class="block w-full py-2 border-b border-gray-700">Home</a>
   <div class="w-full">
     <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-resources-btn">
@@ -707,6 +720,10 @@ setInterval(syncWaveMetrics, 300);
   }
   #mobile-menu {
     will-change: transform;
+  }
+  /* Ensure the hamburger menu icon is white only in dark mode */
+  body:not(.light) #mobile-menu-btn svg {
+    stroke: #fff !important; /* Force the stroke color to white */
   }
 </style>
 <script>

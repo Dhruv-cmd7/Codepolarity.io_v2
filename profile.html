@@ -48,6 +48,18 @@
       color: #222 !important;
       border-top: 1px solid #e5e7eb !important;
     }
+    /* Mobile menu light theme styles */
+    body.light #mobile-menu {
+      background: rgba(255,255,255,0.8) !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: #333;
+    }
+    body.light #mobile-menu a,
+    body.light #mobile-menu button {
+      color: #333;
+      border-color: #e5e7eb;
+    }
     .light #site-footer .text-gray-400, .light #site-footer .text-gray-300 {
       color: #111 !important;
     }
@@ -570,12 +582,12 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
         </svg>
       </button>
-      <button id="mobile-menu-btn" class="p-2 rounded bg-black/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
+      <button id="mobile-menu-btn" class="p-2 rounded text-black focus:outline-none focus:ring-2 focus:ring-blue-400" style="top: 20px;" aria-label="Open menu">
         <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 top-0 z-40 flex flex-col items-center justify-start pt-0 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none backdrop-blur-2xl" style="backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); background: rgba(17,24,39,0.85);">
+    <div id="mobile-menu" class="fixed inset-0 top-0 z-40 flex flex-col items-center justify-start pt-0 px-6 text-lg font-medium text-white transform translate-x-full transition-transform duration-300 ease-in-out pointer-events-none backdrop-blur-2xl bg-black/80" style="backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);">
       <a href="index.html" class="block w-full py-2 border-b border-gray-700">Home</a>
       <div class="w-full">
         <button class="w-full flex justify-between items-center py-2 border-b border-gray-700 focus:outline-none" id="mobile-resources-btn">
@@ -1486,4 +1498,4 @@
     };
   </script>
 </body>
-</html> 
+</html>
