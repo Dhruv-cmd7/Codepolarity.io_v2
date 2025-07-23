@@ -59,8 +59,32 @@
     color: #ffffff !important; /* Ensure text color is white */
   }
   </style>
+  <style>
+  /* New card styles */
+  .card-dark {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .dark .card-dark {
+    background: rgba(30, 41, 59, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .card-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .dark .card-dark:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  </style>
 </head>
-<body class="pt-8 md:pt-16 p-4 md:p-8 bg-white text-gray-900 dark:bg-[#10151e] dark:text-gray-100 min-h-screen overflow-x-hidden">
+<body class="pt-8 md:pt-16 p-4 md:p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 min-h-screen overflow-x-hidden">
 
 <!-- Navigation Bar -->
 <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
@@ -97,7 +121,7 @@
         <span class="absolute left-1 top-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-transform duration-300" id="theme-toggle-knob">
           <svg id="theme-toggle-sun" class="w-4 h-4 absolute opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+            <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
           </svg>
           <svg id="theme-toggle-moon" class="w-4 h-4 absolute opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/>
@@ -194,11 +218,15 @@
 </style>
 <!-- Main Content -->
 <div class="max-w-5xl w-full mx-auto mt-28 md:mt-32 mb-16 px-2 sm:px-4 md:px-8">
-  <div class="mb-8">
-    <input type="text" placeholder="Search cheat sheets" class="search-bar-dark w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition placeholder-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700"/>
+  <div class="mb-8 relative">
+    <input id="searchInput" type="text" placeholder="Search cheat sheets" class="search-bar-dark w-full pl-4 sm:pl-5 pr-12 py-3 sm:py-4 rounded-xl text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition placeholder-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700"/>
+    <button id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-blue-400 dark:hover:text-blue-300 transition" aria-label="Clear search">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
   </div>
-  <h2 class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Languages</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
+  <div id="no-results" class="hidden text-center py-8 text-gray-500 dark:text-gray-400">No cheat sheets found for your search.</div>
+  <h2 id="languages-heading" class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Languages</h2>
+  <div id="languages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
     <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/python.png" alt="Python" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Python</span>
@@ -248,8 +276,8 @@
       <span class="font-bold">React</span>
     </div>
   </div>
-  <h2 class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Topics & Tools</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+  <h2 id="topics-heading" class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Topics & Tools</h2>
+  <div id="topics-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
     <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/data structure.png" alt="Data Structures" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Data Structures</span>
@@ -408,6 +436,75 @@ document.addEventListener('DOMContentLoaded', function() {
   const saved = localStorage.getItem('theme');
   if (saved === 'light') setTheme('light');
   else setTheme('dark');
+});
+</script>
+<!-- Search Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('searchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const languagesGrid = document.getElementById('languages-grid');
+  const topicsGrid = document.getElementById('topics-grid');
+  const languageCards = languagesGrid.querySelectorAll('.card-dark');
+  const topicCards = topicsGrid.querySelectorAll('.card-dark');
+  const languagesHeading = document.getElementById('languages-heading');
+  const topicsHeading = document.getElementById('topics-heading');
+  const noResultsDiv = document.getElementById('no-results');
+
+  function filterAndRender() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    let visibleLanguages = 0;
+    let visibleTopics = 0;
+
+    languageCards.forEach(card => {
+      const title = card.querySelector('.font-bold').textContent.toLowerCase();
+      if (title.includes(searchTerm)) {
+        card.style.display = 'flex';
+        visibleLanguages++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    topicCards.forEach(card => {
+      const title = card.querySelector('.font-bold').textContent.toLowerCase();
+      if (title.includes(searchTerm)) {
+        card.style.display = 'flex';
+        visibleTopics++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    languagesHeading.style.display = visibleLanguages > 0 ? 'block' : 'none';
+    languagesGrid.style.display = visibleLanguages > 0 ? 'grid' : 'none';
+
+    topicsHeading.style.display = visibleTopics > 0 ? 'block' : 'none';
+    topicsGrid.style.display = visibleTopics > 0 ? 'grid' : 'none';
+
+    if (visibleLanguages === 0 && visibleTopics === 0) {
+      noResultsDiv.classList.remove('hidden');
+    } else {
+      noResultsDiv.classList.add('hidden');
+    }
+
+    // Show/hide clear button
+    if (clearSearchBtn) {
+      clearSearchBtn.classList.toggle('hidden', searchTerm === '');
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterAndRender);
+  }
+
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', function() {
+      searchInput.value = '';
+      filterAndRender();
+      searchInput.focus();
+    });
+  }
 });
 </script>
 <script>
@@ -604,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
       profileMenu.classList.toggle('visible', open);
     });
     document.addEventListener('click', function(e) {
-      if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+      if (open && !profileMenu.contains(e.target) && !btn.contains(e.target)) {
         open = false;
         profileMenu.classList.add('opacity-0', 'invisible');
         profileMenu.classList.remove('opacity-100', 'visible');
@@ -612,6 +709,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 </script>
+<style>
+  /* New card styles */
+  .card-dark {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .dark .card-dark {
+    background: rgba(30, 41, 59, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  .card-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .dark .card-dark:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  </style>
 <style>
   /* Footer link and icon hover improvements */
   #site-footer a:hover {
