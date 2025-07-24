@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Python Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #111827;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #1f2937;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none; /* Firefox */
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar (original from site) -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Python Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#hello-world" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Hello World</a>
+    <a href="#variables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Variables</a>
+    <a href="#data-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Types</a>
+    <a href="#strings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Strings</a>
+    <a href="#numbers" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Numbers</a>
+    <a href="#lists" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Lists</a>
+    <a href="#tuples" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Tuples</a>
+    <a href="#sets" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sets</a>
+    <a href="#dictionaries" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Dictionaries</a>
+    <a href="#slicing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Slicing</a>
+    <a href="#comprehensions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Comprehensions</a>
+    <a href="#control-flow" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Control Flow</a>
+    <a href="#loops" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Loops</a>
+    <!-- Add more TOC links as you add more sections -->
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Introduction</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><a class="text-blue-400 hover:underline" href="https://python.org" target="_blank">Python (python.org)</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://learnxinyminutes.com" target="_blank">Learn X in Y minutes</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://quickref.me" target="_blank">Regex in python</a></li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="hello-world">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Hello World</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Hello World</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">&gt;&gt;&gt; <span class="text-yellow-400">print</span>(<span class="text-green-400">"Hello, World!"</span>)
+Hello, World!</code></pre>
+      <p class="mt-2 text-xs text-gray-400">The famous "Hello World" program in Python.</p>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="variables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Variables</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Variables</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">age = <span class="text-purple-400">18</span>         <span class="text-gray-500"># age is of type int</span>
+name = <span class="text-green-400">"John"</span>     <span class="text-gray-500"># name is now of type str</span>
+<span class="text-yellow-400">print</span>(name)</code></pre>
+      <p class="mt-2 text-xs text-gray-400">Python can't declare a variable without assignment.</p>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Data Types</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Data Types</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">str</td>
+              <td class="px-2 py-1">Text</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">int, float, complex</td>
+              <td class="px-2 py-1">Numeric</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">list, tuple, range</td>
+              <td class="px-2 py-1">Sequence</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">dict</td>
+              <td class="px-2 py-1">Mapping</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">set, frozenset</td>
+              <td class="px-2 py-1">Set</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">bool</td>
+              <td class="px-2 py-1">Boolean</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">bytes, bytearray, memoryview</td>
+              <td class="px-2 py-1">Binary</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="slicing-string">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Slicing String</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Slicing String</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">&gt;&gt;&gt; msg = <span class="text-green-400">"Hello, World!"</span>
+&gt;&gt;&gt; <span class="text-yellow-400">print</span>(msg[<span class="text-purple-400">7</span>:<span class="text-purple-400">9</span>])
+llo</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="lists">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Lists</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Lists</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">mylist = []
+mylist.append(<span class="text-purple-400">1</span>)
+mylist.append(<span class="text-purple-400">2</span>)
+<span class="text-pink-400">for</span> item <span class="text-pink-400">in</span> mylist:
+    <span class="text-yellow-400">print</span>(item) <span class="text-gray-500"># prints out 1,2</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="if-else">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">If Else</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">If Else</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">num = <span class="text-purple-400">200</span>
+<span class="text-pink-400">if</span> num &gt; <span class="text-purple-400">0</span>:
+    <span class="text-yellow-400">print</span>(<span class="text-green-400">"num is greater than 0"</span>)
+<span class="text-pink-400">else</span>:
+    <span class="text-yellow-400">print</span>(<span class="text-green-400">"num is not greater than 0"</span>)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="loops">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Loops</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Loops</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python"><span class="text-pink-400">for</span> item <span class="text-pink-400">in</span> <span class="text-yellow-400">range</span>(<span class="text-purple-400">5</span>):
+    <span class="text-pink-400">if</span> item == <span class="text-purple-400">3</span>: <span class="text-pink-400">break</span>
+    <span class="text-yellow-400">print</span>(item)
+<span class="text-pink-400">else</span>:
+    <span class="text-yellow-400">print</span>(<span class="text-green-400">"Finally finished!"</span>)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Strings Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Strings</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Strings</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">s = <span class="text-green-400">"Hello"</span>
+<span class="text-yellow-400">print</span>(s.upper())  <span class="text-gray-500"># 'HELLO'</span>
+<span class="text-yellow-400">print</span>(s.lower())  <span class="text-gray-500"># 'hello'</span>
+<span class="text-yellow-400">print</span>(s.replace(<span class="text-green-400">"l"</span>, <span class="text-green-400">"x"</span>))  <span class="text-gray-500"># 'Hexxo'</span>
+<span class="text-yellow-400">print</span>(s[1:4])  <span class="text-gray-500"># 'ell'</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Numbers Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="numbers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Numbers</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Numbers</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">a = <span class="text-purple-400">5</span>
+b = <span class="text-purple-400">2.5</span>
+<span class="text-yellow-400">print</span>(a + b)  <span class="text-gray-500"># 7.5</span>
+<span class="text-yellow-400">print</span>(a // <span class="text-purple-400">2</span>)  <span class="text-gray-500"># 2 (floor division)</span>
+<span class="text-yellow-400">print</span>(a ** <span class="text-purple-400">3</span>)  <span class="text-gray-500"># 125 (power)</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Tuples Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="tuples">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Tuples</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tuples</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">t = (<span class="text-purple-400">1</span>, <span class="text-purple-400">2</span>, <span class="text-purple-400">3</span>)
+<span class="text-yellow-400">print</span>(t[1])  <span class="text-gray-500"># 2</span>
+<span class="text-yellow-400">print</span>(t.count(<span class="text-purple-400">2</span>))  <span class="text-gray-500"># 1</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Sets Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sets">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Sets</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Sets</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">s = {<span class="text-purple-400">1</span>, <span class="text-purple-400">2</span>, <span class="text-purple-400">3</span>}
+s.add(<span class="text-purple-400">4</span>)
+<span class="text-yellow-400">print</span>(s)  <span class="text-gray-500"># {1, 2, 3, 4}</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Dictionaries Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dictionaries">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Dictionaries</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Dictionaries</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">d = {<span class="text-green-400">"a"</span>: <span class="text-purple-400">1</span>, <span class="text-green-400">"b"</span>: <span class="text-purple-400">2</span>}
+<span class="text-yellow-400">print</span>(d[<span class="text-green-400">"a"</span>])  <span class="text-gray-500"># 1</span>
+d[<span class="text-green-400">"c"</span>] = <span class="text-purple-400">3</span></code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Slicing Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="slicing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Slicing</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Slicing</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">lst = [0, 1, 2, 3, 4]
+print(lst[1:4])    # [1, 2, 3]
+print(lst[-2:])    # [3, 4]
+print(lst[::-1])   # [4, 3, 2, 1, 0]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- List Comprehensions Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="comprehensions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">List Comprehensions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Comprehensions</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">squares = [x*x for x in range(5)]  # [0, 1, 4, 9, 16]
+evens = [x for x in range(10) if x % 2 == 0]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Control Flow Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="control-flow">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Control Flow</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Control Flow</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">x = 10
+if x > 0:
+    print("Positive")
+elif x == 0:
+    print("Zero")
+else:
+    print("Negative")</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Loops Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="loops">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Loops</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Loops</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-python">for i in range(3):
+    print(i)
+for idx, val in enumerate(['a', 'b']):
+    print(idx, val)
+while x > 0:
+    x -= 1</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- More Python cheatsheet cards go here -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          // Remove all HTML tags for copying plain text
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    // TOC highlight animation
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+    // Dropdown logic for Resources and Practice
+    function setupDropdown(btnId, menuId) {
+      const btn = document.getElementById(btnId);
+      const menu = document.getElementById(menuId);
+      let open = false;
+      if (btn && menu) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          open = !open;
+          menu.classList.toggle('opacity-100', open);
+          menu.classList.toggle('visible', open);
+          menu.classList.toggle('opacity-0', !open);
+          menu.classList.toggle('invisible', !open);
+          btn.setAttribute('aria-expanded', open);
+        });
+        document.addEventListener('click', function(e) {
+          if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      setupDropdown('resources-btn', 'resources-menu');
+      setupDropdown('practice-btn', 'practice-menu');
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase config (reuse from login.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    // Firebase Auth UI logic from index.html
+    function updateAuthUIFirebase(user) {
+      // Desktop
+      const loginBtn = document.getElementById('desktop-login-btn');
+      const profileLi = document.getElementById('desktop-profile');
+      if (loginBtn && profileLi) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileLi.classList.remove('hidden');
+        } else {
+          loginBtn.style.display = '';
+          profileLi.classList.add('hidden');
+        }
+      }
+      // Mobile
+      const mobileLoginBtn = document.getElementById('firebase-login-btn-mobile');
+      const mobileProfile = document.getElementById('mobile-profile');
+      if(mobileLoginBtn) mobileLoginBtn.style.display = user ? 'none' : '';
+      if(mobileProfile) mobileProfile.style.display = user ? 'flex' : 'none';
+      // Profile info
+      if (user) {
+        // Desktop avatar
+        const avatar = document.querySelector('#desktop-profile .w-7');
+        if (avatar && user.photoURL) {
+          avatar.style.backgroundImage = `url('${user.photoURL}')`;
+          avatar.style.backgroundSize = 'cover';
+          avatar.textContent = '';
+        } else if (avatar) {
+          avatar.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        // Mobile avatar and name
+        const avatarM = document.querySelector('#mobile-profile .w-8');
+        const nameM = document.querySelector('#mobile-profile .font-semibold');
+        if (avatarM && user.photoURL) {
+          avatarM.style.backgroundImage = `url('${user.photoURL}')`;
+          avatarM.style.backgroundSize = 'cover';
+          avatarM.textContent = '';
+        } else if (avatarM) {
+          avatarM.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        if (nameM) nameM.textContent = user.displayName || 'User';
+      }
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateAuthUIFirebase(user);
+    });
+    // Logout handlers
+    const logoutBtn = document.getElementById('logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+    function doLogout() {
+      firebase.auth().signOut().then(function() {
+        // No reload needed, onAuthStateChanged will handle it
+      });
+    }
+    if (logoutBtn) logoutBtn.onclick = doLogout;
+    if (mobileLogoutBtn) mobileLogoutBtn.onclick = doLogout;
+    // Desktop profile dropdown
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileBtn && profileMenu) {
+      let open = false;
+      profileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        profileMenu.classList.toggle('opacity-0', !open);
+        profileMenu.classList.toggle('invisible', !open);
+        profileMenu.classList.toggle('opacity-100', open);
+        profileMenu.classList.toggle('visible', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+          open = false;
+          profileMenu.classList.add('opacity-0', 'invisible');
+          profileMenu.classList.remove('opacity-100', 'visible');
+        }
+      });
+    }
+  </script>
+</body>
+</html> 

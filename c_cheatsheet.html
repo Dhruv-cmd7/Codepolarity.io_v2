@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>C Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #fff;
+      padding-top: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+      margin-bottom: 0 !important;
+    }
+    .code-block pre, .code-block code {
+      line-height: 1.2 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none;
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none;
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar (original from site) -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">C Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#variables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Variables</a>
+    <a href="#data-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Types</a>
+    <a href="#input-output" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Input/Output</a>
+    <a href="#strings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Strings</a>
+    <a href="#numbers" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Numbers</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#pointers" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Pointers</a>
+    <a href="#control-flow" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Control Flow</a>
+    <a href="#functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Functions</a>
+    <a href="#structs" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Structs</a>
+    <a href="#unions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Unions</a>
+    <a href="#enums" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Enums</a>
+    <a href="#file-io" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">File I/O</a>
+    <a href="#memory" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Memory</a>
+    <a href="#preprocessor" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Preprocessor</a>
+    <a href="#main-function" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Main Function</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Example C cards (add more as needed) -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="variables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Variables</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Variables</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int x = 5;
+double d = 3.14;
+char c = 'A';
+char s[] = "hello";
+int arr[3] = {1, 2, 3};</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- DATA TYPES -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Data Types</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Types</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int a = 1;        // Integer
+double b = 2.3;   // Double
+float c = 3.14f;  // Float
+char d = 'A';     // Character
+char s[] = "hi";  // String (char array)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- INPUT/OUTPUT -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="input-output">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Input / Output</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">I/O</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <stdio.h>
+printf("Hello, World!\n");
+int x;
+scanf("%d", &x);
+printf("x = %d\n", x);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- STRINGS -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Strings</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">String</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <string.h>
+char s[10] = "hi";
+strcpy(s, "hello");
+strlen(s);
+strcmp(s, "hi");
+strcat(s, "!");</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- NUMBERS & MATH -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="numbers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Numbers & Math</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Math</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <math.h>
+double r = sqrt(16);
+double p = pow(2, 3);
+int a = abs(-5);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Arrays -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Arrays</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Array</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int arr[5] = {1, 2, 3, 4, 5};
+int arr2[] = {10, 20, 30};
+int arr3[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Pointers -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="pointers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Pointers</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Pointer</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int x = 10;
+int *p = &x;
+int **pp = &p;
+printf("Value of x: %d\n", x);
+printf("Value of p: %p\n", p);
+printf("Value of pp: %p\n", pp);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Control Flow -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="control-flow">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Control Flow</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Flow</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">if (x > 0) {
+    printf("Positive\n");
+} else if (x < 0) {
+    printf("Negative\n");
+} else {
+    printf("Zero\n");
+}
+
+for (int i = 0; i < 5; i++) {
+    printf("%d ", i);
+}
+
+while (x < 10) {
+    printf("%d ", x++);
+}
+
+do {
+    printf("%d ", x--);
+} while (x > 0);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Functions -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Functions</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Function</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int add(int a, int b) {
+    return a + b;
+}
+
+void printMessage(char *msg) {
+    printf("%s\n", msg);
+}
+
+int main() {
+    int result = add(5, 3);
+    printMessage("Hello, World!");
+    return 0;
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Structs -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="structs">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Structs</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Struct</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">struct Point {
+    int x;
+    int y;
+};
+
+struct Student {
+    char name[50];
+    int age;
+    float gpa;
+};
+
+struct Point p1 = {1, 2};
+struct Student s1 = {"John", 20, 3.5};</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Unions -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="unions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Unions</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Union</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">union Data {
+    int i;
+    float f;
+    char str[20];
+};
+
+union Data d1;
+d1.i = 10;
+printf("Integer: %d\n", d1.i);
+d1.f = 3.14;
+printf("Float: %f\n", d1.f);
+strcpy(d1.str, "Hello");
+printf("String: %s\n", d1.str);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Enums -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="enums">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Enums</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Enum</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">enum Color {
+    RED,
+    GREEN,
+    BLUE
+};
+
+enum Color c1 = RED;
+printf("Color: %d\n", c1);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- File I/O -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="file-io">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">File I/O</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">File</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <stdio.h>
+FILE *fptr;
+fptr = fopen("example.txt", "w");
+fprintf(fptr, "Hello, World!\n");
+fclose(fptr);
+
+fptr = fopen("example.txt", "r");
+char ch;
+while ((ch = fgetc(fptr)) != EOF) {
+    printf("%c", ch);
+}
+fclose(fptr);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Memory -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="memory">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Memory</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Memory</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int *p = (int *)malloc(sizeof(int));
+*p = 10;
+printf("Value: %d\n", *p);
+free(p);
+
+int *arr = (int *)calloc(5, sizeof(int));
+for (int i = 0; i < 5; i++) {
+    printf("%d ", arr[i]);
+}
+free(arr);
+
+int *arr2 = (int *)realloc(arr, 10 * sizeof(int));
+for (int i = 0; i < 10; i++) {
+    printf("%d ", arr2[i]);
+}
+free(arr2);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Preprocessor -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="preprocessor">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Preprocessor</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Preprocessor</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <stdio.h>
+#define PI 3.14159
+#define SQUARE(x) ((x) * (x))
+
+int main() {
+    printf("PI: %f\n", PI);
+    printf("Square of 5: %d\n", SQUARE(5));
+    return 0;
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Main Function -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="main-function">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Main Function</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Main</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Bitwise Operators -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="bitwise">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Bitwise Operators</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Bitwise</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int a = 5, b = 3;
+int and = a & b;   // 1
+int or = a | b;    // 7
+int xor = a ^ b;   // 6
+int not = ~a;      // -6
+int shl = a << 1;  // 10
+int shr = a >> 1;  // 2</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Command Line Arguments -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cmd-args">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Command Line Args</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Args</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int main(int argc, char *argv[]) {
+    for (int i = 0; i < argc; i++) {
+        printf("Arg %d: %s\n", i, argv[i]);
+    }
+    return 0;
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Function Pointers -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="function-pointers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Function Pointers</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Pointer</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int add(int a, int b) { return a + b; }
+int (*fptr)(int, int) = add;
+printf("%d\n", fptr(2, 3)); // 5</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Typedefs -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="typedefs">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Typedefs</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Type</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">typedef unsigned long ulong;
+ulong a = 10;
+typedef struct { int x, y; } Point;
+Point p = {1, 2};</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Macros with Arguments -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="macros">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Macros with Args</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Macro</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#define SQUARE(x) ((x)*(x))
+printf("%d\n", SQUARE(5)); // 25</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Inline Functions (C99+) -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="inline-func">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Inline Functions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">C99+</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">inline int max(int a, int b) { return a > b ? a : b; }
+printf("%d\n", max(2, 3)); // 3</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Variable Length Arrays (C99+) -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="vla">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Variable Length Arrays</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">C99+</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">int n = 5;
+int arr[n];
+for (int i = 0; i < n; i++) arr[i] = i;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Static & Extern -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="static-extern">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Static & Extern</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Storage</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">static int x = 5; // File or function scope
+extern int y;     // Defined elsewhere</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Volatile & Const -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="volatile-const">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Volatile & Const</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Qualifier</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">volatile int v;
+const int c = 10;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Assert & Error Handling -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="assert-error">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Assert & Error</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Error</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <assert.h>
+assert(x > 0);
+#include <errno.h>
+if (fopen("nofile.txt", "r") == NULL) {
+    perror("Error");
+    printf("errno: %d\n", errno);
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Dynamic Strings -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dynamic-strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Dynamic Strings</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">String</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">char buf[100];
+sprintf(buf, "Value: %d", 42);
+snprintf(buf, sizeof(buf), "%.2f", 3.14159);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Linked List Node Example -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="linked-list">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Linked List Node</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Data Struct</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">struct Node {
+    int data;
+    struct Node *next;
+};
+struct Node n1 = {1, NULL};
+struct Node n2 = {2, &n1};</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Memory Alignment -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="alignment">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Memory Alignment</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">C99+</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">#include <stddef.h>
+struct S { char c; int i; };
+size_t off = offsetof(struct S, i);</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- C99/C11 Features -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="c99-c11">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">C99/C11 Features</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">C99/C11</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">_Bool b = 1;
+static_assert(sizeof(int) == 4, "int is not 4 bytes");
+restrict int *p;
+// C11: _Alignof, _Atomic, _Thread_local</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Common Pitfalls -->
+    <div class="code-block rounded-lg p-1 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="pitfalls">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Common Pitfalls</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Warning</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-c">// Dangling pointer
+int *p = malloc(sizeof(int));
+free(p);
+// *p = 10; // undefined behavior
+
+// Buffer overflow
+char buf[4];
+strcpy(buf, "toolong"); // overflow
+
+// Uninitialized variable
+int x;
+printf("%d\n", x); // undefined</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-c.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+
+    // TOC highlight animation
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            // Force reflow to restart animation
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+    // Dropdown logic for Resources and Practice
+    function setupDropdown(btnId, menuId) {
+      const btn = document.getElementById(btnId);
+      const menu = document.getElementById(menuId);
+      let open = false;
+      if (btn && menu) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          open = !open;
+          menu.classList.toggle('opacity-100', open);
+          menu.classList.toggle('visible', open);
+          menu.classList.toggle('opacity-0', !open);
+          menu.classList.toggle('invisible', !open);
+          btn.setAttribute('aria-expanded', open);
+        });
+        document.addEventListener('click', function(e) {
+          if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      setupDropdown('resources-btn', 'resources-menu');
+      setupDropdown('practice-btn', 'practice-menu');
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase config (reuse from login.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    // Firebase Auth UI logic from index.html
+    function updateAuthUIFirebase(user) {
+      // Desktop
+      const loginBtn = document.getElementById('desktop-login-btn');
+      const profileLi = document.getElementById('desktop-profile');
+      if (loginBtn && profileLi) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileLi.classList.remove('hidden');
+        } else {
+          loginBtn.style.display = '';
+          profileLi.classList.add('hidden');
+        }
+      }
+      // Mobile
+      const mobileLoginBtn = document.getElementById('firebase-login-btn-mobile');
+      const mobileProfile = document.getElementById('mobile-profile');
+      if(mobileLoginBtn) mobileLoginBtn.style.display = user ? 'none' : '';
+      if(mobileProfile) mobileProfile.style.display = user ? 'flex' : 'none';
+      // Profile info
+      if (user) {
+        // Desktop avatar
+        const avatar = document.querySelector('#desktop-profile .w-7');
+        if (avatar && user.photoURL) {
+          avatar.style.backgroundImage = `url('${user.photoURL}')`;
+          avatar.style.backgroundSize = 'cover';
+          avatar.textContent = '';
+        } else if (avatar) {
+          avatar.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        // Mobile avatar and name
+        const avatarM = document.querySelector('#mobile-profile .w-8');
+        const nameM = document.querySelector('#mobile-profile .font-semibold');
+        if (avatarM && user.photoURL) {
+          avatarM.style.backgroundImage = `url('${user.photoURL}')`;
+          avatarM.style.backgroundSize = 'cover';
+          avatarM.textContent = '';
+        } else if (avatarM) {
+          avatarM.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        if (nameM) nameM.textContent = user.displayName || 'User';
+      }
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateAuthUIFirebase(user);
+    });
+    // Logout handlers
+    const logoutBtn = document.getElementById('logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+    function doLogout() {
+      firebase.auth().signOut().then(function() {
+        // No reload needed, onAuthStateChanged will handle it
+      });
+    }
+    if (logoutBtn) logoutBtn.onclick = doLogout;
+    if (mobileLogoutBtn) mobileLogoutBtn.onclick = doLogout;
+  </script>
+</body>
+</html> 

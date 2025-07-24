@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PHP Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #fff;
+      padding-top: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+      margin-bottom: 0 !important;
+    }
+    .code-block pre, .code-block code {
+      line-height: 1.2 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      word-break: break-word !important;
+      white-space: pre-wrap !important;
+      overflow-x: auto !important;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none;
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none;
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">PHP Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#syntax" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Basic Syntax</a>
+    <a href="#variables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Variables</a>
+    <a href="#data-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Types</a>
+    <a href="#strings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Strings</a>
+    <a href="#numbers" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Numbers</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#array-functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Array Functions</a>
+    <a href="#control-flow" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Control Flow</a>
+    <a href="#functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Functions</a>
+    <a href="#superglobals" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Superglobals</a>
+    <a href="#forms" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Forms</a>
+    <a href="#string-functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">String Functions</a>
+    <a href="#date-time" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Date & Time</a>
+    <a href="#file-io" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">File I/O</a>
+    <a href="#include-require" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Include/Require</a>
+    <a href="#sessions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sessions</a>
+    <a href="#cookies" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Cookies</a>
+    <a href="#error-handling" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Error Handling</a>
+    <a href="#classes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Classes</a>
+    <a href="#objects" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Objects</a>
+    <a href="#inheritance" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Inheritance</a>
+    <a href="#interfaces" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Interfaces</a>
+    <a href="#traits" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Traits</a>
+    <a href="#namespaces" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Namespaces</a>
+    <a href="#pdo" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">PDO</a>
+    <a href="#mysqli" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">MySQLi</a>
+    <a href="#json" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">JSON</a>
+    <a href="#filters" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Filters</a>
+    <a href="#validation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Validation</a>
+    <a href="#builtins" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Useful Built-ins</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Example PHP cards (add more as needed) -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="syntax">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Basic Syntax</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Syntax</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">&lt;?php
+// Single line comment
+# Another comment
+/* Multi-line
+   comment */
+echo "Hello, World!";
+?&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="variables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Variables</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Variable</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$a = 1;
+$b = "Hello";
+$c = true;
+$d = null;
+$e = [1, 2, 3];
+$f = ["name" => "John", "age" => 25];</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Data Types</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Type</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$a = 1;        // Integer
+$b = 2.5;     // Float
+$c = 'A';     // String
+$d = true;    // Boolean
+$e = [1,2,3]; // Array
+$f = null;    // Null
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Strings</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">String</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$s = "Hello";
+$s2 = 'World';
+$len = strlen($s);
+$upper = strtoupper($s);
+$name = "Alice";
+$msg = "Hi, $name!";
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="numbers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Numbers</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Number</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$a = 5;
+$b = 2.5;
+$sum = $a + $b;
+$pow = pow($a, 2);
+$parsed = intval("42");
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Arrays</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Array</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$arr = [1, 2, 3];
+$assoc = ["a" => 1, "b" => 2];
+$multi = [[1,2], [3,4]];
+echo $arr[0];
+echo $assoc["a"];
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="array-functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Array Functions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Array Fn</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$arr = [1, 2, 3];
+array_push($arr, 4);
+$len = count($arr);
+$sum = array_sum($arr);
+$keys = array_keys($arr);
+$vals = array_values($arr);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="control-flow">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Control Flow</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Control</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">if ($a > 0) {
+  echo "Positive";
+} elseif ($a == 0) {
+  echo "Zero";
+} else {
+  echo "Negative";
+}
+
+for ($i = 0; $i < 5; $i++) {
+  echo $i;
+}
+while ($a > 0) {
+  $a--;
+}
+switch ($a) {
+  case 1:
+    echo "One";
+    break;
+  default:
+    break;
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Functions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Function</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">function add($a, $b) {
+  return $a + $b;
+}
+function greet($name = "World") {
+  echo "Hello, $name!";
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="superglobals">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Superglobals</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Superglobal</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$_GET["q"];
+$_POST["name"];
+$_SESSION["user"];
+$_COOKIE["id"];
+$_SERVER["REQUEST_URI"];
+$_FILES["file"];
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="forms">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Forms</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Form</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">&lt;form method="post" action=""&gt;
+  &lt;input type="text" name="name" /&gt;
+  &lt;input type="submit" value="Send" /&gt;
+&lt;/form&gt;
+$name = $_POST["name"] ?? "";
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="string-functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">String Functions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">String Fn</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$s = "Hello World";
+$len = strlen($s);
+$pos = strpos($s, "W");
+$rep = str_replace("World", "PHP", $s);
+$parts = explode(" ", $s);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="date-time">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Date & Time</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Date</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$now = date("Y-m-d H:i:s");
+$ts = time();
+$dt = new DateTime();
+echo $dt->format("Y-m-d");
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="file-io">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">File I/O</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">File</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$txt = file_get_contents("file.txt");
+file_put_contents("file.txt", "Hello");
+$lines = file("file.txt");
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="include-require">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Include/Require</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Include</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">include "file.php";
+require "file.php";
+include_once "file.php";
+require_once "file.php";
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sessions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Sessions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Session</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">session_start();
+$_SESSION["user"] = "Alice";
+$user = $_SESSION["user"] ?? null;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cookies">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Cookies</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Cookie</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">setcookie("user", "Alice", time()+3600);
+$user = $_COOKIE["user"] ?? null;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="error-handling">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Error Handling</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Error</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">try {
+  throw new Exception("Error!");
+} catch (Exception $e) {
+  echo $e->getMessage();
+} finally {
+  echo "Done";
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="classes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Classes</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Class</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">class User {
+  private $name;
+  private $age;
+
+  public function __construct($name, $age) {
+    $this->name = $name;
+    $this->age = $age;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+
+  public function getAge() {
+    return $this->age;
+  }
+}
+
+$user = new User("John", 25);
+echo $user->getName();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="objects">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Objects</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Object</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">class User {
+  private $name;
+  private $age;
+
+  public function __construct($name, $age) {
+    $this->name = $name;
+    $this->age = $age;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+
+  public function getAge() {
+    return $this->age;
+  }
+}
+
+$user = new User("John", 25);
+echo $user->getName();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="inheritance">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Inheritance</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Inheritance</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">class Animal {
+  protected $name;
+
+  public function __construct($name) {
+    $this->name = $name;
+  }
+
+  public function getName() {
+    return $this->name;
+  }
+}
+
+class Dog extends Animal {
+  private $breed;
+
+  public function __construct($name, $breed) {
+    parent::__construct($name);
+    $this->breed = $breed;
+  }
+
+  public function getBreed() {
+    return $this->breed;
+  }
+}
+
+$dog = new Dog("Buddy", "Golden Retriever");
+echo $dog->getName(); // Outputs: Buddy
+echo $dog->getBreed(); // Outputs: Golden Retriever
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="interfaces">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Interfaces</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Interface</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">interface Animal {
+  public function makeSound();
+}
+
+class Dog implements Animal {
+  public function makeSound() {
+    echo "Woof!";
+  }
+}
+
+$dog = new Dog();
+$dog->makeSound(); // Outputs: Woof!
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="traits">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Traits</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Trait</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">trait Greet {
+  public function sayHello() {
+    echo "Hello from trait!";
+  }
+}
+
+class User {
+  use Greet;
+}
+
+$user = new User();
+$user->sayHello(); // Outputs: Hello from trait!
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="namespaces">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Namespaces</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Namespace</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">namespace App;
+
+class User {
+  public function getName() {
+    return "User from namespace";
+  }
+}
+
+$user = new User();
+echo $user->getName(); // Outputs: User from namespace
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="pdo">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">PDO</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">PDO</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$dsn = "mysql:host=localhost;dbname=test";
+$username = "root";
+$password = "";
+
+try {
+  $pdo = new PDO($dsn, $username, $password);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+  $stmt->execute([1]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  print_r($user);
+} catch (PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mysqli">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">MySQLi</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">MySQLi</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$mysqli = new mysqli("localhost", "root", "", "test");
+
+if ($mysqli->connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+  exit();
+}
+
+$stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->bind_param("i", 1);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+print_r($user);
+
+$stmt->close();
+$mysqli->close();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="json">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">JSON</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">JSON</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$data = ['name' => 'John', 'age' => 25];
+$json = json_encode($data);
+echo $json; // Outputs: {"name":"John","age":25}
+
+$decoded = json_decode($json);
+print_r($decoded); // Outputs: Array ( [name] => John [age] => 25 )
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="filters">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Filters</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Filter</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$name = "John Doe";
+$filtered_name = filter_var($name, FILTER_SANITIZE_STRING);
+echo $filtered_name; // Outputs: John Doe
+
+$email = "test@example.com";
+$email_filtered = filter_var($email, FILTER_SANITIZE_EMAIL);
+echo $email_filtered; // Outputs: test@example.com
+
+$url = "http://example.com?q=test";
+$url_filtered = filter_var($url, FILTER_SANITIZE_URL);
+echo $url_filtered; // Outputs: http://example.com?q=test
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="validation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Validation</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Validation</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">$email = "test@example.com";
+if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  echo "Valid email address!";
+} else {
+  echo "Invalid email address.";
+}
+
+$age = "25";
+if (filter_var($age, FILTER_VALIDATE_INT, ["options" => ["min_range" => 0, "max_range" => 100]])) {
+  echo "Valid age!";
+} else {
+  echo "Invalid age.";
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="builtins">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Useful Built-ins</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Built-in</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-php">print_r($_SERVER); // Prints all server variables
+
+$dir = ".";
+$files = array_diff(scandir($dir), array('.', '..'));
+$files = array_values($files);
+print_r($files);
+
+$path = "test.txt";
+if (file_exists($path)) {
+  echo "File exists.";
+} else {
+  echo "File does not exist.";
+}
+
+$size = filesize("test.txt");
+echo "File size: " . $size . " bytes";
+
+$modified = filemtime("test.txt");
+echo "Last modified: " . date("Y-m-d H:i:s", $modified);
+
+$content = file_get_contents("test.txt");
+echo $content;
+
+$content = "Hello, World!";
+file_put_contents("test.txt", $content);
+
+$lines = file("test.txt");
+print_r($lines);
+
+$content = "Hello\nWorld\n";
+$lines = explode("\n", $content);
+print_r($lines);
+
+$content = "Hello, World!";
+$encoded = base64_encode($content);
+echo $encoded;
+
+$decoded = base64_decode($encoded);
+echo $decoded;
+
+$hash = password_hash("password123", PASSWORD_DEFAULT);
+echo $hash;
+
+if (password_verify("password123", $hash)) {
+  echo "Password is correct.";
+} else {
+  echo "Password is incorrect.";
+}
+
+$random_bytes = random_bytes(10);
+echo bin2hex($random_bytes);
+
+$random_int = random_int(1, 100);
+echo $random_int;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Prism.highlightAll();
+    });
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    // TOC highlight animation
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

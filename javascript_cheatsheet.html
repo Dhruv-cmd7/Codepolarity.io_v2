@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>JavaScript Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #fff;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none;
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none;
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar (original from site) -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">JavaScript Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#variables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Variables</a>
+    <a href="#data-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Types</a>
+    <a href="#strings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Strings</a>
+    <a href="#numbers" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Numbers</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#objects" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Objects</a>
+    <a href="#functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Functions</a>
+    <a href="#arrow-functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrow Functions</a>
+    <a href="#loops" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Loops</a>
+    <a href="#conditionals" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Conditionals</a>
+    <a href="#dom" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">DOM</a>
+    <a href="#events" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Events</a>
+    <a href="#async" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Async</a>
+    <a href="#promises" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Promises</a>
+    <a href="#classes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Classes</a>
+    <a href="#modules" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Modules</a>
+    <a href="#builtins" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Built-ins</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Example JavaScript cards (add more as needed) -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="variables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Variables</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Variables</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let x = 5;
+const y = 'hello';
+var z = true;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Data Types</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Data Types</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">typeof 42; // 'number'
+typeof 'hi'; // 'string'
+typeof true; // 'boolean'
+typeof undefined; // 'undefined'
+typeof null; // 'object'
+typeof Symbol(); // 'symbol'
+typeof {a:1}; // 'object'</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Strings Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-pink-500">Strings</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Strings</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let s = 'hello';
+console.log(s.length); // 5
+console.log(s.toUpperCase()); // 'HELLO'
+console.log(`Hi, ${s}`); // Template literal</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Numbers Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="numbers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-yellow-500">Numbers</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Numbers</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let n = 42;
+console.log(n + 8); // 50
+console.log(Math.round(2.7)); // 3
+console.log(parseInt('10')); // 10</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Arrays Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-green-500">Arrays</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Arrays</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let arr = [1, 2, 3];
+arr.push(4);
+console.log(arr[0]); // 1
+console.log(arr.length); // 4</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Array Methods Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="array-methods">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-green-500">Array Methods</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Array Methods</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let arr = [1, 2, 3];
+let doubled = arr.map(x => x * 2); // [2, 4, 6]
+let even = arr.filter(x => x % 2 === 0); // [2]
+let sum = arr.reduce((a, b) => a + b, 0); // 6</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Objects Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="objects">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-yellow-600">Objects</h2>
+        <span class="bg-yellow-600/20 text-yellow-400 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Objects</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let obj = {a: 1, b: 2};
+console.log(obj.a); // 1
+obj.c = 3;
+for (let k in obj) { console.log(k, obj[k]); }</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Functions Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Functions</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Functions</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">function add(a, b) {
+  return a + b;
+}
+const sub = function(a, b) { return a - b; };</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Arrow Functions Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrow-functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Arrow Functions</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Arrow</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">const mul = (a, b) => a * b;
+const sq = x => x * x;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Conditionals Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="conditionals">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-indigo-500">Conditionals</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Conditionals</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">if (x > 0) {
+  console.log('Positive');
+} else if (x === 0) {
+  console.log('Zero');
+} else {
+  console.log('Negative');
+}
+let res = x > 0 ? 'pos' : 'neg'; // Ternary</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Loops Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="loops">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-indigo-500">Loops</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Loops</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">for (let i = 0; i < 3; i++) {
+  console.log(i);
+}
+for (let v of [1,2,3]) {
+  console.log(v);
+}
+while (x > 0) {
+  x--;
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Scope & Hoisting Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="scope">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-purple-500">Scope & Hoisting</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Scope</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">function foo() {
+  var a = 1;
+  if (true) {
+    let b = 2;
+  }
+  // b is not accessible here
+}
+// var is function-scoped, let/const are block-scoped</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Closures Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="closures">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-purple-500">Closures</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Closures</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">function makeAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+let add5 = makeAdder(5);
+console.log(add5(2)); // 7</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Classes Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="classes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Classes</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Classes</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    console.log(`I am ${this.name}`);
+  }
+}
+class Dog extends Animal {
+  speak() {
+    console.log('Woof!');
+  }
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Modules Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="modules">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Modules</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Modules</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">// export.js
+export function foo() {}
+// import.js
+import { foo } from './export.js';</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- DOM Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dom">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-green-500">DOM</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">DOM</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">const el = document.getElementById('id');
+el.textContent = 'Hi';
+const items = document.querySelectorAll('.item');</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Events Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="events">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-green-500">Events</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Events</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">el.addEventListener('click', function(e) {
+  console.log(e.target);
+});</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Async Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="async">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-indigo-500">Async</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Async</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">setTimeout(() => console.log('Hi'), 1000);
+async function foo() {
+  await fetch('/api');
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Promises Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="promises">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-indigo-500">Promises</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Promises</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">let p = new Promise((res, rej) => res(42));
+p.then(val => console.log(val));</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Error Handling Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="error-handling">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-red-500">Error Handling</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Error</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">try {
+  throw new Error('Oops');
+} catch (e) {
+  console.log(e.message);
+} finally {
+  console.log('Done');
+}</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Built-ins Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="builtins">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-blue-500">Built-ins</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Built-ins</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">console.log(Array.isArray([1,2])); // true
+console.log(JSON.stringify({a:1})); // '{"a":1}'
+console.log(Object.keys({a:1, b:2})); // ['a','b']</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Copy button script (reuse from Python cheatsheet) -->
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    // TOC highlight animation
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <!-- Add your Firebase Auth UI script and dropdown logic here if needed -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase config (reuse from login.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    function updateAuthUIFirebase(user) {
+      const loginBtn = document.getElementById('desktop-login-btn');
+      const profileLi = document.getElementById('desktop-profile');
+      if (loginBtn && profileLi) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileLi.classList.remove('hidden');
+        } else {
+          loginBtn.style.display = '';
+          profileLi.classList.add('hidden');
+        }
+      }
+      const mobileLoginBtn = document.getElementById('firebase-login-btn-mobile');
+      const mobileProfile = document.getElementById('mobile-profile');
+      if(mobileLoginBtn) mobileLoginBtn.style.display = user ? 'none' : '';
+      if(mobileProfile) mobileProfile.style.display = user ? 'flex' : 'none';
+      if (user) {
+        const avatar = document.querySelector('#desktop-profile .w-7');
+        if (avatar && user.photoURL) {
+          avatar.style.backgroundImage = `url('${user.photoURL}')`;
+          avatar.style.backgroundSize = 'cover';
+          avatar.textContent = '';
+        } else if (avatar) {
+          avatar.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        const avatarM = document.querySelector('#mobile-profile .w-8');
+        const nameM = document.querySelector('#mobile-profile .font-semibold');
+        if (avatarM && user.photoURL) {
+          avatarM.style.backgroundImage = `url('${user.photoURL}')`;
+          avatarM.style.backgroundSize = 'cover';
+          avatarM.textContent = '';
+        } else if (avatarM) {
+          avatarM.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        if (nameM) nameM.textContent = user.displayName || 'User';
+      }
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateAuthUIFirebase(user);
+    });
+    const logoutBtn = document.getElementById('logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+    function doLogout() {
+      firebase.auth().signOut().then(function() {});
+    }
+    if (logoutBtn) logoutBtn.onclick = doLogout;
+    if (mobileLogoutBtn) mobileLogoutBtn.onclick = doLogout;
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileBtn && profileMenu) {
+      let open = false;
+      profileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        profileMenu.classList.toggle('opacity-0', !open);
+        profileMenu.classList.toggle('invisible', !open);
+        profileMenu.classList.toggle('opacity-100', open);
+        profileMenu.classList.toggle('visible', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+          open = false;
+          profileMenu.classList.add('opacity-0', 'invisible');
+          profileMenu.classList.remove('opacity-100', 'visible');
+        }
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html> 
