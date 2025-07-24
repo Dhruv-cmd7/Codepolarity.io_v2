@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JavaScript Cheatsheet | Codepolarity.io</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Doto', sans-serif; }
+    .code-block { background: #1e1e1e; border-radius: 8px; overflow: hidden; }
+    .dark .code-block { background: #0d1117; }
+    pre[class*="language-"] { margin: 0 !important; background: transparent !important; }
+    code[class*="language-"] { color: #d4d4d4 !important; }
+  </style>
+</head>
+<body class="bg-white text-gray-900 dark:bg-black dark:text-gray-100 min-h-screen">
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <a href="Notes.html" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Cheatsheets
+      </a>
+      <div class="flex items-center gap-3">
+        <img src="assets/icons_cheatsheet/icons8-javascript-50.png" alt="JavaScript" class="w-8 h-8">
+        <h1 class="text-3xl font-bold text-blue-500 dark:text-blue-400">JavaScript Cheatsheet</h1>
+      </div>
+    </div>
+    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="mb-8">
+    <div class="relative">
+      <input type="text" id="search-input" placeholder="Search JavaScript concepts..." 
+             class="w-full px-4 py-3 pl-10 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      <svg class="absolute left-3 top-3.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Table of Contents -->
+    <div class="lg:col-span-1">
+      <div class="sticky top-8 bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+        <h3 class="font-bold text-lg mb-4">Quick Navigation</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#basics" class="text-blue-500 hover:text-blue-600">Basics</a></li>
+          <li><a href="#variables" class="text-blue-500 hover:text-blue-600">Variables</a></li>
+          <li><a href="#functions" class="text-blue-500 hover:text-blue-600">Functions</a></li>
+          <li><a href="#arrays" class="text-blue-500 hover:text-blue-600">Arrays</a></li>
+          <li><a href="#objects" class="text-blue-500 hover:text-blue-600">Objects</a></li>
+          <li><a href="#dom" class="text-blue-500 hover:text-blue-600">DOM</a></li>
+          <li><a href="#async" class="text-blue-500 hover:text-blue-600">Async</a></li>
+          <li><a href="#es6" class="text-blue-500 hover:text-blue-600">ES6+</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:col-span-3 space-y-8">
+      <!-- Basics -->
+      <section id="basics" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Basics</h2>
+        <div class="space-y-4">
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Console Output</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">console.log("Hello, World!");
+console.error("Error message");
+console.warn("Warning message");
+console.table([{name: "John", age: 30}]);</code></pre>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Comments</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">// Single line comment
+
+/*
+Multi-line comment
+*/
+
+/**
+ * JSDoc comment
+ * @param {string} name - The person's name
+ */</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Variables -->
+      <section id="variables" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Variables</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <div class="code-block">
+            <pre><code class="language-javascript">// Variable declarations
+let name = "John";          // Block-scoped, can be reassigned
+const age = 30;             // Block-scoped, cannot be reassigned
+var oldStyle = "avoid";     // Function-scoped (legacy)
+
+// Data types
+let string = "Hello";
+let number = 42;
+let boolean = true;
+let nullValue = null;
+let undefinedValue = undefined;
+let symbol = Symbol("id");
+let bigint = 123n;
+
+// Type checking
+typeof "hello";             // "string"
+typeof 42;                  // "number"
+typeof true;                // "boolean"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Functions -->
+      <section id="functions" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Functions</h2>
+        <div class="space-y-4">
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Function Declarations</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">// Function declaration
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+// Function expression
+const greet = function(name) {
+    return `Hello, ${name}!`;
+};
+
+// Arrow function
+const greet = (name) => `Hello, ${name}!`;
+const add = (a, b) => a + b;
+
+// Arrow function with block body
+const multiply = (a, b) => {
+    const result = a * b;
+    return result;
+};</code></pre>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Advanced Functions</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">// Default parameters
+function greet(name = "World") {
+    return `Hello, ${name}!`;
+}
+
+// Rest parameters
+function sum(...numbers) {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+
+// Higher-order functions
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+const evens = numbers.filter(n => n % 2 === 0);
+const sum = numbers.reduce((acc, n) => acc + n, 0);</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Arrays -->
+      <section id="arrays" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Arrays</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <div class="code-block">
+            <pre><code class="language-javascript">// Array creation and manipulation
+const fruits = ["apple", "banana", "orange"];
+
+// Adding elements
+fruits.push("grape");           // Add to end
+fruits.unshift("mango");        // Add to beginning
+fruits.splice(2, 0, "kiwi");    // Insert at index
+
+// Removing elements
+fruits.pop();                   // Remove from end
+fruits.shift();                 // Remove from beginning
+fruits.splice(1, 1);            // Remove at index
+
+// Array methods
+fruits.length;                  // Get length
+fruits.indexOf("apple");        // Find index
+fruits.includes("banana");      // Check if exists
+fruits.slice(1, 3);            // Get subset
+fruits.join(", ");             // Convert to string
+
+// Iteration
+fruits.forEach(fruit => console.log(fruit));
+const upperFruits = fruits.map(fruit => fruit.toUpperCase());
+const longFruits = fruits.filter(fruit => fruit.length > 5);</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Objects -->
+      <section id="objects" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Objects</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <div class="code-block">
+            <pre><code class="language-javascript">// Object creation
+const person = {
+    name: "John",
+    age: 30,
+    city: "New York",
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+};
+
+// Accessing properties
+person.name;                    // Dot notation
+person["age"];                  // Bracket notation
+person.greet();                 // Method call
+
+// Adding/modifying properties
+person.email = "john@email.com";
+person["phone"] = "123-456-7890";
+
+// Object methods
+Object.keys(person);            // Get all keys
+Object.values(person);          // Get all values
+Object.entries(person);         // Get key-value pairs
+Object.assign({}, person);      // Shallow copy
+
+// Destructuring
+const { name, age } = person;
+const { name: personName } = person;  // With rename</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOM -->
+      <section id="dom" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">DOM Manipulation</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <div class="code-block">
+            <pre><code class="language-javascript">// Selecting elements
+document.getElementById("myId");
+document.querySelector(".myClass");
+document.querySelectorAll("div");
+document.getElementsByTagName("p");
+
+// Creating and modifying elements
+const div = document.createElement("div");
+div.textContent = "Hello";
+div.innerHTML = "<strong>Bold text</strong>";
+div.className = "my-class";
+div.id = "my-id";
+
+// Adding to DOM
+document.body.appendChild(div);
+document.body.insertBefore(div, otherElement);
+
+// Event handling
+button.addEventListener("click", function() {
+    console.log("Button clicked!");
+});
+
+// Event with arrow function
+button.addEventListener("click", () => {
+    console.log("Arrow function click!");
+});
+
+// Remove event listener
+button.removeEventListener("click", handler);</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Async -->
+      <section id="async" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">Asynchronous JavaScript</h2>
+        <div class="space-y-4">
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Promises</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">// Creating a promise
+const myPromise = new Promise((resolve, reject) => {
+    if (success) {
+        resolve("Success!");
+    } else {
+        reject("Error!");
+    }
+});
+
+// Using promises
+myPromise
+    .then(result => console.log(result))
+    .catch(error => console.error(error))
+    .finally(() => console.log("Done"));
+
+// Promise chaining
+fetch("/api/data")
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));</code></pre>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold mb-2">Async/Await</h3>
+            <div class="code-block">
+              <pre><code class="language-javascript">// Async function
+async function fetchData() {
+    try {
+        const response = await fetch("/api/data");
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+// Using async function
+const data = await fetchData();
+
+// Multiple async operations
+async function loadData() {
+    const [users, posts] = await Promise.all([
+        fetch("/api/users").then(r => r.json()),
+        fetch("/api/posts").then(r => r.json())
+    ]);
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ES6+ -->
+      <section id="es6" class="cheat-section">
+        <h2 class="text-2xl font-bold mb-4">ES6+ Features</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <div class="code-block">
+            <pre><code class="language-javascript">// Template literals
+const name = "John";
+const message = `Hello, ${name}!`;
+const multiline = `
+    Line 1
+    Line 2
+`;
+
+// Destructuring
+const [first, second] = [1, 2];
+const {name, age} = person;
+
+// Spread operator
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];
+const obj1 = {a: 1, b: 2};
+const obj2 = {...obj1, c: 3};
+
+// Classes
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+}
+
+const john = new Person("John", 30);
+
+// Modules
+export const myFunction = () => {};
+export default class MyClass {}
+import MyClass, { myFunction } from './module.js';</code></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+themeToggle.addEventListener('click', () => {
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+
+// Load theme from localStorage
+if (localStorage.getItem('theme') === 'dark' || 
+    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  html.classList.add('dark');
+}
+
+// Search functionality
+const searchInput = document.getElementById('search-input');
+const sections = document.querySelectorAll('.cheat-section');
+
+searchInput.addEventListener('input', (e) => {
+  const searchTerm = e.target.value.toLowerCase();
+  
+  sections.forEach(section => {
+    const text = section.textContent.toLowerCase();
+    const shouldShow = text.includes(searchTerm) || searchTerm === '';
+    section.style.display = shouldShow ? 'block' : 'none';
+  });
+});
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
