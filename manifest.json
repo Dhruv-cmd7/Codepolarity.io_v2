@@ -3,7 +3,7 @@
   "short_name": "Codepolarity",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#38bdf8",
   "icons": [
     {
