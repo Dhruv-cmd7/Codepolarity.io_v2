@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Algorithms Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Algorithms Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#sorting" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sorting</a>
+    <a href="#searching" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Searching</a>
+    <a href="#recursion" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Recursion</a>
+    <a href="#divide-conquer" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Divide & Conquer</a>
+    <a href="#greedy" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Greedy</a>
+    <a href="#dp" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Dynamic Programming</a>
+    <a href="#graph" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Graph</a>
+    <a href="#tree" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Tree</a>
+    <a href="#string" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">String</a>
+    <a href="#bit" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Bit Manipulation</a>
+    <a href="#math" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Math</a>
+    <a href="#complexity" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Complexity</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Introduction</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><a class="text-blue-400 hover:underline" href="https://leetcode.com" target="_blank">LeetCode (leetcode.com)</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://hackerrank.com" target="_blank">HackerRank</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://geeksforgeeks.org" target="_blank">GeeksforGeeks</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://visualgo.net" target="_blank">Visualgo</a></li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sorting">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Sorting Algorithms</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Sorting</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Bubble Sort</td>
+              <td class="px-2 py-1">O(n²)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Selection Sort</td>
+              <td class="px-2 py-1">O(n²)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insertion Sort</td>
+              <td class="px-2 py-1">O(n²)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Merge Sort</td>
+              <td class="px-2 py-1">O(n log n)</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Quick Sort</td>
+              <td class="px-2 py-1">O(n log n)</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Heap Sort</td>
+              <td class="px-2 py-1">O(n log n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Quick Sort Implementation
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + middle + quicksort(right)
+
+# Merge Sort Implementation
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="searching">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Searching Algorithms</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Searching</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Linear Search</td>
+              <td class="px-2 py-1">O(n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Binary Search</td>
+              <td class="px-2 py-1">O(log n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Interpolation Search</td>
+              <td class="px-2 py-1">O(log log n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Exponential Search</td>
+              <td class="px-2 py-1">O(log n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Binary Search Implementation
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+# Linear Search Implementation
+def linear_search(arr, target):
+    for i, val in enumerate(arr):
+        if val == target:
+            return i
+    return -1
+
+# Binary Search (Recursive)
+def binary_search_recursive(arr, target, left, right):
+    if left > right:
+        return -1
+    mid = (left + right) // 2
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return binary_search_recursive(arr, target, mid + 1, right)
+    else:
+        return binary_search_recursive(arr, target, left, mid - 1)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="recursion">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Recursion & Backtracking</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Recursion</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Problem</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Factorial</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Fibonacci</td>
+              <td class="px-2 py-1">O(2ⁿ)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">N-Queens</td>
+              <td class="px-2 py-1">O(n!)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Subset Sum</td>
+              <td class="px-2 py-1">O(2ⁿ)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Factorial Recursion
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+# Fibonacci Recursion
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+# N-Queens Backtracking
+def solve_n_queens(n):
+    def is_safe(board, row, col):
+        for i in range(row):
+            if board[i] == col or abs(board[i] - col) == abs(i - row):
+                return False
+        return True
+    
+    def backtrack(board, row):
+        if row == n:
+            return [board[:]]
+        solutions = []
+        for col in range(n):
+            if is_safe(board, row, col):
+                board[row] = col
+                solutions.extend(backtrack(board, row + 1))
+        return solutions
+    
+    return backtrack([0] * n, 0)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="divide-conquer">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Divide & Conquer</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Divide & Conquer</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Merge Sort</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Quick Sort</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Binary Search</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Strassen Matrix</td>
+              <td class="px-2 py-1">O(n^2.807)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Karatsuba Multiplication
+def karatsuba(x, y):
+    if x < 10 or y < 10:
+        return x * y
+    
+    n = max(len(str(x)), len(str(y)))
+    m = n // 2
+    
+    a = x // 10**m
+    b = x % 10**m
+    c = y // 10**m
+    d = y % 10**m
+    
+    ac = karatsuba(a, c)
+    bd = karatsuba(b, d)
+    ad_bc = karatsuba(a + b, c + d) - ac - bd
+    
+    return ac * 10**(2*m) + ad_bc * 10**m + bd
+
+# Closest Pair of Points
+def closest_pair(points):
+    if len(points) <= 3:
+        return min_distance_brute_force(points)
+    
+    mid = len(points) // 2
+    left = points[:mid]
+    right = points[mid:]
+    
+    d1 = closest_pair(left)
+    d2 = closest_pair(right)
+    d = min(d1, d2)
+    
+    # Check strip
+    strip = [p for p in points if abs(p[0] - points[mid][0]) < d]
+    return min(d, strip_closest(strip, d))</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="greedy">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Greedy Algorithms</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Greedy</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Problem</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Activity Selection</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Huffman Coding</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Fractional Knapsack</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Dijkstra's</td>
+              <td class="px-2 py-1">O((V+E) log V)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Activity Selection Problem
+def activity_selection(start, finish):
+    n = len(start)
+    activities = []
+    i = 0
+    activities.append(i)
+    
+    for j in range(1, n):
+        if start[j] >= finish[i]:
+            activities.append(j)
+            i = j
+    
+    return activities
+
+# Fractional Knapsack
+def fractional_knapsack(values, weights, capacity):
+    items = [(values[i], weights[i], values[i]/weights[i]) for i in range(len(values))]
+    items.sort(key=lambda x: x[2], reverse=True)
+    
+    total_value = 0
+    for value, weight, ratio in items:
+        if capacity >= weight:
+            total_value += value
+            capacity -= weight
+        else:
+            total_value += ratio * capacity
+            break
+    
+    return total_value
+
+# Huffman Coding
+import heapq
+def huffman_coding(freq):
+    heap = [[f, [char, ""]] for char, f in freq.items()]
+    heapq.heapify(heap)
+    
+    while len(heap) > 1:
+        lo = heapq.heappop(heap)
+        hi = heapq.heappop(heap)
+        
+        for pair in lo[1:]:
+            pair[1] = '0' + pair[1]
+        for pair in hi[1:]:
+            pair[1] = '1' + pair[1]
+        
+        heapq.heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
+    
+    return heap[0][1:]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dp">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Dynamic Programming</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">DP</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Problem</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Fibonacci</td>
+              <td class="px-2 py-1">O(n)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">LCS</td>
+              <td class="px-2 py-1">O(mn)</td>
+              <td class="px-2 py-1">O(mn)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Edit Distance</td>
+              <td class="px-2 py-1">O(mn)</td>
+              <td class="px-2 py-1">O(mn)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">0/1 Knapsack</td>
+              <td class="px-2 py-1">O(nW)</td>
+              <td class="px-2 py-1">O(nW)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Fibonacci with DP
+def fibonacci_dp(n):
+    if n <= 1:
+        return n
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
+
+# Longest Common Subsequence
+def lcs(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i-1] == text2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    return dp[m][n]
+
+# 0/1 Knapsack
+def knapsack_01(values, weights, capacity):
+    n = len(values)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+    
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+            if weights[i-1] <= w:
+                dp[i][w] = max(dp[i-1][w], 
+                              dp[i-1][w - weights[i-1]] + values[i-1])
+            else:
+                dp[i][w] = dp[i-1][w]
+    
+    return dp[n][capacity]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="graph">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Graph Algorithms</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Graph</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">BFS</td>
+              <td class="px-2 py-1">O(V + E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DFS</td>
+              <td class="px-2 py-1">O(V + E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Dijkstra's</td>
+              <td class="px-2 py-1">O((V+E) log V)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Bellman-Ford</td>
+              <td class="px-2 py-1">O(VE)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Floyd-Warshall</td>
+              <td class="px-2 py-1">O(V³)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Kruskal's MST</td>
+              <td class="px-2 py-1">O(E log E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Prim's MST</td>
+              <td class="px-2 py-1">O(E log V)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># BFS Implementation
+from collections import deque
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    
+    while queue:
+        vertex = queue.popleft()
+        print(vertex, end=' ')
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+# DFS Implementation
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    
+    visited.add(start)
+    print(start, end=' ')
+    
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+
+# Dijkstra's Algorithm
+import heapq
+def dijkstra(graph, start):
+    distances = {vertex: float('infinity') for vertex in graph}
+    distances[start] = 0
+    pq = [(0, start)]
+    
+    while pq:
+        current_distance, current_vertex = heapq.heappop(pq)
+        
+        if current_distance > distances[current_vertex]:
+            continue
+        
+        for neighbor, weight in graph[current_vertex].items():
+            distance = current_distance + weight
+            
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    
+    return distances
+
+# Topological Sort
+def topological_sort(graph):
+    def dfs(node):
+        visited.add(node)
+        visiting.add(node)
+        
+        for neighbor in graph.get(node, []):
+            if neighbor in visiting:
+                return False  # Cycle detected
+            if neighbor not in visited:
+                if not dfs(neighbor):
+                    return False
+        
+        visiting.remove(node)
+        result.append(node)
+        return True
+    
+    visited = set()
+    visiting = set()
+    result = []
+    
+    for node in graph:
+        if node not in visited:
+            if not dfs(node):
+                return []  # Cycle detected
+    
+    return result[::-1]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="tree">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Tree Algorithms</h2>
+        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tree</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Traversal</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Inorder</td>
+              <td class="px-2 py-1">Left → Root → Right</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Preorder</td>
+              <td class="px-2 py-1">Root → Left → Right</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Postorder</td>
+              <td class="px-2 py-1">Left → Right → Root</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Level Order</td>
+              <td class="px-2 py-1">Level by Level</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Tree Node Definition
+class TreeNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.left = None
+        self.right = None
+
+# Inorder Traversal
+def inorder_traversal(root):
+    if root:
+        inorder_traversal(root.left)
+        print(root.val, end=' ')
+        inorder_traversal(root.right)
+
+# Preorder Traversal
+def preorder_traversal(root):
+    if root:
+        print(root.val, end=' ')
+        preorder_traversal(root.left)
+        preorder_traversal(root.right)
+
+# Postorder Traversal
+def postorder_traversal(root):
+    if root:
+        postorder_traversal(root.left)
+        postorder_traversal(root.right)
+        print(root.val, end=' ')
+
+# Level Order Traversal (BFS)
+from collections import deque
+def level_order_traversal(root):
+    if not root:
+        return []
+    
+    queue = deque([root])
+    result = []
+    
+    while queue:
+        level = []
+        level_size = len(queue)
+        
+        for _ in range(level_size):
+            node = queue.popleft()
+            level.append(node.val)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        result.append(level)
+    
+    return result
+
+# BST Insert
+def insert_bst(root, val):
+    if not root:
+        return TreeNode(val)
+    
+    if val < root.val:
+        root.left = insert_bst(root.left, val)
+    else:
+        root.right = insert_bst(root.right, val)
+    
+    return root</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="string">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">String Algorithms</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">String</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">KMP</td>
+              <td class="px-2 py-1">O(m + n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Rabin-Karp</td>
+              <td class="px-2 py-1">O(m + n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Boyer-Moore</td>
+              <td class="px-2 py-1">O(m + n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Longest Palindromic</td>
+              <td class="px-2 py-1">O(n²)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># KMP Algorithm
+def kmp_search(text, pattern):
+    def compute_lps(pattern):
+        lps = [0] * len(pattern)
+        length = 0
+        i = 1
+        
+        while i < len(pattern):
+            if pattern[i] == pattern[length]:
+                length += 1
+                lps[i] = length
+                i += 1
+            else:
+                if length != 0:
+                    length = lps[length - 1]
+                else:
+                    lps[i] = 0
+                    i += 1
+        return lps
+    
+    lps = compute_lps(pattern)
+    i = j = 0
+    matches = []
+    
+    while i < len(text):
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+        
+        if j == len(pattern):
+            matches.append(i - j)
+            j = lps[j - 1]
+        elif i < len(text) and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+    
+    return matches
+
+# Longest Palindromic Substring
+def longest_palindrome(s):
+    def expand_around_center(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return s[left + 1:right]
+    
+    if len(s) < 2:
+        return s
+    
+    longest = ""
+    for i in range(len(s)):
+        # Odd length palindrome
+        palindrome1 = expand_around_center(i, i)
+        # Even length palindrome
+        palindrome2 = expand_around_center(i, i + 1)
+        
+        if len(palindrome1) > len(longest):
+            longest = palindrome1
+        if len(palindrome2) > len(longest):
+            longest = palindrome2
+    
+    return longest
+
+# Rabin-Karp Algorithm
+def rabin_karp(text, pattern):
+    d = 256  # Number of characters in input alphabet
+    q = 101  # A prime number
+    
+    M = len(pattern)
+    N = len(text)
+    p = 0  # Hash value for pattern
+    t = 0  # Hash value for text
+    h = 1
+    
+    # Calculate h = pow(d, M-1) % q
+    for i in range(M - 1):
+        h = (h * d) % q
+    
+    # Calculate hash value of pattern and first window of text
+    for i in range(M):
+        p = (d * p + ord(pattern[i])) % q
+        t = (d * t + ord(text[i])) % q
+    
+    # Slide the pattern over text one by one
+    for i in range(N - M + 1):
+        if p == t:
+            # Check for characters one by one
+            for j in range(M):
+                if text[i + j] != pattern[j]:
+                    break
+            else:
+                return i
+        
+        if i < N - M:
+            t = (d * (t - ord(text[i]) * h) + ord(text[i + M])) % q
+            if t < 0:
+                t = t + q
+    
+    return -1</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="bit">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Bit Manipulation</h2>
+        <span class="bg-violet-500/20 text-violet-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Bit</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Syntax</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">AND</td>
+              <td class="px-2 py-1">x & y</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">OR</td>
+              <td class="px-2 py-1">x | y</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">XOR</td>
+              <td class="px-2 py-1">x ^ y</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NOT</td>
+              <td class="px-2 py-1">~x</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Left Shift</td>
+              <td class="px-2 py-1">x << n</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Right Shift</td>
+              <td class="px-2 py-1">x >> n</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Common Bit Operations
+def count_set_bits(n):
+    count = 0
+    while n:
+        count += n & 1
+        n >>= 1
+    return count
+
+def is_power_of_two(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+def get_single_number(nums):
+    result = 0
+    for num in nums:
+        result ^= num
+    return result
+
+def reverse_bits(n):
+    result = 0
+    for i in range(32):
+        result = (result << 1) | (n & 1)
+        n >>= 1
+    return result
+
+def add_without_plus(a, b):
+    while b:
+        carry = a & b
+        a = a ^ b
+        b = carry << 1
+    return a
+
+# Bit manipulation tricks
+def power_of_2(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+def count_trailing_zeros(n):
+    count = 0
+    while n and (n & 1) == 0:
+        count += 1
+        n >>= 1
+    return count
+
+def swap_without_temp(a, b):
+    a = a ^ b
+    b = a ^ b
+    a = a ^ b
+    return a, b</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="math">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Math Algorithms</h2>
+        <span class="bg-rose-500/20 text-rose-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Math</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">GCD</td>
+              <td class="px-2 py-1">O(log min(a,b))</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Sieve of Eratosthenes</td>
+              <td class="px-2 py-1">O(n log log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Fast Exponentiation</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Prime Factorization</td>
+              <td class="px-2 py-1">O(√n)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># GCD using Euclidean Algorithm
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+# LCM using GCD
+def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+
+# Sieve of Eratosthenes
+def sieve_of_eratosthenes(n):
+    is_prime = [True] * (n + 1)
+    is_prime[0] = is_prime[1] = False
+    
+    for i in range(2, int(n**0.5) + 1):
+        if is_prime[i]:
+            for j in range(i*i, n + 1, i):
+                is_prime[j] = False
+    
+    return [i for i in range(n + 1) if is_prime[i]]
+
+# Fast Exponentiation
+def fast_power(base, exponent, modulus=None):
+    result = 1
+    base = base % modulus if modulus else base
+    
+    while exponent > 0:
+        if exponent % 2 == 1:
+            result = (result * base) % modulus if modulus else result * base
+        base = (base * base) % modulus if modulus else base * base
+        exponent //= 2
+    
+    return result
+
+# Prime Factorization
+def prime_factorization(n):
+    factors = []
+    d = 2
+    
+    while d * d <= n:
+        while n % d == 0:
+            factors.append(d)
+            n //= d
+        d += 1
+    
+    if n > 1:
+        factors.append(n)
+    
+    return factors
+
+# Extended Euclidean Algorithm
+def extended_gcd(a, b):
+    if a == 0:
+        return b, 0, 1
+    else:
+        gcd, x, y = extended_gcd(b % a, a)
+        return gcd, y - (b // a) * x, x</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="complexity">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Complexity Analysis</h2>
+        <span class="bg-slate-500/20 text-slate-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Complexity</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Complexity</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(1)</td>
+              <td class="px-2 py-1">Constant Time</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(log n)</td>
+              <td class="px-2 py-1">Logarithmic</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n)</td>
+              <td class="px-2 py-1">Linear</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n log n)</td>
+              <td class="px-2 py-1">Linearithmic</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n²)</td>
+              <td class="px-2 py-1">Quadratic</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(2ⁿ)</td>
+              <td class="px-2 py-1">Exponential</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n!)</td>
+              <td class="px-2 py-1">Factorial</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Common Complexity Examples
+def constant_time():
+    return 1  # O(1)
+
+def logarithmic_time(n):
+    i = 1
+    while i < n:
+        i *= 2  # O(log n)
+
+def linear_time(n):
+    for i in range(n):
+        pass  # O(n)
+
+def linearithmic_time(n):
+    for i in range(n):
+        j = 1
+        while j < n:
+            j *= 2  # O(n log n)
+
+def quadratic_time(n):
+    for i in range(n):
+        for j in range(n):
+            pass  # O(n²)
+
+def exponential_time(n):
+    if n <= 1:
+        return 1
+    return exponential_time(n-1) + exponential_time(n-2)  # O(2ⁿ)
+
+# Space Complexity Examples
+def constant_space():
+    a = 1
+    b = 2  # O(1)
+
+def linear_space(n):
+    arr = [0] * n  # O(n)
+
+def quadratic_space(n):
+    matrix = [[0] * n for _ in range(n)]  # O(n²)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      // Auth state handling
+    });
+  </script>
+</body>
+</html> 

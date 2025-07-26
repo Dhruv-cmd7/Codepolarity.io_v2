@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>AI Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">AI Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#overview" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">AI Overview</a>
+    <a href="#types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Types of AI</a>
+    <a href="#applications" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Applications</a>
+    <a href="#agents" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Intelligent Agents</a>
+    <a href="#problem-solving" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Problem Solving</a>
+    <a href="#uninformed-search" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Uninformed Search</a>
+    <a href="#informed-search" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Informed Search</a>
+    <a href="#adversarial-search" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Adversarial Search</a>
+    <a href="#game-theory" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Game Theory</a>
+    <a href="#knowledge" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Knowledge Representation</a>
+    <a href="#propositional" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Propositional Logic</a>
+    <a href="#first-order" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">First-Order Logic</a>
+    <a href="#inference" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Inference Techniques</a>
+    <a href="#planning" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Planning</a>
+    <a href="#csp" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">CSPs</a>
+    <a href="#ml-basics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">ML Basics</a>
+    <a href="#supervised-unsupervised" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Supervised vs Unsupervised</a>
+    <a href="#neural-networks" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Neural Networks</a>
+    <a href="#deep-learning" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Deep Learning</a>
+    <a href="#nlp" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">NLP</a>
+    <a href="#computer-vision" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Computer Vision</a>
+    <a href="#expert-systems" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Expert Systems</a>
+    <a href="#fuzzy-logic" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Fuzzy Logic</a>
+    <a href="#bayesian" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Bayesian Networks</a>
+    <a href="#reinforcement" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Reinforcement Learning</a>
+    <a href="#robotics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Robotics & Perception</a>
+    <a href="#ethics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Ethics in AI</a>
+    <a href="#tools" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">AI Tools & Frameworks</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Cards for all 28 topics will be filled in next edits -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="overview">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">AI Overview</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Overview</span>
+      </div>
+      <p class="mb-2">Artificial Intelligence (AI) is the simulation of human intelligence in machines. It encompasses learning, reasoning, problem-solving, perception, and language understanding.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Machine Learning: learning from data</li>
+        <li>Natural Language Processing: understanding language</li>
+        <li>Computer Vision: interpreting visual information</li>
+        <li>Robotics: physical interaction with environment</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Types of AI</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Types</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Narrow AI:</b> Designed for specific tasks (Siri, Alexa)</li>
+        <li><b>General AI:</b> Human-level intelligence across domains</li>
+        <li><b>Superintelligent AI:</b> Surpasses human intelligence</li>
+        <li><b>Weak AI:</b> Simulates intelligence without consciousness</li>
+        <li><b>Strong AI:</b> Possesses consciousness and understanding</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="applications">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Applications of AI</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Applications</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Healthcare: diagnosis, drug discovery, medical imaging</li>
+        <li>Finance: fraud detection, algorithmic trading</li>
+        <li>Transportation: autonomous vehicles, traffic optimization</li>
+        <li>Entertainment: recommendation systems, gaming</li>
+        <li>Education: personalized learning, automated grading</li>
+        <li>Manufacturing: predictive maintenance, quality control</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="agents">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Intelligent Agents</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Agents</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Perceive environment through sensors</li>
+        <li>Make decisions using reasoning</li>
+        <li>Act through effectors/actuators</li>
+        <li>Types: Simple reflex, Model-based, Goal-based, Utility-based</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class SimpleReflexAgent:
+    def __init__(self, rules):
+        self.rules = rules
+    
+    def perceive_and_act(self, percept):
+        # Simple rule-based decision making
+        for condition, action in self.rules:
+            if condition(percept):
+                return action
+        return None
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="problem-solving">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Problem Solving & Search</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Search</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>State space representation</li>
+        <li>Initial state to goal state</li>
+        <li>Actions: transitions between states</li>
+        <li>Path cost: measure of solution quality</li>
+        <li>Search strategies: systematic exploration</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class Problem:
+    def __init__(self, initial_state, goal_state):
+        self.initial_state = initial_state
+        self.goal_state = goal_state
+    
+    def actions(self, state):
+        # Return possible actions from state
+        pass
+    
+    def result(self, state, action):
+        # Return new state after action
+        pass
+    
+    def goal_test(self, state):
+        return state == self.goal_state
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="uninformed-search">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Uninformed Search (BFS, DFS)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Uninformed</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Breadth-First Search (BFS):</b> Level-by-level exploration</li>
+        <li><b>Depth-First Search (DFS):</b> Deep exploration before backtracking</li>
+        <li><b>Uniform Cost Search:</b> Lowest cost path first</li>
+        <li><b>Iterative Deepening:</b> Combines BFS and DFS benefits</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from collections import deque
+
+def bfs(graph, start, goal):
+    queue = deque([(start, [start])])
+    visited = set()
+    
+    while queue:
+        node, path = queue.popleft()
+        if node == goal:
+            return path
+        if node not in visited:
+            visited.add(node)
+            for neighbor in graph[node]:
+                queue.append((neighbor, path + [neighbor]))
+    return None
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="informed-search">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Informed Search (A*, Greedy)</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Informed</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>A* Search:</b> f(n) = g(n) + h(n)</li>
+        <li><b>Greedy Best-First:</b> f(n) = h(n) only</li>
+        <li><b>Heuristic function h(n):</b> estimates cost to goal</li>
+        <li><b>Admissible heuristic:</b> never overestimates</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import heapq
+
+def a_star(graph, start, goal, heuristic):
+    frontier = [(0, start, [start])]
+    visited = set()
+    
+    while frontier:
+        cost, node, path = heapq.heappop(frontier)
+        if node == goal:
+            return path
+        if node not in visited:
+            visited.add(node)
+            for neighbor, edge_cost in graph[node]:
+                new_cost = cost + edge_cost
+                f = new_cost + heuristic(neighbor, goal)
+                heapq.heappush(frontier, (f, neighbor, path + [neighbor]))
+    return None
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="adversarial-search">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Adversarial Search (Minimax, Alpha-Beta)</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Adversarial</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Minimax:</b> Optimal strategy for zero-sum games</li>
+        <li><b>Alpha-Beta Pruning:</b> Optimizes minimax by cutting branches</li>
+        <li><b>Max player:</b> Maximizes score</li>
+        <li><b>Min player:</b> Minimizes score</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">def minimax(node, depth, alpha, beta, maximizing):
+    if depth == 0 or is_terminal(node):
+        return evaluate(node)
+    
+    if maximizing:
+        value = float('-inf')
+        for child in get_children(node):
+            value = max(value, minimax(child, depth-1, alpha, beta, False))
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break  # Beta cutoff
+        return value
+    else:
+        value = float('inf')
+        for child in get_children(node):
+            value = min(value, minimax(child, depth-1, alpha, beta, True))
+            beta = min(beta, value)
+            if alpha >= beta:
+                break  # Alpha cutoff
+        return value
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="game-theory">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Game Theory Basics</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Game Theory</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Zero-sum games:</b> One player's gain = other's loss</li>
+        <li><b>Nash Equilibrium:</b> No player can improve by changing strategy</li>
+        <li><b>Prisoner's Dilemma:</b> Classic game theory problem</li>
+        <li><b>Mixed strategies:</b> Probabilistic choice of actions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Prisoner's Dilemma payoff matrix
+payoff_matrix = {
+    ('Cooperate', 'Cooperate'): (-1, -1),
+    ('Cooperate', 'Defect'): (-10, 0),
+    ('Defect', 'Cooperate'): (0, -10),
+    ('Defect', 'Defect'): (-5, -5)
+}
+
+def nash_equilibrium(payoffs):
+    # Find strategies where no player can improve
+    # This is a simplified version
+    return 'Defect', 'Defect'  # Both defect is Nash equilibrium
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="knowledge">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Knowledge Representation</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Knowledge</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Semantic Networks:</b> Graph-based knowledge representation</li>
+        <li><b>Frames:</b> Structured knowledge with slots</li>
+        <li><b>Scripts:</b> Event sequences and scenarios</li>
+        <li><b>Ontologies:</b> Formal specification of concepts</li>
+        <li><b>Production Rules:</b> If-then statements</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Semantic Network representation
+class SemanticNetwork:
+    def __init__(self):
+        self.nodes = {}
+        self.relations = {}
+    
+    def add_concept(self, concept, properties):
+        self.nodes[concept] = properties
+    
+    def add_relation(self, concept1, relation, concept2):
+        if concept1 not in self.relations:
+            self.relations[concept1] = []
+        self.relations[concept1].append((relation, concept2))
+
+# Example: "Birds can fly"
+network = SemanticNetwork()
+network.add_concept("Bird", {"type": "animal", "has_wings": True})
+network.add_relation("Bird", "can", "fly")
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="propositional">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Propositional Logic</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Logic</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Propositions:</b> True/False statements</li>
+        <li><b>Logical operators:</b> AND (∧), OR (∨), NOT (¬), IMPLIES (→)</li>
+        <li><b>Truth tables:</b> All possible combinations</li>
+        <li><b>Inference rules:</b> Modus Ponens, Resolution</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Truth table for AND operator
+def truth_table_and():
+    print("A\tB\tA AND B")
+    print("-" * 20)
+    for a in [True, False]:
+        for b in [True, False]:
+            result = a and b
+            print(f"{a}\t{b}\t{result}")
+
+# Logical inference
+def modus_ponens(premise1, premise2):
+    # If P → Q and P, then Q
+    if premise1 and premise2:
+        return True
+    return False
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="first-order">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">First-Order Logic</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">FOL</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Predicates:</b> Functions that return True/False</li>
+        <li><b>Quantifiers:</b> ∀ (for all), ∃ (there exists)</li>
+        <li><b>Variables:</b> Represent objects in domain</li>
+        <li><b>Functions:</b> Map objects to objects</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># First-order logic example
+# ∀x (Student(x) → Studies(x))
+# ∃x (Student(x) ∧ Smart(x))
+
+class FirstOrderLogic:
+    def __init__(self):
+        self.domain = set()
+        self.predicates = {}
+    
+    def add_predicate(self, name, arity):
+        self.predicates[name] = arity
+    
+    def evaluate(self, formula, interpretation):
+        # Simplified evaluation
+        if formula.startswith("∀"):
+            return self.universal_quantifier(formula, interpretation)
+        elif formula.startswith("∃"):
+            return self.existential_quantifier(formula, interpretation)
+        return True
+
+# Example: "All students study"
+fol = FirstOrderLogic()
+fol.add_predicate("Student", 1)
+fol.add_predicate("Studies", 1)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="inference">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Inference Techniques</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Inference</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Forward Chaining:</b> Start with facts, derive conclusions</li>
+        <li><b>Backward Chaining:</b> Start with goal, find supporting facts</li>
+        <li><b>Resolution:</b> Prove by contradiction</li>
+        <li><b>Unification:</b> Match variables in logical expressions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Forward chaining example
+knowledge_base = [
+    ("bird", "can_fly"),
+    ("penguin", "bird"),
+    ("penguin", "cannot_fly")
+]
+
+def forward_chain(facts, rules):
+    new_facts = set(facts)
+    changed = True
+    while changed:
+        changed = False
+        for rule in rules:
+            if all(premise in new_facts for premise in rule[0]):
+                if rule[1] not in new_facts:
+                    new_facts.add(rule[1])
+                    changed = True
+    return new_facts
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="planning">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Planning in AI</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Planning</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>STRIPS:</b> Stanford Research Institute Problem Solver</li>
+        <li><b>Actions:</b> Preconditions, effects, costs</li>
+        <li><b>State space planning:</b> Search through possible states</li>
+        <li><b>Partial-order planning:</b> Flexible action ordering</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># STRIPS-style action representation
+class Action:
+    def __init__(self, name, preconditions, effects, cost=1):
+        self.name = name
+        self.preconditions = set(preconditions)
+        self.effects = set(effects)
+        self.cost = cost
+
+# Example: Move action
+move_action = Action(
+    name="move",
+    preconditions=["at_location_A", "has_energy"],
+    effects=["at_location_B", "not_at_location_A"],
+    cost=1
+)
+
+def is_applicable(action, state):
+    return action.preconditions.issubset(state)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="csp">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Constraint Satisfaction Problems (CSPs)</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CSP</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Variables:</b> What needs to be assigned values</li>
+        <li><b>Domains:</b> Possible values for each variable</li>
+        <li><b>Constraints:</b> Restrictions on variable combinations</li>
+        <li><b>Algorithms:</b> Backtracking, Arc consistency, Forward checking</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Map coloring CSP
+variables = ['WA', 'NT', 'SA', 'Q', 'NSW', 'V', 'T']
+domains = {var: ['red', 'green', 'blue'] for var in variables}
+constraints = [
+    ('WA', 'NT'), ('WA', 'SA'), ('NT', 'SA'), ('NT', 'Q'),
+    ('SA', 'Q'), ('SA', 'NSW'), ('SA', 'V'), ('Q', 'NSW'),
+    ('NSW', 'V')
+]
+
+def is_consistent(assignment, var, value):
+    for neighbor in [c[1] for c in constraints if c[0] == var]:
+        if neighbor in assignment and assignment[neighbor] == value:
+            return False
+    return True
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="ml-basics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Machine Learning (ML) Basics</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">ML</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Learning from data:</b> Patterns and relationships</li>
+        <li><b>Training data:</b> Examples to learn from</li>
+        <li><b>Features:</b> Input variables/attributes</li>
+        <li><b>Labels:</b> Target outputs (supervised learning)</li>
+        <li><b>Model:</b> Learned function mapping inputs to outputs</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Simple ML example
+X = np.array([[1], [2], [3], [4], [5]])  # Features
+y = np.array([2, 4, 6, 8, 10])           # Labels
+
+model = LinearRegression()
+model.fit(X, y)  # Training
+prediction = model.predict([[6]])  # Prediction
+print(f"Prediction for input 6: {prediction[0]}")
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="supervised-unsupervised">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Supervised vs Unsupervised Learning</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Learning</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Supervised Learning:</b> Learn from labeled examples</li>
+        <li><b>Classification:</b> Predict discrete categories</li>
+        <li><b>Regression:</b> Predict continuous values</li>
+        <li><b>Unsupervised Learning:</b> Find patterns in unlabeled data</li>
+        <li><b>Clustering:</b> Group similar data points</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.cluster import KMeans
+from sklearn.ensemble import RandomForestClassifier
+
+# Supervised Learning
+X_train = [[1, 2], [2, 3], [3, 4], [4, 5]]
+y_train = [0, 0, 1, 1]  # Labels
+classifier = RandomForestClassifier()
+classifier.fit(X_train, y_train)
+
+# Unsupervised Learning
+X = [[1, 2], [2, 3], [8, 9], [9, 10]]
+kmeans = KMeans(n_clusters=2)
+clusters = kmeans.fit_predict(X)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="neural-networks">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Neural Networks</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Neural</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Artificial neurons:</b> Mathematical model of biological neurons</li>
+        <li><b>Weights and biases:</b> Learnable parameters</li>
+        <li><b>Activation functions:</b> ReLU, Sigmoid, Tanh</li>
+        <li><b>Layers:</b> Input, hidden, output layers</li>
+        <li><b>Backpropagation:</b> Learning algorithm</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+
+class SimpleNeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size):
+        self.W1 = np.random.randn(input_size, hidden_size) * 0.01
+        self.b1 = np.zeros((1, hidden_size))
+        self.W2 = np.random.randn(hidden_size, output_size) * 0.01
+        self.b2 = np.zeros((1, output_size))
+    
+    def forward(self, X):
+        # Forward propagation
+        z1 = np.dot(X, self.W1) + self.b1
+        a1 = np.tanh(z1)  # Activation function
+        z2 = np.dot(a1, self.W2) + self.b2
+        return z2
+
+# Create a simple neural network
+nn = SimpleNeuralNetwork(input_size=2, hidden_size=4, output_size=1)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="deep-learning">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Deep Learning</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Deep Learning</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Multi-layer neural networks:</b> Deep architectures</li>
+        <li><b>Convolutional Neural Networks (CNNs):</b> Image processing</li>
+        <li><b>Recurrent Neural Networks (RNNs):</b> Sequential data</li>
+        <li><b>Long Short-Term Memory (LSTM):</b> Long-term dependencies</li>
+        <li><b>Transformers:</b> Attention-based architectures</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import tensorflow as tf
+
+# Simple CNN for image classification
+model = tf.keras.Sequential([
+    tf.keras.layers.Conv2D(32, 3, activation='relu', input_shape=(28, 28, 1)),
+    tf.keras.layers.MaxPooling2D(2),
+    tf.keras.layers.Conv2D(64, 3, activation='relu'),
+    tf.keras.layers.MaxPooling2D(2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="nlp">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Natural Language Processing (NLP)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">NLP</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Text preprocessing:</b> Tokenization, stemming, lemmatization</li>
+        <li><b>Word embeddings:</b> Word2Vec, GloVe, BERT</li>
+        <li><b>Language models:</b> GPT, BERT, T5</li>
+        <li><b>Named Entity Recognition (NER):</b> Identify entities</li>
+        <li><b>Sentiment analysis:</b> Determine text sentiment</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import nltk
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
+
+# Text preprocessing
+text = "Natural Language Processing is amazing!"
+tokens = word_tokenize(text.lower())
+stemmer = PorterStemmer()
+stems = [stemmer.stem(token) for token in tokens]
+
+# Remove stop words
+stop_words = set(stopwords.words('english'))
+filtered_tokens = [token for token in tokens if token not in stop_words]
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="computer-vision">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Computer Vision</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Vision</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Image classification:</b> Categorize images</li>
+        <li><b>Object detection:</b> Locate and classify objects</li>
+        <li><b>Image segmentation:</b> Pixel-level classification</li>
+        <li><b>Feature extraction:</b> SIFT, SURF, HOG</li>
+        <li><b>Convolutional operations:</b> Filters and kernels</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import cv2
+import numpy as np
+
+# Basic image processing
+image = cv2.imread('image.jpg')
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Edge detection
+edges = cv2.Canny(gray, 50, 150)
+
+# Feature detection (SIFT)
+sift = cv2.SIFT_create()
+keypoints, descriptors = sift.detectAndCompute(gray, None)
+
+# Object detection with Haar cascades
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="expert-systems">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Expert Systems</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Expert</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Knowledge base:</b> Domain-specific rules and facts</li>
+        <li><b>Inference engine:</b> Apply rules to reach conclusions</li>
+        <li><b>Rule-based systems:</b> If-then production rules</li>
+        <li><b>Expert consultation:</b> Interactive problem solving</li>
+        <li><b>Explanation facility:</b> Justify reasoning</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class ExpertSystem:
+    def __init__(self):
+        self.knowledge_base = []
+        self.facts = set()
+    
+    def add_rule(self, conditions, conclusion):
+        self.knowledge_base.append((conditions, conclusion))
+    
+    def add_fact(self, fact):
+        self.facts.add(fact)
+    
+    def infer(self):
+        changed = True
+        while changed:
+            changed = False
+            for conditions, conclusion in self.knowledge_base:
+                if all(cond in self.facts for cond in conditions):
+                    if conclusion not in self.facts:
+                        self.facts.add(conclusion)
+                        changed = True
+        return self.facts
+
+# Medical diagnosis expert system
+expert = ExpertSystem()
+expert.add_rule(['fever', 'cough'], 'flu')
+expert.add_fact('fever')
+expert.add_fact('cough')
+diagnosis = expert.infer()
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="fuzzy-logic">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Fuzzy Logic</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Fuzzy</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Fuzzy sets:</b> Elements with degree of membership</li>
+        <li><b>Membership functions:</b> Triangular, trapezoidal, Gaussian</li>
+        <li><b>Fuzzy operators:</b> AND (min), OR (max), NOT (complement)</li>
+        <li><b>Fuzzy inference:</b> Mamdani, Sugeno methods</li>
+        <li><b>Defuzzification:</b> Convert fuzzy output to crisp value</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+
+class FuzzySet:
+    def __init__(self, name, membership_func):
+        self.name = name
+        self.membership_func = membership_func
+    
+    def membership(self, x):
+        return self.membership_func(x)
+
+# Triangular membership function
+def triangular_mf(x, a, b, c):
+    if x <= a or x >= c:
+        return 0
+    elif a <= x <= b:
+        return (x - a) / (b - a)
+    else:
+        return (c - x) / (c - b)
+
+# Fuzzy temperature sets
+cold = FuzzySet("cold", lambda x: triangular_mf(x, 0, 10, 20))
+warm = FuzzySet("warm", lambda x: triangular_mf(x, 15, 25, 35))
+hot = FuzzySet("hot", lambda x: triangular_mf(x, 30, 40, 50))
+
+# Fuzzy inference
+temp = 25
+cold_degree = cold.membership(temp)
+warm_degree = warm.membership(temp)
+hot_degree = hot.membership(temp)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="bayesian">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Bayesian Networks</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Bayesian</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Directed Acyclic Graph (DAG):</b> Nodes represent variables</li>
+        <li><b>Conditional Probability Tables (CPTs):</b> Probability distributions</li>
+        <li><b>Bayesian inference:</b> Update beliefs with evidence</li>
+        <li><b>D-separation:</b> Conditional independence</li>
+        <li><b>Learning:</b> Structure and parameter learning</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+
+class BayesianNetwork:
+    def __init__(self):
+        self.nodes = {}
+        self.edges = {}
+        self.cpts = {}
+    
+    def add_node(self, node, parents=None):
+        self.nodes[node] = parents or []
+    
+    def add_cpt(self, node, cpt):
+        self.cpts[node] = cpt
+    
+    def probability(self, node, value, evidence=None):
+        # Simplified probability calculation
+        if evidence is None:
+            evidence = {}
+        
+        if node in self.cpts:
+            return self.cpts[node].get(value, 0.0)
+        return 0.5  # Default uniform probability
+
+# Simple Bayesian network: Rain -> Wet Grass
+bn = BayesianNetwork()
+bn.add_node("Rain")
+bn.add_node("WetGrass", parents=["Rain"])
+bn.add_cpt("Rain", {"True": 0.2, "False": 0.8})
+bn.add_cpt("WetGrass", {
+    ("Rain", "True"): {"True": 0.9, "False": 0.1},
+    ("Rain", "False"): {"True": 0.1, "False": 0.9}
+})
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="reinforcement">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Reinforcement Learning</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">RL</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Agent-environment interaction:</b> Learn through trial and error</li>
+        <li><b>Markov Decision Process (MDP):</b> States, actions, rewards, transitions</li>
+        <li><b>Q-Learning:</b> Learn action-value function</li>
+        <li><b>Policy gradient methods:</b> Direct policy optimization</li>
+        <li><b>Deep RL:</b> Neural networks for RL (DQN, A3C, PPO)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+
+class QLearningAgent:
+    def __init__(self, states, actions, learning_rate=0.1, discount=0.9, epsilon=0.1):
+        self.q_table = np.zeros((states, actions))
+        self.lr = learning_rate
+        self.gamma = discount
+        self.epsilon = epsilon
+    
+    def choose_action(self, state):
+        if np.random.random() < self.epsilon:
+            return np.random.randint(self.q_table.shape[1])
+        return np.argmax(self.q_table[state])
+    
+    def learn(self, state, action, reward, next_state):
+        old_value = self.q_table[state, action]
+        next_max = np.max(self.q_table[next_state])
+        new_value = (1 - self.lr) * old_value + self.lr * (reward + self.gamma * next_max)
+        self.q_table[state, action] = new_value
+
+# Simple grid world example
+agent = QLearningAgent(states=4, actions=4)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="robotics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Robotics & Perception</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Robotics</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Sensor fusion:</b> Combine multiple sensor inputs</li>
+        <li><b>SLAM:</b> Simultaneous Localization and Mapping</li>
+        <li><b>Path planning:</b> A*, RRT, PRM algorithms</li>
+        <li><b>Computer vision:</b> Object recognition, tracking</li>
+        <li><b>Control systems:</b> PID, model predictive control</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+
+class Robot:
+    def __init__(self, x, y, theta):
+        self.x = x
+        self.y = y
+        self.theta = theta  # Orientation
+    
+    def move(self, linear_vel, angular_vel, dt):
+        # Simple motion model
+        self.x += linear_vel * np.cos(self.theta) * dt
+        self.y += linear_vel * np.sin(self.theta) * dt
+        self.theta += angular_vel * dt
+    
+    def sense(self, landmarks):
+        # Simple sensor model - distance to landmarks
+        measurements = []
+        for landmark in landmarks:
+            distance = np.sqrt((self.x - landmark[0])**2 + (self.y - landmark[1])**2)
+            measurements.append(distance)
+        return measurements
+
+# Robot with basic perception
+robot = Robot(0, 0, 0)
+landmarks = [(5, 5), (10, 0), (0, 10)]
+robot.move(1.0, 0.1, 0.1)  # Move forward with slight turn
+measurements = robot.sense(landmarks)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="ethics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Ethics in AI</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Ethics</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Bias and fairness:</b> Address algorithmic bias</li>
+        <li><b>Transparency:</b> Explainable AI and interpretability</li>
+        <li><b>Privacy:</b> Data protection and confidentiality</li>
+        <li><b>Accountability:</b> Responsibility for AI decisions</li>
+        <li><b>Safety:</b> Robustness and fail-safe mechanisms</li>
+        <li><b>Job displacement:</b> Economic and social impacts</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Bias detection example
+import numpy as np
+from sklearn.metrics import accuracy_score
+
+def detect_bias(model, X_test, y_test, sensitive_attribute):
+    # Check performance across different groups
+    groups = np.unique(sensitive_attribute)
+    bias_report = {}
+    
+    for group in groups:
+        mask = sensitive_attribute == group
+        group_accuracy = accuracy_score(y_test[mask], model.predict(X_test[mask]))
+        bias_report[group] = group_accuracy
+    
+    # Check for significant differences
+    accuracies = list(bias_report.values())
+    max_diff = max(accuracies) - min(accuracies)
+    return bias_report, max_diff > 0.1  # Flag if difference > 10%
+
+# Example usage
+# bias_report, has_bias = detect_bias(model, X_test, y_test, gender)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="tools">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">AI Tools & Frameworks</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tools</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Deep Learning:</b> TensorFlow, PyTorch, Keras</li>
+        <li><b>Machine Learning:</b> scikit-learn, XGBoost, LightGBM</li>
+        <li><b>NLP:</b> NLTK, spaCy, Transformers (Hugging Face)</li>
+        <li><b>Computer Vision:</b> OpenCV, PIL, scikit-image</li>
+        <li><b>Reinforcement Learning:</b> Gym, Stable Baselines</li>
+        <li><b>Data Processing:</b> pandas, numpy, matplotlib</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Common AI framework imports
+import tensorflow as tf
+import torch
+import sklearn
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import cv2
+import nltk
+import gym
+
+# TensorFlow example
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(1)
+])
+
+# PyTorch example
+import torch.nn as nn
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(10, 64)
+        self.fc2 = nn.Linear(64, 1)
+    
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        return self.fc2(x)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.parentElement.querySelector('code');
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          setTimeout(() => {
+            this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+          }, 2000);
+        });
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          targetElement.classList.add('highlight-card');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-card');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX",
+      authDomain: "codepolarity.firebaseapp.com",
+      projectId: "codepolarity",
+      storageBucket: "codepolarity.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdefghijklmnop"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html> 

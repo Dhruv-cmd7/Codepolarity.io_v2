@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Tailwind CSS Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #111827;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #1f2937;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none; /* Firefox */
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar (original from site) -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Tailwind CSS Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#installation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Installation</a>
+    <a href="#configuration" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Configuration</a>
+    <a href="#spacing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Spacing</a>
+    <a href="#colors" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Colors</a>
+    <a href="#typography" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Typography</a>
+    <a href="#layout" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Layout</a>
+    <a href="#flexbox" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Flexbox</a>
+    <a href="#grid" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Grid</a>
+    <a href="#positioning" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Positioning</a>
+    <a href="#sizing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sizing</a>
+    <a href="#borders" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Borders</a>
+    <a href="#backgrounds" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Backgrounds</a>
+    <a href="#effects" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Effects</a>
+    <a href="#transforms" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Transforms</a>
+    <a href="#transitions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Transitions</a>
+    <a href="#interactivity" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Interactivity</a>
+    <a href="#responsive" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Responsive</a>
+    <a href="#dark-mode" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Dark Mode</a>
+    <a href="#accessibility" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Accessibility</a>
+    <a href="#animations" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Animations</a>
+    <a href="#utilities" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Utilities</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Introduction</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><a class="text-blue-400 hover:underline" href="https://tailwindcss.com" target="_blank">Tailwind CSS (tailwindcss.com)</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://tailwindcss.com/docs" target="_blank">Official Documentation</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://tailwindui.com" target="_blank">Tailwind UI Components</a></li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="installation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Installation</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Installation</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-bash">npm install -D tailwindcss
+npx tailwindcss init</code></pre>
+      <p class="mt-2 text-xs text-gray-400">Install Tailwind CSS via npm and initialize config.</p>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="spacing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Spacing</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Spacing</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Class</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">p-0, m-0</td>
+              <td class="px-2 py-1">0px</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">p-1, m-1</td>
+              <td class="px-2 py-1">0.25rem (4px)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">p-4, m-4</td>
+              <td class="px-2 py-1">1rem (16px)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">p-8, m-8</td>
+              <td class="px-2 py-1">2rem (32px)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">p-16, m-16</td>
+              <td class="px-2 py-1">4rem (64px)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-html">&lt;div class="<span class="text-yellow-400">px-6 py-2</span>"&gt;Padding x/y&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">mt-8 mb-4</span>"&gt;Margin top/bottom&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">space-x-4</span>"&gt;Space between children&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="colors">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Colors</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Colors</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Color</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Shades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Gray</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Blue</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Red</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Green</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Yellow</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Purple</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Pink</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Indigo</td>
+              <td class="px-2 py-1">50, 100, 200, 300, 400, 500, 600, 700, 800, 900</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-html">&lt;div class="<span class="text-yellow-400">text-blue-500 bg-red-100</span>"&gt;Text & background&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">border-green-300 ring-2 ring-blue-500</span>"&gt;Border & ring&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600</span>"&gt;Gradient text&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="typography">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Typography</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Typography</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Size</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Class</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">xs</td>
+              <td class="px-2 py-1">text-xs (0.75rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">sm</td>
+              <td class="px-2 py-1">text-sm (0.875rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">base</td>
+              <td class="px-2 py-1">text-base (1rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">lg</td>
+              <td class="px-2 py-1">text-lg (1.125rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">xl</td>
+              <td class="px-2 py-1">text-xl (1.25rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">2xl</td>
+              <td class="px-2 py-1">text-2xl (1.5rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">3xl</td>
+              <td class="px-2 py-1">text-3xl (1.875rem)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">4xl</td>
+              <td class="px-2 py-1">text-4xl (2.25rem)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-html">&lt;h1 class="<span class="text-yellow-400">text-4xl font-bold tracking-wide</span>"&gt;Heading&lt;/h1&gt;
+&lt;p class="<span class="text-yellow-400">text-lg leading-relaxed text-gray-600</span>"&gt;Paragraph&lt;/p&gt;
+&lt;span class="<span class="text-yellow-400">text-sm font-medium uppercase tracking-wider</span>"&gt;Label&lt;/span&gt;
+&lt;div class="<span class="text-yellow-400">text-center italic underline decoration-2</span>"&gt;Styled text&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="layout">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Layout</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Layout</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">container mx-auto</span>"&gt;Centered container&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">block</span>"&gt;Block element&lt;/div&gt;
+&lt;span class="<span class="text-yellow-400">inline-block</span>"&gt;Inline block&lt;/span&gt;
+&lt;div class="<span class="text-yellow-400">hidden</span>"&gt;Hidden element&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="flexbox">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Flexbox</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Flexbox</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">flex</span>"&gt;Flex container&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">flex justify-center</span>"&gt;Center items&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">flex items-center</span>"&gt;Align center&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">flex-col</span>"&gt;Column direction&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="grid">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Grid</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Grid</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">grid</span>"&gt;Grid container&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">grid-cols-3</span>"&gt;3 columns&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">grid-rows-2</span>"&gt;2 rows&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">gap-4</span>"&gt;Grid gap&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="borders">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Borders</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Borders</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">border</span>"&gt;Default border&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">border-2 border-red-500</span>"&gt;Red border&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">rounded-lg</span>"&gt;Rounded corners&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">border-t-4</span>"&gt;Top border only&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="backgrounds">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Backgrounds</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Backgrounds</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">bg-blue-500</span>"&gt;Solid background&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">bg-gradient-to-r from-blue-500 to-purple-600</span>"&gt;Gradient&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">bg-opacity-50</span>"&gt;Background opacity&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">bg-cover bg-center</span>"&gt;Background image&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="effects">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Effects</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Effects</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">shadow-lg</span>"&gt;Large shadow&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">opacity-75</span>"&gt;75% opacity&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">blur-sm</span>"&gt;Blur effect&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">backdrop-blur-md</span>"&gt;Backdrop blur&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="transforms">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Transforms</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Transforms</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">scale-110</span>"&gt;Scale up 10%&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">rotate-45</span>"&gt;Rotate 45°&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">translate-x-4</span>"&gt;Move right&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">skew-y-12</span>"&gt;Skew Y axis&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="transitions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Transitions</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Transitions</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">transition</span>"&gt;Default transition&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">duration-300</span>"&gt;300ms duration&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">ease-in-out</span>"&gt;Easing function&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">hover:scale-105</span>"&gt;Hover effect&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="responsive">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Responsive</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Responsive</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">md:flex</span>"&gt;Flex on medium+&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">lg:text-2xl</span>"&gt;Large text on large+&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">sm:hidden</span>"&gt;Hidden on small+&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">xl:grid-cols-4</span>"&gt;4 cols on xl+&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Configuration Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="configuration">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Configuration</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Configuration</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-javascript">module.exports = {
+  content: [<span class="text-green-400">"./src/**/*.{html,js}"</span>],
+  theme: {
+    extend: {
+      colors: {
+        <span class="text-yellow-400">primary</span>: <span class="text-green-400">'#3B82F6'</span>,
+      }
+    }
+  },
+  plugins: []
+}</code></pre>
+      <p class="mt-2 text-xs text-gray-400">Customize Tailwind with tailwind.config.js</p>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Positioning Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="positioning">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Positioning</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Positioning</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">relative</span>"&gt;Relative positioning&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">absolute top-0 right-0</span>"&gt;Absolute&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">fixed bottom-4 left-4</span>"&gt;Fixed&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">sticky top-0</span>"&gt;Sticky&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Sizing Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sizing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Sizing</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Sizing</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">w-full h-screen</span>"&gt;Full width/height&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">w-64 h-32</span>"&gt;Fixed dimensions&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">min-h-screen</span>"&gt;Min height&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">max-w-md</span>"&gt;Max width&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Interactivity Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="interactivity">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Interactivity</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Interactivity</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;button class="<span class="text-yellow-400">hover:bg-blue-600</span>"&gt;Hover effect&lt;/button&gt;
+&lt;input class="<span class="text-yellow-400">focus:ring-2 focus:ring-blue-500</span>"&gt;
+&lt;div class="<span class="text-yellow-400">active:scale-95</span>"&gt;Active state&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">group-hover:text-white</span>"&gt;Group hover&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Dark Mode Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dark-mode">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Dark Mode</h2>
+        <span class="bg-gray-500/20 text-gray-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Dark Mode</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">dark:bg-gray-900</span>"&gt;Dark background&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">dark:text-white</span>"&gt;Dark text&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">dark:border-gray-700</span>"&gt;Dark border&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">dark:hover:bg-gray-800</span>"&gt;Dark hover&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Accessibility Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="accessibility">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Accessibility</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Accessibility</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;button class="<span class="text-yellow-400">focus:outline-none focus:ring-2</span>"&gt;Focus styles&lt;/button&gt;
+&lt;div class="<span class="text-yellow-400">sr-only</span>"&gt;Screen reader only&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">not-sr-only</span>"&gt;Not screen reader only&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">motion-reduce:motion-none</span>"&gt;Reduce motion&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Animations Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="animations">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Animations</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Animations</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">animate-spin</span>"&gt;Spinning animation&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">animate-pulse</span>"&gt;Pulse animation&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">animate-bounce</span>"&gt;Bounce animation&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">animate-ping</span>"&gt;Ping animation&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Utilities Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="utilities">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Utilities</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Utilities</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-html">&lt;div class="<span class="text-yellow-400">overflow-hidden</span>"&gt;Hide overflow&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">z-10</span>"&gt;Z-index&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">cursor-pointer</span>"&gt;Pointer cursor&lt;/div&gt;
+&lt;div class="<span class="text-yellow-400">select-none</span>"&gt;No text selection&lt;/div&gt;</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          // Remove all HTML tags for copying plain text
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    // TOC highlight animation
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+    // Dropdown logic for Resources and Practice
+    function setupDropdown(btnId, menuId) {
+      const btn = document.getElementById(btnId);
+      const menu = document.getElementById(menuId);
+      let open = false;
+      if (btn && menu) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          open = !open;
+          menu.classList.toggle('opacity-100', open);
+          menu.classList.toggle('visible', open);
+          menu.classList.toggle('opacity-0', !open);
+          menu.classList.toggle('invisible', !open);
+          btn.setAttribute('aria-expanded', open);
+        });
+        document.addEventListener('click', function(e) {
+          if (open && !menu.contains(e.target) && !btn.contains(e.target)) {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            open = false;
+            menu.classList.remove('opacity-100', 'visible');
+            menu.classList.add('opacity-0', 'invisible');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      setupDropdown('resources-btn', 'resources-menu');
+      setupDropdown('practice-btn', 'practice-menu');
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase config (reuse from login.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    // Firebase Auth UI logic from index.html
+    function updateAuthUIFirebase(user) {
+      // Desktop
+      const loginBtn = document.getElementById('desktop-login-btn');
+      const profileLi = document.getElementById('desktop-profile');
+      if (loginBtn && profileLi) {
+        if (user) {
+          loginBtn.style.display = 'none';
+          profileLi.classList.remove('hidden');
+        } else {
+          loginBtn.style.display = '';
+          profileLi.classList.add('hidden');
+        }
+      }
+      // Mobile
+      const mobileLoginBtn = document.getElementById('firebase-login-btn-mobile');
+      const mobileProfile = document.getElementById('mobile-profile');
+      if(mobileLoginBtn) mobileLoginBtn.style.display = user ? 'none' : '';
+      if(mobileProfile) mobileProfile.style.display = user ? 'flex' : 'none';
+      // Profile info
+      if (user) {
+        // Desktop avatar
+        const avatar = document.querySelector('#desktop-profile .w-7');
+        if (avatar && user.photoURL) {
+          avatar.style.backgroundImage = `url('${user.photoURL}')`;
+          avatar.style.backgroundSize = 'cover';
+          avatar.textContent = '';
+        } else if (avatar) {
+          avatar.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        // Mobile avatar and name
+        const avatarM = document.querySelector('#mobile-profile .w-8');
+        const nameM = document.querySelector('#mobile-profile .font-semibold');
+        if (avatarM && user.photoURL) {
+          avatarM.style.backgroundImage = `url('${user.photoURL}')`;
+          avatarM.style.backgroundSize = 'cover';
+          avatarM.textContent = '';
+        } else if (avatarM) {
+          avatarM.textContent = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+        }
+        if (nameM) nameM.textContent = user.displayName || 'User';
+      }
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      updateAuthUIFirebase(user);
+    });
+    // Logout handlers
+    const logoutBtn = document.getElementById('logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+    function doLogout() {
+      firebase.auth().signOut().then(function() {
+        // No reload needed, onAuthStateChanged will handle it
+      });
+    }
+    if (logoutBtn) logoutBtn.onclick = doLogout;
+    if (mobileLogoutBtn) mobileLogoutBtn.onclick = doLogout;
+    // Desktop profile dropdown
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileBtn && profileMenu) {
+      let open = false;
+      profileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        profileMenu.classList.toggle('opacity-0', !open);
+        profileMenu.classList.toggle('invisible', !open);
+        profileMenu.classList.toggle('opacity-100', open);
+        profileMenu.classList.toggle('visible', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (open && !profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+          open = false;
+          profileMenu.classList.add('opacity-0', 'invisible');
+          profileMenu.classList.remove('opacity-100', 'visible');
+        }
+      });
+    }
+  </script>
+</body>
+</html> 

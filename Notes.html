@@ -60,27 +60,40 @@
   }
   </style>
   <style>
-  /* New card styles */
+  /* Minimal and aesthetic card style, no gradients */
   .card-dark {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
-    transition: all 0.3s ease;
+    background: #2563eb !important; /* Soft blue accent */
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08) !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+    transition: box-shadow 0.18s, background 0.18s, transform 0.18s;
+    font-family: 'Space Grotesk', 'Doto', sans-serif;
   }
-  
   .dark .card-dark {
-    background: rgba(30, 41, 59, 0.9) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    background: #1e293b !important;
+    color: #fff !important;
   }
-  
   .card-dark:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+    background: #1d4ed8 !important;
+    box-shadow: 0 6px 18px rgba(59,131,246,0.13) !important;
+    transform: translateY(-2px) scale(1.035);
   }
-  
   .dark .card-dark:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+    background: #334155 !important;
+  }
+  .card-dark .font-bold {
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+  .card-dark img {
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.10));
+    transition: filter 0.2s;
+  }
+  .card-dark:hover img {
+    filter: drop-shadow(0 2px 8px #1d4ed888);
   }
   </style>
   <meta name="theme-color" content="#000000">
@@ -200,7 +213,6 @@
 <!-- Page Title -->
 <div class="max-w-5xl w-full mx-auto mt-28 md:mt-32 mb-8 px-2 sm:px-4 md:px-8">
   <h1 class="main-heading text-3xl md:text-5xl font-bold mb-4 text-blue-500 dark:text-blue-300 flex items-center gap-3 animate-fadein">
-    <svg class="w-9 h-9 md:w-12 md:h-12 text-yellow-400 animate-bounce-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
     Cheat Sheets 
   </h1>
   <div class="main-text text-lg md:text-2xl text-gray-500 dark:text-gray-300 font-medium mb-2 animate-fadein delay-150">Your Ultimate Coding Reference — Quick, Clear, and Always at Hand!</div>
@@ -277,40 +289,55 @@
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/react.png" alt="React" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">React</span>
     </div>
+    <!-- Tailwind CSS card (Languages section) -->
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='tailwind_cheatsheet.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/icons8-tailwind-css-50.png" alt="Tailwind CSS" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Tailwind CSS</span>
+    </div>
   </div>
   <h2 id="topics-heading" class="main-heading text-xl sm:text-2xl md:text-3xl font-bold mb-4">Topics & Tools</h2>
   <div id="topics-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='data_structures_cheatsheet.html'">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/data structure.png" alt="Data Structures" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Data Structures</span>
     </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
-      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/algorithm.png" alt="Algorithms" width="32" height="32" style="object-fit:contain;"/></span>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='algorithms_cheatsheet.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/icons8-algorithm-50.png" alt="Algorithms" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Algorithms</span>
     </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
-      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/mongodb.png" alt="Databases" width="32" height="32" style="object-fit:contain;"/></span>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='databases_cheatsheet.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/icons8-database-50.png" alt="Databases" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Databases</span>
     </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='machine_learning_cheatsheet.html'">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/machine learning.png" alt="Machine Learning" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Machine Learning</span>
     </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='ai_cheatsheet.html'">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/ai.png" alt="AI" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">AI</span>
     </div>
-    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
-      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/docker.png" alt="DevOps" width="32" height="32" style="object-fit:contain;"/></span>
-      <span class="font-bold">DevOps</span>
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='docker_cheatsheet.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/docker.png" alt="Docker" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Docker</span>
     </div>
      <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
       <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/git.png" alt="Git" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">Git</span>
     </div>
     <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition">
-      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/.net framwork.png" alt=".NET" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/dotnet.png" alt=".NET" width="32" height="32" style="object-fit:contain;"/></span>
       <span class="font-bold">.NET</span>
+    </div>
+    <!-- Matlab card (Topics & Tools section) -->
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='work_in_progress.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/matlab.png" alt="Matlab" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">Matlab</span>
+    </div>
+    <!-- MongoDB card (Topics & Tools section) -->
+    <div class="card-dark flex items-center px-5 py-4 cursor-pointer hover:border-blue-400 bg-white dark:bg-[#181f2a] text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xl shadow transition" onclick="window.location.href='work_in_progress.html'">
+      <span class="icon-box flex items-center justify-center mr-3"><img src="assets/icons_cheatsheet/mongodb.png" alt="MongoDB" width="32" height="32" style="object-fit:contain;"/></span>
+      <span class="font-bold">MongoDB</span>
     </div>
   </div>
 </div>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Machine Learning Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Machine Learning Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Types</a>
+    <a href="#linear-algebra" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Linear Algebra</a>
+    <a href="#calculus" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Calculus</a>
+    <a href="#probability" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Probability</a>
+    <a href="#preprocessing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Preprocessing</a>
+    <a href="#feature-engineering" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Feature Engineering</a>
+    <a href="#dimensionality" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Dimensionality Reduction</a>
+    <a href="#supervised" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Supervised Learning</a>
+    <a href="#regression" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Regression</a>
+    <a href="#classification" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Classification</a>
+    <a href="#metrics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Metrics</a>
+    <a href="#cross-validation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Cross Validation</a>
+    <a href="#bias-variance" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Bias-Variance</a>
+    <a href="#overfitting" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Overfitting</a>
+    <a href="#unsupervised" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Unsupervised Learning</a>
+    <a href="#clustering" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Clustering</a>
+    <a href="#association" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Association Rules</a>
+    <a href="#ensemble" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Ensemble</a>
+    <a href="#neural-networks" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Neural Networks</a>
+    <a href="#activation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Activation Functions</a>
+    <a href="#backpropagation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Backpropagation</a>
+    <a href="#optimization" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Optimization</a>
+    <a href="#nlp" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">NLP</a>
+    <a href="#text-preprocessing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Text Preprocessing</a>
+    <a href="#embeddings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Word Embeddings</a>
+    <a href="#reinforcement" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Reinforcement Learning</a>
+    <a href="#q-learning" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Q-Learning</a>
+    <a href="#deployment" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Deployment</a>
+    <a href="#libraries" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Python Libraries</a>
+    <a href="#workflow" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Workflow</a>
+    <a href="#applications" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Applications</a>
+    <a href="#best-practices" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Best Practices</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Cards for all 33 topics will be filled in next edits -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction to Machine Learning</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <p class="mb-2">Machine Learning (ML) is a field of AI that enables computers to learn from data and make predictions or decisions without being explicitly programmed. ML powers applications like recommendation systems, image recognition, and language translation.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Automates pattern recognition and prediction</li>
+        <li>Uses data to improve performance over time</li>
+        <li>Key for AI, data science, and analytics</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Types of Machine Learning</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Types</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Supervised Learning:</b> Learn from labeled data (e.g., regression, classification)</li>
+        <li><b>Unsupervised Learning:</b> Find patterns in unlabeled data (e.g., clustering, association)</li>
+        <li><b>Reinforcement Learning:</b> Learn by trial and error, using rewards (e.g., game AI, robotics)</li>
+        <li><b>Semi-supervised & Self-supervised:</b> Use both labeled and unlabeled data</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="linear-algebra">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Linear Algebra Basics</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Math</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Vectors, matrices, and operations (addition, multiplication)</li>
+        <li>Dot product, matrix multiplication</li>
+        <li>Eigenvalues, eigenvectors (PCA, dimensionality reduction)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+C = np.dot(A, B)  # Matrix multiplication
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="calculus">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Calculus for ML</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Math</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Derivatives: measure change, used in optimization (gradient descent)</li>
+        <li>Partial derivatives: for multivariable functions</li>
+        <li>Chain rule: for backpropagation in neural networks</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Derivative of f(x) = x^2
+import sympy as sp
+x = sp.symbols('x')
+f = x**2
+f_prime = sp.diff(f, x)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="probability">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Probability & Statistics</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Stats</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Probability distributions (normal, binomial, etc.)</li>
+        <li>Mean, median, mode, variance, standard deviation</li>
+        <li>Bayes’ theorem, conditional probability</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+x = np.random.normal(loc=0, scale=1, size=1000)
+mean = np.mean(x)
+std = np.std(x)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="preprocessing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Data Preprocessing</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Preprocessing</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Handling missing values (imputation, removal)</li>
+        <li>Scaling/normalizing features</li>
+        <li>Encoding categorical variables (one-hot, label encoding)</li>
+        <li>Train-test split</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="feature-engineering">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Feature Engineering</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Features</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Creating new features from existing data</li>
+        <li>Feature selection and importance</li>
+        <li>Polynomial features, interaction terms</li>
+        <li>Domain-specific feature creation</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dimensionality">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Dimensionality Reduction</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Reduction</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>PCA (Principal Component Analysis)</li>
+        <li>t-SNE, UMAP for visualization</li>
+        <li>Feature selection methods</li>
+        <li>Reduces overfitting, improves performance</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+X_reduced = pca.fit_transform(X)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="supervised">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Supervised Learning</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Supervised</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Learn from labeled training data</li>
+        <li>Regression: predict continuous values</li>
+        <li>Classification: predict discrete categories</li>
+        <li>Goal: minimize prediction error</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(X_train, y_train)
+predictions = model.predict(X_test)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="regression">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Regression Algorithms</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Regression</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Linear Regression: y = mx + b</li>
+        <li>Ridge/Lasso: with regularization</li>
+        <li>Polynomial Regression: non-linear relationships</li>
+        <li>Support Vector Regression (SVR)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.linear_model import Ridge
+from sklearn.svm import SVR
+ridge = Ridge(alpha=1.0)
+svr = SVR(kernel='rbf')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="classification">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Classification Algorithms</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Classification</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Logistic Regression: binary classification</li>
+        <li>Decision Trees: interpretable rules</li>
+        <li>Random Forest: ensemble of trees</li>
+        <li>SVM: find optimal hyperplane</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+rf = RandomForestClassifier(n_estimators=100)
+svm = SVC(kernel='rbf')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="metrics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Model Evaluation Metrics</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Metrics</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Regression: MSE, MAE, R²</li>
+        <li>Classification: Accuracy, Precision, Recall, F1</li>
+        <li>ROC-AUC, Confusion Matrix</li>
+        <li>Cross-validation scores</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.metrics import accuracy_score, f1_score
+accuracy = accuracy_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred, average='weighted')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cross-validation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Cross Validation Techniques</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Validation</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>K-Fold Cross Validation</li>
+        <li>Stratified K-Fold (for classification)</li>
+        <li>Leave-One-Out (LOO)</li>
+        <li>Time Series CV (for temporal data)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.model_selection import cross_val_score
+scores = cross_val_score(model, X, y, cv=5)
+mean_score = scores.mean()
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="bias-variance">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Bias-Variance Tradeoff</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tradeoff</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Bias: model's assumptions (underfitting)</li>
+        <li>Variance: sensitivity to training data (overfitting)</li>
+        <li>Goal: find optimal balance</li>
+        <li>Regularization helps control variance</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># High bias: Linear model on non-linear data
+# High variance: Complex model on small dataset
+# Solution: Regularization
+from sklearn.linear_model import Ridge
+ridge = Ridge(alpha=1.0)  # Controls variance
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="overfitting">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Overfitting & Underfitting</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Fitting</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Overfitting: model memorizes training data</li>
+        <li>Underfitting: model too simple for data</li>
+        <li>Solutions: regularization, more data, simpler model</li>
+        <li>Monitor train vs validation performance</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Early stopping to prevent overfitting
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(max_depth=5)  # Limit complexity
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="unsupervised">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Unsupervised Learning</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Unsupervised</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Find patterns in unlabeled data</li>
+        <li>Clustering: group similar data points</li>
+        <li>Dimensionality reduction</li>
+        <li>Association rule learning</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3)
+clusters = kmeans.fit_predict(X)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="clustering">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Clustering Algorithms</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Clustering</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>K-Means: partition data into k clusters</li>
+        <li>Hierarchical: tree-like structure</li>
+        <li>DBSCAN: density-based clustering</li>
+        <li>Gaussian Mixture Models (GMM)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.cluster import DBSCAN, AgglomerativeClustering
+dbscan = DBSCAN(eps=0.5, min_samples=5)
+hierarchical = AgglomerativeClustering(n_clusters=3)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="association">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Association Rule Learning</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Association</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Apriori algorithm: find frequent itemsets</li>
+        <li>Support: frequency of itemset</li>
+        <li>Confidence: strength of rule</li>
+        <li>Lift: correlation measure</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+frequent_itemsets = apriori(df, min_support=0.1)
+rules = association_rules(frequent_itemsets, metric="confidence")
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="ensemble">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Ensemble Methods</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Ensemble</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Bagging: Bootstrap Aggregating (Random Forest)</li>
+        <li>Boosting: AdaBoost, Gradient Boosting</li>
+        <li>Stacking: combine multiple models</li>
+        <li>Voting: majority vote of predictions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+gb = GradientBoostingClassifier(n_estimators=100)
+voting = VotingClassifier(estimators=[('rf', rf), ('gb', gb)])
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="neural-networks">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Neural Networks Basics</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Neural</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Input layer, hidden layers, output layer</li>
+        <li>Neurons with weights and biases</li>
+        <li>Forward propagation</li>
+        <li>Backpropagation for training</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import tensorflow as tf
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(1)
+])
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="activation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Activation Functions</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Activation</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>ReLU: max(0, x) - most common</li>
+        <li>Sigmoid: 1/(1+e^(-x)) - for probabilities</li>
+        <li>Tanh: (e^x - e^(-x))/(e^x + e^(-x))</li>
+        <li>Softmax: for multi-class classification</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+def relu(x): return np.maximum(0, x)
+def sigmoid(x): return 1 / (1 + np.exp(-x))
+def softmax(x): return np.exp(x) / np.sum(np.exp(x))
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="backpropagation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Backpropagation</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Backprop</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Compute gradients of loss w.r.t. weights</li>
+        <li>Chain rule for derivatives</li>
+        <li>Update weights using gradient descent</li>
+        <li>Automatic differentiation in frameworks</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Automatic backpropagation in TensorFlow
+with tf.GradientTape() as tape:
+    predictions = model(x)
+    loss = loss_function(y_true, predictions)
+gradients = tape.gradient(loss, model.trainable_variables)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="optimization">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Optimization Algorithms</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Optimization</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>SGD: Stochastic Gradient Descent</li>
+        <li>Adam: adaptive learning rate</li>
+        <li>RMSprop: adaptive gradient method</li>
+        <li>Momentum: helps escape local minima</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from tensorflow.keras.optimizers import Adam, SGD
+optimizer = Adam(learning_rate=0.001)
+sgd = SGD(learning_rate=0.01, momentum=0.9)
+model.compile(optimizer=optimizer, loss='mse')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="nlp">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Natural Language Processing</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">NLP</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Text processing and analysis</li>
+        <li>Tokenization, stemming, lemmatization</li>
+        <li>Word embeddings (Word2Vec, GloVe)</li>
+        <li>Language models (BERT, GPT)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+tokens = word_tokenize("Hello world!")
+stemmer = PorterStemmer()
+stems = [stemmer.stem(token) for token in tokens]
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="text-preprocessing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Text Preprocessing</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Text</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Lowercase conversion</li>
+        <li>Remove punctuation and numbers</li>
+        <li>Tokenization and stop word removal</li>
+        <li>Stemming and lemmatization</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import re
+from nltk.corpus import stopwords
+text = "Hello World! This is a test."
+text = re.sub(r'[^\w\s]', '', text.lower())
+tokens = text.split()
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="embeddings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Word Embeddings</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Embeddings</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Word2Vec: CBOW and Skip-gram</li>
+        <li>GloVe: Global Vectors</li>
+        <li>FastText: subword embeddings</li>
+        <li>Contextual embeddings (BERT, ELMo)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from gensim.models import Word2Vec
+sentences = [['hello', 'world'], ['machine', 'learning']]
+model = Word2Vec(sentences, vector_size=100, window=5)
+vector = model.wv['hello']
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="reinforcement">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Reinforcement Learning Basics</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">RL</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Agent, environment, actions, states</li>
+        <li>Rewards and policy</li>
+        <li>Exploration vs exploitation</li>
+        <li>Value functions and Q-learning</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import gym
+env = gym.make('CartPole-v1')
+state = env.reset()
+action = env.action_space.sample()
+next_state, reward, done, info = env.step(action)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="q-learning">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Q-Learning & MDPs</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Q-Learning</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Markov Decision Processes (MDPs)</li>
+        <li>Q-table: state-action value function</li>
+        <li>Q-learning update rule</li>
+        <li>Epsilon-greedy exploration</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import numpy as np
+Q = np.zeros((n_states, n_actions))
+alpha = 0.1  # learning rate
+gamma = 0.9  # discount factor
+Q[state, action] = Q[state, action] + alpha * (reward + gamma * max(Q[next_state]) - Q[state, action])
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="deployment">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Model Deployment</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Deployment</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Model serialization (pickle, joblib)</li>
+        <li>API development (Flask, FastAPI)</li>
+        <li>Containerization (Docker)</li>
+        <li>Cloud deployment (AWS, GCP, Azure)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import joblib
+import pickle
+# Save model
+joblib.dump(model, 'model.pkl')
+# Load model
+loaded_model = joblib.load('model.pkl')
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="libraries">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Python ML Libraries</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Libraries</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>scikit-learn: traditional ML</li>
+        <li>TensorFlow/PyTorch: deep learning</li>
+        <li>pandas: data manipulation</li>
+        <li>numpy: numerical computing</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import pandas as pd
+import numpy as np
+import sklearn
+import tensorflow as tf
+import torch
+# Core ML stack
+df = pd.read_csv('data.csv')
+X = np.array(df.drop('target', axis=1))
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="workflow">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Project Workflow</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Workflow</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Problem definition and data collection</li>
+        <li>Exploratory Data Analysis (EDA)</li>
+        <li>Feature engineering and preprocessing</li>
+        <li>Model selection, training, and evaluation</li>
+        <li>Deployment and monitoring</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Typical ML workflow
+import pandas as pd
+import matplotlib.pyplot as plt
+# 1. Load data
+df = pd.read_csv('data.csv')
+# 2. EDA
+df.describe()
+df.isnull().sum()
+# 3. Preprocess
+# 4. Train model
+# 5. Evaluate
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="applications">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Real-world Applications</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Applications</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Computer Vision: image classification, object detection</li>
+        <li>NLP: sentiment analysis, machine translation</li>
+        <li>Recommendation systems: Netflix, Amazon</li>
+        <li>Autonomous vehicles: Tesla, Waymo</li>
+        <li>Healthcare: disease diagnosis, drug discovery</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Example: Image classification
+from tensorflow.keras.applications import ResNet50
+model = ResNet50(weights='imagenet')
+# Example: Sentiment analysis
+from textblob import TextBlob
+blob = TextBlob("I love this product!")
+sentiment = blob.sentiment.polarity
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="best-practices">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Best Practices & Tips</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Best Practices</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Always split data: train/validation/test</li>
+        <li>Use cross-validation for model selection</li>
+        <li>Handle class imbalance properly</li>
+        <li>Feature scaling for distance-based algorithms</li>
+        <li>Regularization to prevent overfitting</li>
+        <li>Monitor model performance over time</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Best practices checklist
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report
+# 1. Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# 2. Scale features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+# 3. Evaluate properly
+print(classification_report(y_test, y_pred))
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="complexity">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Complexity Analysis</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Complexity</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs">
+          <thead>
+            <tr class="border-b border-gray-600">
+              <th class="text-left py-1">Algorithm</th>
+              <th class="text-left py-1">Time</th>
+              <th class="text-left py-1">Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">Linear Regression</td>
+              <td class="py-1">O(n²d)</td>
+              <td class="py-1">O(d)</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">Logistic Regression</td>
+              <td class="py-1">O(n²d)</td>
+              <td class="py-1">O(d)</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">Decision Tree</td>
+              <td class="py-1">O(n log n)</td>
+              <td class="py-1">O(n)</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">Random Forest</td>
+              <td class="py-1">O(t × n log n)</td>
+              <td class="py-1">O(t × n)</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">SVM</td>
+              <td class="py-1">O(n²) to O(n³)</td>
+              <td class="py-1">O(n²)</td>
+            </tr>
+            <tr class="border-b border-gray-700">
+              <td class="py-1">K-Means</td>
+              <td class="py-1">O(nkd)</td>
+              <td class="py-1">O(n + kd)</td>
+            </tr>
+            <tr>
+              <td class="py-1">Neural Network</td>
+              <td class="py-1">O(n × layers)</td>
+              <td class="py-1">O(parameters)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 text-xs text-gray-400">n = samples, d = features, k = clusters, t = trees</p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      // Auth state handling
+    });
+  </script>
+</body>
+</html> 

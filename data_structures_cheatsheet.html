@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Data Structures Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #111827;
+    }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .main-heading, .font-doto {
+      font-family: 'Doto', sans-serif !important;
+    }
+    code, pre, .text-mono, .font-mono {
+      font-family: 'Roboto Mono', monospace !important;
+    }
+    .code-block {
+      background-color: #1f2937;
+    }
+    pre, code, pre[class*="language-"], code[class*="language-"] {
+      background: transparent !important;
+    }
+    .code-block, .code-block pre, .code-block code {
+      scrollbar-width: none; /* Firefox */
+    }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important;
+      background-color: #e0f2fe !important;
+      transition: box-shadow 0.4s, background-color 0.4s;
+    }
+    .dark .highlight-card {
+      box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important;
+      background-color: #0e2233 !important;
+    }
+    #back-btn.back-anim {
+      transform: scale(0.85);
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    #back-btn {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Data Structures Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#linked-lists" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Linked Lists</a>
+    <a href="#stacks" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Stacks</a>
+    <a href="#queues" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Queues</a>
+    <a href="#trees" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Trees</a>
+    <a href="#graphs" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Graphs</a>
+    <a href="#hash-tables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Hash Tables</a>
+    <a href="#heaps" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Heaps</a>
+    <a href="#advanced-trees" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Advanced Trees</a>
+    <a href="#advanced-graphs" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Advanced Graphs</a>
+    <a href="#tries" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Tries</a>
+    <a href="#disjoint-sets" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Disjoint Sets</a>
+    <a href="#segment-trees" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Segment Trees</a>
+    <a href="#fenwick-trees" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Fenwick Trees</a>
+    <a href="#complexity" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Complexity</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Introduction</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><a class="text-blue-400 hover:underline" href="https://visualgo.net" target="_blank">Visualgo (visualgo.net)</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://bigocheatsheet.com" target="_blank">Big O Cheat Sheet</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://leetcode.com" target="_blank">LeetCode Practice</a></li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Arrays</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Arrays</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Access</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Search</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert/Delete</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Python Array
+arr = [1, 2, 3, 4, 5]
+arr.append(6)      # O(1)
+arr.insert(0, 0)   # O(n)
+arr.pop()          # O(1)
+arr[2]             # O(1) - access</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="linked-lists">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Linked Lists</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Linked Lists</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Access</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Search</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert/Delete</td>
+              <td class="px-2 py-1">O(1) - head/tail</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# Singly Linked List
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(3)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="stacks">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Stacks</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Stacks</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Push</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Pop</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Peek</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># LIFO - Last In, First Out
+stack = []
+stack.append(1)    # Push
+stack.append(2)
+stack.append(3)
+top = stack[-1]    # Peek
+item = stack.pop() # Pop</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="queues">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Queues</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Queues</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Enqueue</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Dequeue</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Front</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">from collections import deque
+
+# FIFO - First In, First Out
+queue = deque()
+queue.append(1)    # Enqueue
+queue.append(2)
+queue.append(3)
+front = queue[0]   # Front
+item = queue.popleft() # Dequeue</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="trees">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Trees</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Trees</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Search</td>
+              <td class="px-2 py-1">O(log n) - balanced</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert</td>
+              <td class="px-2 py-1">O(log n) - balanced</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Delete</td>
+              <td class="px-2 py-1">O(log n) - balanced</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+# Binary Search Tree
+root = TreeNode(5)
+root.left = TreeNode(3)
+root.right = TreeNode(7)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="graphs">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Graphs</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Graphs</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">BFS</td>
+              <td class="px-2 py-1">O(V + E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DFS</td>
+              <td class="px-2 py-1">O(V + E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Dijkstra</td>
+              <td class="px-2 py-1">O((V + E) log V)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Adjacency List
+graph = {
+    0: [1, 2],
+    1: [0, 3],
+    2: [0, 3],
+    3: [1, 2]
+}
+
+# Adjacency Matrix
+matrix = [
+    [0, 1, 1, 0],
+    [1, 0, 0, 1],
+    [1, 0, 0, 1],
+    [0, 1, 1, 0]
+]</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="hash-tables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Hash Tables</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Hash Tables</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert</td>
+              <td class="px-2 py-1">O(1) avg</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Search</td>
+              <td class="px-2 py-1">O(1) avg</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Delete</td>
+              <td class="px-2 py-1">O(1) avg</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Dictionary/Hash Map
+hash_map = {}
+hash_map['key'] = 'value'  # Insert
+value = hash_map['key']    # Search
+del hash_map['key']        # Delete
+
+# Set
+my_set = set()
+my_set.add(1)              # Insert
+1 in my_set                # Search
+my_set.remove(1)           # Delete</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="heaps">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Heaps</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Heaps</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Extract Max/Min</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Peek</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">import heapq
+
+# Min Heap
+heap = []
+heapq.heappush(heap, 3)    # Insert
+heapq.heappush(heap, 1)
+heapq.heappush(heap, 2)
+min_val = heap[0]          # Peek
+min_val = heapq.heappop(heap) # Extract min</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="complexity">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Complexity Analysis</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Complexity</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Complexity</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(1)</td>
+              <td class="px-2 py-1">Constant time</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(log n)</td>
+              <td class="px-2 py-1">Logarithmic time</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n)</td>
+              <td class="px-2 py-1">Linear time</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(n²)</td>
+              <td class="px-2 py-1">Quadratic time</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">O(2ⁿ)</td>
+              <td class="px-2 py-1">Exponential time</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Space Complexity Examples
+def constant_space(n):
+    return n + 1  # O(1) space
+
+def linear_space(n):
+    return [i for i in range(n)]  # O(n) space
+
+def quadratic_space(n):
+    return [[0]*n for _ in range(n)]  # O(n²) space</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Advanced Trees Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="advanced-trees">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Advanced Trees</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Advanced Trees</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Tree Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">AVL Tree</td>
+              <td class="px-2 py-1">Self-balancing BST</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Red-Black Tree</td>
+              <td class="px-2 py-1">Balanced tree with colors</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">B-Tree</td>
+              <td class="px-2 py-1">Database indexing</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Splay Tree</td>
+              <td class="px-2 py-1">Recently accessed items</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># AVL Tree Node
+class AVLNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.height = 1
+
+# Red-Black Tree Node
+class RBNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.parent = None
+        self.color = "RED"  # RED or BLACK</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Advanced Graphs Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="advanced-graphs">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Advanced Graphs</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Advanced Graphs</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Algorithm</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Dijkstra</td>
+              <td class="px-2 py-1">O((V + E) log V)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Bellman-Ford</td>
+              <td class="px-2 py-1">O(VE)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Floyd-Warshall</td>
+              <td class="px-2 py-1">O(V³)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Kruskal</td>
+              <td class="px-2 py-1">O(E log E)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Prim</td>
+              <td class="px-2 py-1">O(E log V)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python"># Dijkstra's Algorithm
+import heapq
+
+def dijkstra(graph, start):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    pq = [(0, start)]
+    
+    while pq:
+        dist, node = heapq.heappop(pq)
+        if dist > distances[node]:
+            continue
+        for neighbor, weight in graph[node].items():
+            if distances[node] + weight < distances[neighbor]:
+                distances[neighbor] = distances[node] + weight
+                heapq.heappush(pq, (distances[neighbor], neighbor))
+    return distances</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Tries Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="tries">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Tries (Prefix Trees)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tries</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Insert</td>
+              <td class="px-2 py-1">O(m)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Search</td>
+              <td class="px-2 py-1">O(m)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Prefix Search</td>
+              <td class="px-2 py-1">O(m)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+    
+    def search(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node.is_end</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Disjoint Sets Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="disjoint-sets">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Disjoint Sets (Union-Find)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Disjoint Sets</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Make Set</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Find</td>
+              <td class="px-2 py-1">O(α(n))</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Union</td>
+              <td class="px-2 py-1">O(α(n))</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class DisjointSet:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+    
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        px, py = self.find(x), self.find(y)
+        if px == py:
+            return
+        if self.rank[px] < self.rank[py]:
+            self.parent[px] = py
+        elif self.rank[px] > self.rank[py]:
+            self.parent[py] = px
+        else:
+            self.parent[py] = px
+            self.rank[px] += 1</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Segment Trees Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="segment-trees">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Segment Trees</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Segment Trees</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Build</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Query</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Update</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class SegmentTree:
+    def __init__(self, arr):
+        self.n = len(arr)
+        self.tree = [0] * (4 * self.n)
+        self.build(arr, 0, 0, self.n - 1)
+    
+    def build(self, arr, node, start, end):
+        if start == end:
+            self.tree[node] = arr[start]
+        else:
+            mid = (start + end) // 2
+            self.build(arr, 2*node + 1, start, mid)
+            self.build(arr, 2*node + 2, mid + 1, end)
+            self.tree[node] = self.tree[2*node + 1] + self.tree[2*node + 2]
+    
+    def query(self, node, start, end, l, r):
+        if r < start or l > end:
+            return 0
+        if l <= start and end <= r:
+            return self.tree[node]
+        mid = (start + end) // 2
+        return (self.query(2*node + 1, start, mid, l, r) + 
+                self.query(2*node + 2, mid + 1, end, l, r))</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <!-- Fenwick Trees Card -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="fenwick-trees">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Fenwick Trees (BIT)</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Fenwick Trees</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Build</td>
+              <td class="px-2 py-1">O(n log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Prefix Sum</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Update</td>
+              <td class="px-2 py-1">O(log n)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-python">class FenwickTree:
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * (n + 1)
+    
+    def update(self, i, val):
+        while i <= self.n:
+            self.tree[i] += val
+            i += i & -i
+    
+    def query(self, i):
+        res = 0
+        while i > 0:
+            res += self.tree[i]
+            i -= i & -i
+        return res
+    
+    def range_query(self, l, r):
+        return self.query(r) - self.query(l - 1)</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      // Auth state handling
+    });
+  </script>
+</body>
+</html> 

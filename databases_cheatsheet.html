@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Databases Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Databases Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#introduction" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Introduction</a>
+    <a href="#types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Types</a>
+    <a href="#sql" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">SQL</a>
+    <a href="#core-sql" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Core SQL</a>
+    <a href="#indexes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Indexes & Keys</a>
+    <a href="#normalization" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Normalization</a>
+    <a href="#transactions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Transactions</a>
+    <a href="#nosql" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">NoSQL</a>
+    <a href="#popular" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Popular DBs</a>
+    <a href="#performance" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Performance</a>
+    <a href="#backup" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Backup</a>
+    <a href="#security" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Security</a>
+    <a href="#best-practices" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Best Practices</a>
+    <a href="#complexity" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Complexity</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="introduction">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Introduction</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><a class="text-blue-400 hover:underline" href="https://www.mysql.com/" target="_blank">MySQL</a>, <a class="text-blue-400 hover:underline" href="https://www.postgresql.org/" target="_blank">PostgreSQL</a>, <a class="text-blue-400 hover:underline" href="https://www.sqlite.org/" target="_blank">SQLite</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://www.mongodb.com/" target="_blank">MongoDB</a>, <a class="text-blue-400 hover:underline" href="https://redis.io/" target="_blank">Redis</a>, <a class="text-blue-400 hover:underline" href="https://cassandra.apache.org/" target="_blank">Cassandra</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://neo4j.com/" target="_blank">Neo4j</a>, <a class="text-blue-400 hover:underline" href="https://firebase.google.com/" target="_blank">Firebase</a></li>
+        <li><a class="text-blue-400 hover:underline" href="https://www.geeksforgeeks.org/dbms/" target="_blank">GFG DBMS</a>, <a class="text-blue-400 hover:underline" href="https://www.tutorialspoint.com/dbms/index.htm" target="_blank">TutorialsPoint DBMS</a></li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Database Types</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Types</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Relational (RDBMS)</td>
+              <td class="px-2 py-1">Table-based, SQL, ACID</td>
+              <td class="px-2 py-1">MySQL, PostgreSQL, SQLite, Oracle</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NoSQL - Document</td>
+              <td class="px-2 py-1">JSON-like docs, flexible schema</td>
+              <td class="px-2 py-1">MongoDB, CouchDB, Firebase</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NoSQL - Key-Value</td>
+              <td class="px-2 py-1">Simple key-value pairs</td>
+              <td class="px-2 py-1">Redis, DynamoDB, Riak</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NoSQL - Column</td>
+              <td class="px-2 py-1">Column-family, scalable</td>
+              <td class="px-2 py-1">Cassandra, HBase</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NoSQL - Graph</td>
+              <td class="px-2 py-1">Nodes & edges, relationships</td>
+              <td class="px-2 py-1">Neo4j, ArangoDB</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Time-Series</td>
+              <td class="px-2 py-1">Optimized for time-stamped data</td>
+              <td class="px-2 py-1">InfluxDB, TimescaleDB</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">NewSQL</td>
+              <td class="px-2 py-1">SQL + NoSQL scalability</td>
+              <td class="px-2 py-1">CockroachDB, Google Spanner</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">In-Memory</td>
+              <td class="px-2 py-1">Data in RAM, ultra-fast</td>
+              <td class="px-2 py-1">Redis, Memcached</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- More sections will be added next -->
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sql">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">SQL Basics</h2>
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">SQL</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Category</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Commands</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DDL</td>
+              <td class="px-2 py-1">CREATE, ALTER, DROP, TRUNCATE</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DML</td>
+              <td class="px-2 py-1">SELECT, INSERT, UPDATE, DELETE</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DCL</td>
+              <td class="px-2 py-1">GRANT, REVOKE</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">TCL</td>
+              <td class="px-2 py-1">COMMIT, ROLLBACK, SAVEPOINT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="core-sql">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Core SQL Syntax</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Core SQL</span>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs"><code class="language-sql">-- SELECT
+SELECT * FROM users;
+SELECT name, age FROM users WHERE age > 18 ORDER BY age DESC;
+
+-- INSERT
+INSERT INTO users (name, age) VALUES ('Alice', 25);
+
+-- UPDATE
+UPDATE users SET age = 26 WHERE name = 'Alice';
+
+-- DELETE
+DELETE FROM users WHERE age < 18;
+
+-- JOINs
+SELECT u.name, o.amount FROM users u
+JOIN orders o ON u.id = o.user_id;
+
+-- GROUP BY
+SELECT department, COUNT(*) FROM employees GROUP BY department;
+
+-- Subquery
+SELECT name FROM users WHERE id IN (SELECT user_id FROM orders WHERE amount > 100);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="indexes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Indexes & Keys</h2>
+        <span class="bg-yellow-500/20 text-yellow-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Indexes</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Primary Key</td>
+              <td class="px-2 py-1">Unique, not null, identifies row</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Foreign Key</td>
+              <td class="px-2 py-1">Links to another table's PK</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Unique Key</td>
+              <td class="px-2 py-1">Unique, can be null</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Composite Key</td>
+              <td class="px-2 py-1">Multiple columns as PK</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Index</td>
+              <td class="px-2 py-1">Speeds up search, not unique</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-sql">-- Create Index
+CREATE INDEX idx_name ON users(name);
+-- Unique Key
+ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE(email);
+-- Foreign Key
+ALTER TABLE orders ADD CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="normalization">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Normalization</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Normalization</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Form</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">1NF</td>
+              <td class="px-2 py-1">Atomic values, unique rows</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">2NF</td>
+              <td class="px-2 py-1">1NF + no partial dependency</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">3NF</td>
+              <td class="px-2 py-1">2NF + no transitive dependency</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">BCNF</td>
+              <td class="px-2 py-1">Stricter than 3NF</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 text-xs text-gray-400">Denormalization: combining tables for performance, at the cost of redundancy.</p>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="transactions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Transactions & ACID</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Transactions</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Atomicity</b>: All or nothing</li>
+        <li><b>Consistency</b>: Valid state only</li>
+        <li><b>Isolation</b>: No interference</li>
+        <li><b>Durability</b>: Survives crash</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-sql">BEGIN;
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+COMMIT;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="nosql">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">NoSQL Concepts</h2>
+        <span class="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">NoSQL</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Description</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Document</td>
+              <td class="px-2 py-1">JSON/BSON docs</td>
+              <td class="px-2 py-1">MongoDB</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Key-Value</td>
+              <td class="px-2 py-1">Simple pairs</td>
+              <td class="px-2 py-1">Redis</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Column</td>
+              <td class="px-2 py-1">Column families</td>
+              <td class="px-2 py-1">Cassandra</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Graph</td>
+              <td class="px-2 py-1">Nodes & edges</td>
+              <td class="px-2 py-1">Neo4j</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// MongoDB Insert
+{
+  name: "Alice",
+  age: 25,
+  skills: ["SQL", "NoSQL"]
+}
+// Redis Set
+SET user:1:name "Alice"
+// Cassandra Table
+CREATE TABLE users (id UUID PRIMARY KEY, name TEXT);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="popular">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Popular Databases</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Popular</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">DB</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Type</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">MySQL</td>
+              <td class="px-2 py-1">Relational</td>
+              <td class="px-2 py-1">Web, OLTP</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">PostgreSQL</td>
+              <td class="px-2 py-1">Relational</td>
+              <td class="px-2 py-1">Advanced SQL, GIS</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">SQLite</td>
+              <td class="px-2 py-1">Relational</td>
+              <td class="px-2 py-1">Embedded, Mobile</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">MongoDB</td>
+              <td class="px-2 py-1">Document</td>
+              <td class="px-2 py-1">Flexible, JSON</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Redis</td>
+              <td class="px-2 py-1">Key-Value</td>
+              <td class="px-2 py-1">Cache, Realtime</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Cassandra</td>
+              <td class="px-2 py-1">Column</td>
+              <td class="px-2 py-1">Big Data, Scalable</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">Neo4j</td>
+              <td class="px-2 py-1">Graph</td>
+              <td class="px-2 py-1">Relationships</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="performance">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Performance & Optimization</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Performance</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use indexes for frequent queries</li>
+        <li>Analyze query plans (EXPLAIN)</li>
+        <li>Cache results (Redis, Memcached)</li>
+        <li>Partition/shard large tables</li>
+        <li>Replicate for high availability</li>
+        <li>Optimize schema for access patterns</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-sql">EXPLAIN SELECT * FROM users WHERE email = 'a@b.com';
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="backup">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Backup & Recovery</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Backup</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Regular backups (mysqldump, pg_dump, mongodump)</li>
+        <li>Test restore procedures</li>
+        <li>Automate backup schedules</li>
+        <li>Store backups offsite/cloud</li>
+        <li>Point-in-time recovery (WAL, binlog)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># MySQL
+mysqldump -u user -p dbname > backup.sql
+# PostgreSQL
+pg_dump dbname > backup.sql
+# MongoDB
+mongodump --db dbname --out /backup/dir
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="security">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Security</h2>
+        <span class="bg-red-500/20 text-red-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Security</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use strong passwords, roles, and permissions</li>
+        <li>Limit network access (firewall, VPN)</li>
+        <li>Encrypt data at rest and in transit</li>
+        <li>Sanitize inputs to prevent SQL injection</li>
+        <li>Regularly update and patch DBMS</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-sql">-- Create user with limited privileges
+CREATE USER 'readonly'@'%' IDENTIFIED BY 'password';
+GRANT SELECT ON dbname.* TO 'readonly'@'%';
+-- Prevent SQL injection
+SELECT * FROM users WHERE email = ?;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="best-practices">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Best Practices</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Best</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Design schema for scalability and clarity</li>
+        <li>Use proper data types and constraints</li>
+        <li>Document schema and relationships</li>
+        <li>Monitor performance and errors</li>
+        <li>Automate backups and maintenance</li>
+        <li>Test disaster recovery regularly</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="complexity">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Complexity Table</h2>
+        <span class="bg-slate-500/20 text-slate-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Complexity</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead>
+            <tr>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Operation</th>
+              <th class="px-2 py-1 text-blue-300 font-semibold">Time Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">SELECT (PK)</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">SELECT (no index)</td>
+              <td class="px-2 py-1">O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">INSERT</td>
+              <td class="px-2 py-1">O(1)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">UPDATE</td>
+              <td class="px-2 py-1">O(1) - O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">DELETE</td>
+              <td class="px-2 py-1">O(1) - O(n)</td>
+            </tr>
+            <tr class="hover:bg-gray-800/60 transition">
+              <td class="px-2 py-1 text-orange-400">JOIN</td>
+              <td class="px-2 py-1">O(n*m)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = btn.closest('.code-block');
+        const code = card.querySelector('pre code');
+        if (code) {
+          const temp = document.createElement('div');
+          temp.innerHTML = code.innerHTML.replace(/<br>/g, '\n');
+          const text = temp.textContent || temp.innerText || '';
+          navigator.clipboard.writeText(text.trim());
+          btn.querySelector('svg').classList.add('text-green-400');
+          setTimeout(() => {
+            btn.querySelector('svg').classList.remove('text-green-400');
+          }, 1200);
+        }
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const card = document.querySelector(href);
+          if (card) {
+            e.preventDefault();
+            card.scrollIntoView({behavior: 'smooth', block: 'center'});
+            card.classList.remove('highlight-card');
+            void card.offsetWidth;
+            card.classList.add('highlight-card');
+            setTimeout(() => {
+              card.classList.remove('highlight-card');
+            }, 1000);
+          }
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtsxaVgkd4utMd0OF6zriIuYwERGTlP6g",
+      authDomain: "codepolarity-a8c63.firebaseapp.com",
+      projectId: "codepolarity-a8c63",
+      storageBucket: "codepolarity-a8c63.firebasestorage.app",
+      messagingSenderId: "712143434692",
+      appId: "1:712143434692:web:a7039ebf3cc1a56d1e6a91",
+      measurementId: "G-R81RELCW6N"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      // Auth state handling
+    });
+  </script>
+</body>
+</html> 
