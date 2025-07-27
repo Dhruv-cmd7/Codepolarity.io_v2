@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Git Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">Git Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#what-is-git" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">What is Git</a>
+    <a href="#git-vs-github" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Git vs GitHub</a>
+    <a href="#install-setup" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Installation & Setup</a>
+    <a href="#config" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Configuration</a>
+    <a href="#lifecycle" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Lifecycle</a>
+    <a href="#init" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Init Repo</a>
+    <a href="#clone" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Clone Repo</a>
+    <a href="#status" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Status</a>
+    <a href="#add" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Add</a>
+    <a href="#commit" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Commit</a>
+    <a href="#log" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Log</a>
+    <a href="#diff" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Diff</a>
+    <a href="#branching" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Branching</a>
+    <a href="#branch-switch" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Create/Switch Branch</a>
+    <a href="#merge" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Merge</a>
+    <a href="#merge-conflicts" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Merge Conflicts</a>
+    <a href="#rebase" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Rebase</a>
+    <a href="#delete-branch" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Delete Branch</a>
+    <a href="#stash" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Stash</a>
+    <a href="#restore" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Restore</a>
+    <a href="#undo" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Undo</a>
+    <a href="#remote" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Remote</a>
+    <a href="#push" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Push</a>
+    <a href="#pull" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Pull</a>
+    <a href="#fetch" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Fetch</a>
+    <a href="#fork-pr" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Fork & PR</a>
+    <a href="#tag" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Tag</a>
+    <a href="#gitignore" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">.gitignore</a>
+    <a href="#aliases" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Aliases</a>
+    <a href="#log-custom" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Log Customization</a>
+    <a href="#hooks" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Hooks</a>
+    <a href="#workflows" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Workflows</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="what-is-git">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">What is Git?</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <p class="mb-2">Git is a distributed version control system for tracking changes in source code during software development. It enables collaboration, branching, merging, and history tracking.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Distributed: Every user has a full copy of the repository</li>
+        <li>Fast, reliable, and widely used in open source and enterprise</li>
+        <li>Supports non-linear workflows (branches, merges)</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="git-vs-github">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git vs GitHub / GitLab</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Concept</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Git:</b> Version control tool (local and remote repositories)</li>
+        <li><b>GitHub/GitLab:</b> Hosting platforms for Git repositories</li>
+        <li>Enable collaboration, code review, CI/CD, issue tracking</li>
+      </ul>
+      <table class="min-w-full text-xs mt-2">
+        <thead><tr><th class="text-left">Feature</th><th class="text-left">Git</th><th class="text-left">GitHub/GitLab</th></tr></thead>
+        <tbody>
+          <tr><td>Type</td><td>Version Control</td><td>Hosting Platform</td></tr>
+          <tr><td>Scope</td><td>Local & Remote</td><td>Remote (Cloud)</td></tr>
+          <tr><td>Features</td><td>Branch, Merge, Track</td><td>PRs, Issues, CI/CD</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="install-setup">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Installation & Setup</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Setup</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Install Git from <a href="https://git-scm.com/" class="text-blue-400 underline" target="_blank">git-scm.com</a></li>
+        <li>Available for Windows, macOS, Linux</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Windows: Download installer from website
+# macOS (Homebrew):
+brew install git
+# Ubuntu/Debian:
+sudo apt update && sudo apt install git
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="config">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Configuration (<code>git config</code>)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Config</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Set user name and email (required for commits)</li>
+        <li>Configure editor, colors, aliases, etc.</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global core.editor "code --wait"
+git config --list
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="lifecycle">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Lifecycle</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Concept</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Working Directory:</b> Your local files</li>
+        <li><b>Staging Area (Index):</b> Files marked for commit</li>
+        <li><b>Repository:</b> Committed history (local or remote)</li>
+      </ul>
+      <img src="https://wac-cdn.atlassian.com/dam/jcr:8b7e7e7e-7e7e-4e7e-8e7e-7e7e7e7e7e7e/git-gitflow.png?cdnVersion=123" alt="Git Lifecycle" class="rounded mt-2 mb-2 w-full max-w-xs mx-auto"/>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="init">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Initializing a Repository (<code>git init</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Init</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Creates a new, empty Git repository in the current directory</li>
+        <li>Creates a <code>.git</code> folder to track version history</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git init
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="clone">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Cloning a Repository (<code>git clone</code>)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Clone</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Download a remote repository to your local machine</li>
+        <li>Creates a directory with all files and history</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git clone https://github.com/user/repo.git
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="status">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Checking Status (<code>git status</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Status</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Show the state of the working directory and staging area</li>
+        <li>See which files are modified, staged, or untracked</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git status
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="add">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Adding Changes (<code>git add</code>)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Add</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Stage changes for the next commit</li>
+        <li>Can add individual files or all changes</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git add file.txt
+# Add all changes
+git add .
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="commit">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Committing Changes (<code>git commit</code>)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Commit</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Record staged changes to the repository</li>
+        <li>Each commit has a unique ID and message</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git commit -m "Describe your changes"
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="log">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Viewing Commit History (<code>git log</code>)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Log</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Show commit history for the repository</li>
+        <li>Includes commit IDs, authors, dates, and messages</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git log
+# One line per commit
+git log --oneline
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="diff">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Diff (<code>git diff</code>, <code>git diff --staged</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Diff</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Show changes between working directory, staging area, and last commit</li>
+        <li>Use <code>--staged</code> to see staged changes</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git diff
+# Show staged changes
+git diff --staged
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="branching">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Branching in Git</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Branch</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Branches allow parallel development and experimentation</li>
+        <li>Each branch is an independent line of development</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git branch
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="branch-switch">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Creating & Switching Branches</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Branch</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Create a new branch: <code>git branch branchname</code></li>
+        <li>Switch branches: <code>git checkout branchname</code> or <code>git switch branchname</code></li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git branch feature-x
+git checkout feature-x
+# Or (Git 2.23+)
+git switch feature-x
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="merge">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Merging Branches (<code>git merge</code>)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Merge</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Combine changes from one branch into another</li>
+        <li>Fast-forward and 3-way merges</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git checkout main
+git merge feature-x
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="merge-conflicts">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Resolving Merge Conflicts</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Conflicts</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Conflicts occur when changes overlap between branches</li>
+        <li>Manually edit files to resolve, then add and commit</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># After conflict, edit files, then:
+git add conflicted-file.txt
+git commit
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="rebase">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Rebase (Basic Concept)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Rebase</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Reapply commits from one branch onto another</li>
+        <li>Creates a linear history (no merge commits)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git checkout feature-x
+git rebase main
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="delete-branch">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Deleting Branches (<code>git branch -d</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Delete</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Delete a branch after merging or if no longer needed</li>
+        <li><code>-d</code> (safe delete), <code>-D</code> (force delete)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git branch -d feature-x
+# Force delete
+git branch -D feature-x
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="stash">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Stashing Changes (<code>git stash</code>)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Stash</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Temporarily save uncommitted changes</li>
+        <li>Useful for switching branches without committing</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git stash
+# List stashes
+git stash list
+# Apply latest stash
+git stash apply
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="restore">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Restoring Files (<code>git restore</code>, <code>git checkout</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Restore</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Restore file(s) in working directory to last committed state</li>
+        <li><code>git restore</code> (modern), <code>git checkout</code> (legacy)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git restore file.txt
+# Or (older)
+git checkout -- file.txt
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="undo">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Undoing Commits (<code>git reset</code>, <code>git revert</code>)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Undo</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><code>git reset</code>: Move HEAD and optionally modify index/working directory</li>
+        <li><code>git revert</code>: Create a new commit that undoes changes</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Undo last commit (keep changes)
+git reset --soft HEAD~1
+# Undo last commit (discard changes)
+git reset --hard HEAD~1
+# Revert a commit (safe for shared repos)
+git revert &lt;commit-hash&gt;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="remote">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Remote (<code>git remote add</code>, <code>git remote -v</code>)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Remote</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Connect local repository to remote servers (GitHub, GitLab, etc.)</li>
+        <li>List, add, and remove remotes</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git remote add origin https://github.com/user/repo.git
+git remote -v
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="push">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Pushing to Remote (<code>git push</code>)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Push</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Upload local commits to a remote repository</li>
+        <li>Specify remote and branch</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git push origin main
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="pull">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Pulling from Remote (<code>git pull</code>)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Pull</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Fetch and merge changes from a remote repository</li>
+        <li>Keep your local branch up to date</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git pull origin main
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="fetch">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Fetching Changes (<code>git fetch</code>)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Fetch</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Download new commits and branches from remote, but don’t merge</li>
+        <li>Review changes before integrating</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git fetch origin
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="fork-pr">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Forking & Pull Requests (Conceptual)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Collab</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Fork:</b> Copy a repository to your own account (GitHub/GitLab)</li>
+        <li><b>Pull Request (PR):</b> Propose changes to the original repo</li>
+        <li>Used for open source collaboration and code review</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="tag">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Tagging Releases (<code>git tag</code>)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tag</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Mark specific commits as important (e.g., v1.0.0)</li>
+        <li>Useful for releases and versioning</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git tag v1.0.0
+git tag
+# Push tags to remote
+git push origin v1.0.0
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="gitignore">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Ignoring Files (<code>.gitignore</code>)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Ignore</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Exclude files/folders from version control</li>
+        <li>Common for build artifacts, secrets, dependencies</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Example .gitignore
+node_modules/
+.env
+*.log
+/dist
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="aliases">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Aliases</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Alias</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Create shortcuts for frequently used commands</li>
+        <li>Set in global config</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.cm "commit -m"
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="log-custom">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Log Customization</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Log</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Customize log output for better readability</li>
+        <li><code>--oneline</code>, <code>--graph</code>, <code>--decorate</code></li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">git log --oneline --graph --decorate --all
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="hooks">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Git Hooks (Intro)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Hooks</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Scripts that run automatically on certain Git events</li>
+        <li>Examples: pre-commit, pre-push, post-merge</li>
+        <li>Located in <code>.git/hooks/</code> directory</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="workflows">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Common Git Workflows</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Workflow</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1 mb-2">
+        <li><b>Feature Branch Workflow:</b> Create a branch for each feature, merge to main when done.</li>
+        <li><b>Git Flow Workflow:</b> Use <code>main</code>, <code>develop</code>, feature, release, and hotfix branches for structured releases.</li>
+        <li><b>Forking Workflow:</b> Fork repo, work in your copy, submit pull requests to original.</li>
+      </ul>
+             <img src="assets/images/Common Git Workflow Diagram.png" alt="Common Git Workflows" class="rounded mt-2 mb-2 w-full max-w-xs mx-auto"/>
+      <p class="text-xs text-gray-400 dark:text-gray-500">(Above: Feature Branch & Git Flow simplified. Forking workflow: fork → clone → branch → PR.)</p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.parentElement.querySelector('code');
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          setTimeout(() => {
+            this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+          }, 2000);
+        });
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          targetElement.classList.add('highlight-card');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-card');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX",
+      authDomain: "codepolarity.firebaseapp.com",
+      projectId: "codepolarity",
+      storageBucket: "codepolarity.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdefghijklmnop"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html> 

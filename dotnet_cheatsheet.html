@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>.NET Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">.NET Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#what-is-dotnet" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">What is .NET</a>
+    <a href="#dotnet-versions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">.NET Versions</a>
+    <a href="#installation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Installation</a>
+    <a href="#cli-basics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">CLI Basics</a>
+    <a href="#project-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Project Types</a>
+    <a href="#csharp-basics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">C# Basics</a>
+    <a href="#oop" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">OOP</a>
+    <a href="#async-await" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Async/Await</a>
+    <a href="#linq" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">LINQ</a>
+    <a href="#collections" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Collections</a>
+    <a href="#exceptions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Exceptions</a>
+    <a href="#delegates" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Delegates</a>
+    <a href="#events" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Events</a>
+    <a href="#generics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Generics</a>
+    <a href="#reflection" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Reflection</a>
+    <a href="#attributes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Attributes</a>
+    <a href="#dependency-injection" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">DI</a>
+    <a href="#configuration" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Configuration</a>
+    <a href="#logging" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Logging</a>
+    <a href="#web-api" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Web API</a>
+    <a href="#mvc" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">MVC</a>
+    <a href="#entity-framework" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">EF Core</a>
+    <a href="#testing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Testing</a>
+    <a href="#deployment" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Deployment</a>
+    <a href="#performance" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Performance</a>
+    <a href="#security" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Security</a>
+    <a href="#best-practices" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Best Practices</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="what-is-dotnet">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">What is .NET?</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <p class="mb-2">.NET is a free, cross-platform, open-source developer platform for building many types of applications. It provides a unified framework for building web, mobile, desktop, IoT, and cloud applications.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Cross-platform: Windows, macOS, Linux</li>
+        <li>Multiple languages: C#, F#, Visual Basic</li>
+        <li>Rich ecosystem with extensive libraries</li>
+        <li>High performance and modern development</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dotnet-versions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">.NET Versions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Versions</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>.NET Framework:</b> Windows-only, legacy (4.8)</li>
+        <li><b>.NET Core:</b> Cross-platform, modern (3.1)</li>
+        <li><b>.NET 5+:</b> Unified platform, current</li>
+        <li><b>.NET 8:</b> Latest LTS version</li>
+      </ul>
+      <table class="min-w-full text-xs mt-2">
+        <thead><tr><th class="text-left">Version</th><th class="text-left">Release</th><th class="text-left">Support</th></tr></thead>
+        <tbody>
+          <tr><td>.NET 8</td><td>2023</td><td>LTS</td></tr>
+          <tr><td>.NET 6</td><td>2021</td><td>LTS</td></tr>
+          <tr><td>.NET 5</td><td>2020</td><td>EOL</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="installation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Installation</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Setup</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Download from <a href="https://dotnet.microsoft.com/" class="text-blue-400 underline" target="_blank">dotnet.microsoft.com</a></li>
+        <li>Install SDK for development</li>
+        <li>Install Runtime for running apps</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Check installed version
+dotnet --version
+
+# List installed SDKs
+dotnet --list-sdks
+
+# List installed runtimes
+dotnet --list-runtimes
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cli-basics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">CLI Basics</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CLI</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Create new projects</li>
+        <li>Build and run applications</li>
+        <li>Manage packages and dependencies</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Create new project
+dotnet new console -n MyApp
+
+# Build project
+dotnet build
+
+# Run project
+dotnet run
+
+# Add package
+dotnet add package Newtonsoft.Json
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="project-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Project Types</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Projects</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>console:</b> Command-line applications</li>
+        <li><b>web:</b> ASP.NET Core web apps</li>
+        <li><b>webapi:</b> REST API applications</li>
+        <li><b>mvc:</b> Model-View-Controller apps</li>
+        <li><b>classlib:</b> Class libraries</li>
+        <li><b>test:</b> Unit test projects</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Create different project types
+dotnet new console
+dotnet new web
+dotnet new webapi
+dotnet new mvc
+dotnet new classlib
+dotnet new xunit
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="csharp-basics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">C# Basics</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">C#</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Strongly typed, object-oriented language</li>
+        <li>Modern features: async/await, LINQ, generics</li>
+        <li>Type safety and compile-time checking</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">using System;
+
+namespace MyApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello, .NET!");
+            
+            var name = "World";
+            var message = $"Hello, {name}!";
+            
+            int number = 42;
+            string text = number.ToString();
+        }
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="oop">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Object-Oriented Programming</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">OOP</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Classes:</b> Blueprint for objects</li>
+        <li><b>Inheritance:</b> Reuse code from base classes</li>
+        <li><b>Encapsulation:</b> Hide implementation details</li>
+        <li><b>Polymorphism:</b> Same interface, different behavior</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">public class Animal
+{
+    protected string Name { get; set; }
+    
+    public virtual void MakeSound()
+    {
+        Console.WriteLine("Some sound");
+    }
+}
+
+public class Dog : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine("Woof!");
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="async-await">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Async/Await</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Async</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Non-blocking asynchronous programming</li>
+        <li>Improves application responsiveness</li>
+        <li>Handles I/O operations efficiently</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">public async Task<string> GetDataAsync()
+{
+    await Task.Delay(1000); // Simulate async work
+    return "Data loaded";
+}
+
+public async Task Main()
+{
+    var data = await GetDataAsync();
+    Console.WriteLine(data);
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="linq">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">LINQ (Language Integrated Query)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">LINQ</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Query data from various sources</li>
+        <li>Collections, databases, XML</li>
+        <li>Method syntax and query syntax</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">var numbers = new List<int> { 1, 2, 3, 4, 5 };
+
+// Method syntax
+var evenNumbers = numbers.Where(n => n % 2 == 0);
+
+// Query syntax
+var result = from n in numbers
+             where n % 2 == 0
+             select n;
+
+// Aggregation
+var sum = numbers.Sum();
+var max = numbers.Max();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="collections">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Collections</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Collections</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>List&lt;T&gt;:</b> Dynamic array</li>
+        <li><b>Dictionary&lt;K,V&gt;:</b> Key-value pairs</li>
+        <li><b>HashSet&lt;T&gt;:</b> Unique elements</li>
+        <li><b>Queue&lt;T&gt;:</b> FIFO collection</li>
+        <li><b>Stack&lt;T&gt;:</b> LIFO collection</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// List
+var list = new List<int> { 1, 2, 3 };
+list.Add(4);
+
+// Dictionary
+var dict = new Dictionary<string, int>();
+dict["key"] = 42;
+
+// HashSet
+var set = new HashSet<int> { 1, 2, 3 };
+set.Add(4);
+
+// Queue
+var queue = new Queue<string>();
+queue.Enqueue("first");
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="exceptions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Exception Handling</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Exceptions</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Handle runtime errors gracefully</li>
+        <li>Try-catch-finally blocks</li>
+        <li>Custom exception types</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">try
+{
+    var result = int.Parse("invalid");
+}
+catch (FormatException ex)
+{
+    Console.WriteLine($"Format error: {ex.Message}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"General error: {ex.Message}");
+}
+finally
+{
+    // Always executed
+    Console.WriteLine("Cleanup");
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="delegates">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Delegates</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Delegates</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Type-safe function pointers</li>
+        <li>Enable callback mechanisms</li>
+        <li>Foundation for events</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Delegate declaration
+public delegate int MathOperation(int x, int y);
+
+// Using delegates
+MathOperation add = (x, y) => x + y;
+MathOperation multiply = (x, y) => x * y;
+
+int result1 = add(5, 3);      // 8
+int result2 = multiply(5, 3); // 15
+
+// Action and Func (built-in delegates)
+Action<string> print = Console.WriteLine;
+Func<int, int> square = x => x * x;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="events">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Events</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Events</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Publisher-subscriber pattern</li>
+        <li>Loose coupling between components</li>
+        <li>Built on delegates</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">public class Button
+{
+    public event EventHandler Clicked;
+    
+    public void Click()
+    {
+        Clicked?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+// Usage
+var button = new Button();
+button.Clicked += (sender, e) => Console.WriteLine("Button clicked!");
+button.Click();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="generics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Generics</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Generics</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Type-safe reusable code</li>
+        <li>Eliminate boxing/unboxing</li>
+        <li>Compile-time type checking</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">public class Repository<T>
+{
+    private List<T> _items = new List<T>();
+    
+    public void Add(T item)
+    {
+        _items.Add(item);
+    }
+    
+    public T Get(int index)
+    {
+        return _items[index];
+    }
+}
+
+// Usage
+var stringRepo = new Repository<string>();
+var intRepo = new Repository<int>();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="reflection">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Reflection</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Reflection</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Inspect types at runtime</li>
+        <li>Dynamic code execution</li>
+        <li>Plugin architectures</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">using System.Reflection;
+
+var type = typeof(string);
+var methods = type.GetMethods();
+
+// Get property value
+var obj = new { Name = "John", Age = 30 };
+var property = obj.GetType().GetProperty("Name");
+var value = property.GetValue(obj);
+
+// Create instance dynamically
+var instance = Activator.CreateInstance(typeof(string));
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="attributes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Attributes</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Attributes</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Declarative metadata</li>
+        <li>Compile-time and runtime behavior</li>
+        <li>Framework extensibility</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">[Serializable]
+public class Person
+{
+    [Required]
+    [StringLength(50)]
+    public string Name { get; set; }
+    
+    [Range(0, 120)]
+    public int Age { get; set; }
+}
+
+// Custom attribute
+[AttributeUsage(AttributeTargets.Class)]
+public class MyAttribute : Attribute
+{
+    public string Description { get; set; }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dependency-injection">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Dependency Injection</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">DI</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Inversion of Control (IoC)</li>
+        <li>Loose coupling</li>
+        <li>Testability</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Service interface
+public interface IEmailService
+{
+    void SendEmail(string to, string subject);
+}
+
+// Service implementation
+public class EmailService : IEmailService
+{
+    public void SendEmail(string to, string subject) { }
+}
+
+// Constructor injection
+public class UserService
+{
+    private readonly IEmailService _emailService;
+    
+    public UserService(IEmailService emailService)
+    {
+        _emailService = emailService;
+    }
+}
+
+// Registration
+services.AddScoped<IEmailService, EmailService>();
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="configuration">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Configuration</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Config</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>appsettings.json</li>
+        <li>Environment variables</li>
+        <li>User secrets</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// appsettings.json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=...;Database=...;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  }
+}
+
+// Reading configuration
+public class AppSettings
+{
+    public string ConnectionString { get; set; }
+    public LoggingSettings Logging { get; set; }
+}
+
+// In Startup.cs
+services.Configure<AppSettings>(Configuration);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="logging">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Logging</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Logging</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Structured logging</li>
+        <li>Multiple log providers</li>
+        <li>Log levels and filtering</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// In Startup.cs
+services.AddLogging(builder =>
+{
+    builder.AddConsole();
+    builder.AddDebug();
+    builder.AddFile("logs/app-{Date}.txt");
+});
+
+// In controller/service
+public class UserController : ControllerBase
+{
+    private readonly ILogger<UserController> _logger;
+    
+    public UserController(ILogger<UserController> logger)
+    {
+        _logger = logger;
+    }
+    
+    public IActionResult Get(int id)
+    {
+        _logger.LogInformation("Getting user with ID: {UserId}", id);
+        return Ok();
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="web-api">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Web API</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">API</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>RESTful API development</li>
+        <li>JSON serialization</li>
+        <li>HTTP status codes</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">[ApiController]
+[Route("api/[controller]")]
+public class UsersController : ControllerBase
+{
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    {
+        return Ok(await _userService.GetAllAsync());
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<ActionResult<User>> GetUser(int id)
+    {
+        var user = await _userService.GetByIdAsync(id);
+        if (user == null)
+            return NotFound();
+        return Ok(user);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult<User>> CreateUser(User user)
+    {
+        var created = await _userService.CreateAsync(user);
+        return CreatedAtAction(nameof(GetUser), new { id = created.Id }, created);
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mvc">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">MVC Pattern</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">MVC</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Model:</b> Data and business logic</li>
+        <li><b>View:</b> User interface</li>
+        <li><b>Controller:</b> Request handling</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Model
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+
+// Controller
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        var users = _userService.GetAll();
+        return View(users);
+    }
+    
+    [HttpPost]
+    public IActionResult Create(User user)
+    {
+        if (ModelState.IsValid)
+        {
+            _userService.Create(user);
+            return RedirectToAction("Index");
+        }
+        return View(user);
+    }
+}
+
+// View (Razor)
+@model IEnumerable<User>
+@foreach (var user in Model)
+{
+    <div>@user.Name - @user.Email</div>
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="entity-framework">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Entity Framework Core</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">EF Core</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Object-Relational Mapping (ORM)</li>
+        <li>Code-first approach</li>
+        <li>Database migrations</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// DbContext
+public class AppDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseSqlServer(Configuration.GetConnectionString("Default"));
+    }
+}
+
+// Entity
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+
+// Usage
+public class UserService
+{
+    private readonly AppDbContext _context;
+    
+    public async Task<User> GetByIdAsync(int id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+    
+    public async Task CreateAsync(User user)
+    {
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="testing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Testing</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Testing</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Unit testing with xUnit</li>
+        <li>Integration testing</li>
+        <li>Mocking with Moq</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Unit test
+public class UserServiceTests
+{
+    [Fact]
+    public async Task GetById_ValidId_ReturnsUser()
+    {
+        // Arrange
+        var mockRepo = new Mock<IUserRepository>();
+        var expectedUser = new User { Id = 1, Name = "John" };
+        mockRepo.Setup(r => r.GetByIdAsync(1))
+                .ReturnsAsync(expectedUser);
+        
+        var service = new UserService(mockRepo.Object);
+        
+        // Act
+        var result = await service.GetByIdAsync(1);
+        
+        // Assert
+        Assert.Equal(expectedUser, result);
+    }
+}
+
+// Integration test
+public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly WebApplicationFactory<Program> _factory;
+    
+    [Fact]
+    public async Task Get_ReturnsSuccessStatusCode()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/api/users");
+        response.EnsureSuccessStatusCode();
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="deployment">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Deployment</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Deploy</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Self-contained deployment</li>
+        <li>Framework-dependent deployment</li>
+        <li>Docker containers</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Publish for production
+dotnet publish -c Release -o ./publish
+
+# Self-contained (includes runtime)
+dotnet publish -c Release -r win-x64 --self-contained true
+
+# Framework-dependent
+dotnet publish -c Release -r win-x64 --self-contained false
+
+# Docker
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+COPY bin/Release/net8.0/publish/ App/
+WORKDIR /App
+ENTRYPOINT ["dotnet", "MyApp.dll"]
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="performance">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Performance</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Performance</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Memory management</li>
+        <li>Caching strategies</li>
+        <li>Async/await best practices</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Memory pooling
+using var pool = ArrayPool<byte>.Shared;
+var buffer = pool.Rent(1024);
+try
+{
+    // Use buffer
+}
+finally
+{
+    pool.Return(buffer);
+}
+
+// Caching
+services.AddMemoryCache();
+services.AddDistributedRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
+
+// In service
+public class CacheService
+{
+    private readonly IMemoryCache _cache;
+    
+    public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> factory)
+    {
+        if (_cache.TryGetValue(key, out T value))
+            return value;
+            
+        value = await factory();
+        _cache.Set(key, value, TimeSpan.FromMinutes(10));
+        return value;
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="security">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Security</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Security</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Authentication & Authorization</li>
+        <li>Input validation</li>
+        <li>HTTPS enforcement</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// Authentication
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+        };
+    });
+
+// Authorization
+[Authorize(Roles = "Admin")]
+public class AdminController : ControllerBase
+{
+    [AllowAnonymous]
+    public IActionResult PublicAction() { }
+}
+
+// Input validation
+public class UserModel
+{
+    [Required]
+    [StringLength(50)]
+    public string Name { get; set; }
+    
+    [EmailAddress]
+    public string Email { get; set; }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="best-practices">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Best Practices</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Best Practices</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>SOLID principles</li>
+        <li>Clean Architecture</li>
+        <li>Code organization</li>
+        <li>Error handling</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-csharp">// SOLID Principles
+// Single Responsibility
+public class UserService
+{
+    public async Task<User> GetUserAsync(int id) { }
+    public async Task CreateUserAsync(User user) { }
+}
+
+// Dependency Inversion
+public interface IUserRepository
+{
+    Task<User> GetByIdAsync(int id);
+}
+
+public class UserService
+{
+    private readonly IUserRepository _repository;
+    
+    public UserService(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+}
+
+// Error handling
+public async Task<Result<User>> GetUserAsync(int id)
+{
+    try
+    {
+        var user = await _repository.GetByIdAsync(id);
+        return user != null ? Result<User>.Success(user) : Result<User>.NotFound();
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error getting user {UserId}", id);
+        return Result<User>.Error("Failed to get user");
+    }
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.parentElement.querySelector('code');
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          setTimeout(() => {
+            this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+          }, 2000);
+        });
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          targetElement.classList.add('highlight-card');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-card');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX",
+      authDomain: "codepolarity.firebaseapp.com",
+      projectId: "codepolarity",
+      storageBucket: "codepolarity.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdefghijklmnop"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html> 

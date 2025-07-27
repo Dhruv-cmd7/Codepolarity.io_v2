@@ -102,11 +102,11 @@
         <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Architecture</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li><b>Docker Client:</b> CLI to interact with Docker</li>
-        <li><b>Docker Daemon:</b> Background service managing containers/images</li>
-        <li><b>Docker Images:</b> Read-only templates for containers</li>
+        <li><b>Docker Client:</b> CLI and API for interacting with Docker</li>
+        <li><b>Docker Daemon:</b> Background service managing containers</li>
+        <li><b>Docker Registry:</b> Repository for storing images (Docker Hub)</li>
+        <li><b>Docker Images:</b> Templates for creating containers</li>
         <li><b>Docker Containers:</b> Running instances of images</li>
-        <li><b>Docker Registry:</b> Stores and distributes images (e.g., Docker Hub)</li>
       </ul>
     </div>
     <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="vs-vm">
@@ -114,17 +114,19 @@
         <h2 class="text-base font-bold text-white">Docker vs Virtual Machines</h2>
         <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Comparison</span>
       </div>
-      <ul class="list-disc list-inside space-y-1">
-        <li><b>VMs:</b> Run full OS, heavy, slow to start, resource-intensive</li>
-        <li><b>Containers:</b> Share host OS kernel, lightweight, fast, efficient</li>
-        <li><b>Isolation:</b> Both provide process isolation, but containers are more portable</li>
-      </ul>
-      <table class="min-w-full text-xs mt-2">
-        <thead><tr><th class="text-left">Feature</th><th class="text-left">VM</th><th class="text-left">Docker</th></tr></thead>
+      <table class="min-w-full text-xs">
+        <thead>
+          <tr>
+            <th class="text-left">Feature</th>
+            <th class="text-left">Docker</th>
+            <th class="text-left">Virtual Machines</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>Startup Time</td><td>Minutes</td><td>Seconds</td></tr>
-          <tr><td>Resource Usage</td><td>High</td><td>Low</td></tr>
-          <tr><td>Portability</td><td>Limited</td><td>High</td></tr>
+          <tr><td>Size</td><td>Small (MBs)</td><td>Large (GBs)</td></tr>
+          <tr><td>Startup Time</td><td>Seconds</td><td>Minutes</td></tr>
+          <tr><td>Resource Usage</td><td>Low</td><td>High</td></tr>
+          <tr><td>Isolation</td><td>Process level</td><td>Hardware level</td></tr>
         </tbody>
       </table>
     </div>
@@ -134,15 +136,15 @@
         <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Engine</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li><b>Docker Engine:</b> Core client-server application</li>
-        <li><b>Docker Daemon (dockerd):</b> Listens for API requests, manages objects</li>
-        <li><b>REST API:</b> Interface for communication</li>
-        <li><b>CLI:</b> Command-line tool to interact with daemon</li>
+        <li><b>Docker Engine:</b> Complete Docker platform</li>
+        <li><b>Docker Daemon:</b> Background service (dockerd)</li>
+        <li>Manages containers, images, networks, volumes</li>
+        <li>REST API for client communication</li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Start Docker daemon (Linux)
-sudo systemctl start docker
-# Check status
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Check daemon status
 sudo systemctl status docker
+# Restart daemon
+sudo systemctl restart docker
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -151,16 +153,19 @@ sudo systemctl status docker
     <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cli-basics">
       <div class="flex justify-between items-center mb-1">
         <h2 class="text-base font-bold text-white">Docker CLI Basics</h2>
-        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CLI</span>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CLI</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Interact with Docker using <code>docker</code> command</li>
-        <li>Common commands: <code>docker run</code>, <code>docker ps</code>, <code>docker stop</code>, <code>docker rm</code></li>
-        <li>Use <code>--help</code> for command options</li>
+        <li>Command-line interface for Docker</li>
+        <li>Communicates with Docker daemon</li>
+        <li>Basic commands: <code>docker run</code>, <code>docker ps</code>, <code>docker images</code></li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">docker --version
-docker info
-docker help
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Check Docker version
+docker --version
+# List running containers
+docker ps
+# List all containers
+docker ps -a
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -169,19 +174,19 @@ docker help
     <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="images">
       <div class="flex justify-between items-center mb-1">
         <h2 class="text-base font-bold text-white">Docker Images</h2>
-        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Images</span>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Images</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Read-only templates for containers</li>
-        <li>Contain application code, libraries, dependencies, environment</li>
-        <li>Can be pulled from Docker Hub or built locally</li>
+        <li>Read-only templates for creating containers</li>
+        <li>Built from Dockerfiles or pulled from registries</li>
+        <li>Layered file system for efficiency</li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># List images
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Pull an image
+docker pull nginx
+# List images
 docker images
-# Pull image
-docker pull ubuntu:latest
-# Remove image
-docker rmi ubuntu:latest
+# Remove an image
+docker rmi nginx
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -190,21 +195,19 @@ docker rmi ubuntu:latest
     <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="containers">
       <div class="flex justify-between items-center mb-1">
         <h2 class="text-base font-bold text-white">Docker Containers</h2>
-        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Containers</span>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Containers</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
         <li>Running instances of Docker images</li>
-        <li>Isolated, lightweight, and portable</li>
-        <li>Can be started, stopped, paused, removed</li>
+        <li>Isolated environments with their own filesystem</li>
+        <li>Can be started, stopped, and removed</li>
       </ul>
       <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Run a container
-docker run -d --name mynginx nginx:latest
-# List running containers
-docker ps
+docker run -d nginx
 # Stop a container
-docker stop mynginx
+docker stop mycontainer
 # Remove a container
-docker rm mynginx
+docker rm mycontainer
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -213,13 +216,13 @@ docker rm mynginx
     <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="dockerfile">
       <div class="flex justify-between items-center mb-1">
         <h2 class="text-base font-bold text-white">Dockerfile (Syntax & Commands)</h2>
-        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Dockerfile</span>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Dockerfile</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Text file with instructions to build an image</li>
-        <li>Common commands: <code>FROM</code>, <code>RUN</code>, <code>COPY</code>, <code>ADD</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>EXPOSE</code>, <code>ENV</code>, <code>WORKDIR</code></li>
+        <li>Text file with instructions to build Docker images</li>
+        <li>Key instructions: FROM, RUN, COPY, WORKDIR, EXPOSE, CMD</li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-docker"># Example Dockerfile
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-dockerfile"># Example Dockerfile
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
@@ -238,14 +241,16 @@ CMD ["npm", "start"]
         <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Build</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Use <code>docker build</code> to create images from Dockerfile</li>
+        <li>Create images from Dockerfiles</li>
+        <li>Use <code>docker build</code> command</li>
         <li>Tag images for versioning</li>
-        <li>Build context: directory sent to Docker daemon</li>
       </ul>
       <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Build an image
-docker build -t myapp:1.0 .
-# List images
-docker images
+docker build -t myapp:latest .
+# Build with specific tag
+docker build -t myapp:v1.0 .
+# Build from specific Dockerfile
+docker build -f Dockerfile.prod -t myapp:prod .
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -257,12 +262,19 @@ docker images
         <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Layers</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Each instruction in Dockerfile creates a new layer</li>
-        <li>Layers are cached and shared between images</li>
-        <li>Reduces build time and disk usage</li>
+        <li>Images are built in layers</li>
+        <li>Each instruction creates a new layer</li>
+        <li>Layers are cached for faster builds</li>
+        <li>Optimize by ordering instructions properly</li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># View image layers
-docker history myapp:1.0
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-dockerfile"># Good: Dependencies first
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+# Bad: Changes frequently first
+COPY . .
+RUN npm install
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -274,16 +286,17 @@ docker history myapp:1.0
         <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Hub</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Docker Hub: Public registry for sharing images</li>
-        <li>Private registries for internal use</li>
-        <li>Push/pull images to/from repositories</li>
+        <li>Docker Hub: Official registry for Docker images</li>
+        <li>Public and private repositories</li>
+        <li>Pull official images: <code>docker pull nginx</code></li>
+        <li>Push your images: <code>docker push username/image</code></li>
       </ul>
-      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Login to Docker Hub
-docker login
-# Pull image
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Pull from Docker Hub
 docker pull nginx:latest
-# Push image
-docker push myusername/myapp:1.0
+# Push to Docker Hub
+docker push myusername/myapp:latest
+# Search images
+docker search python
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -295,9 +308,9 @@ docker push myusername/myapp:1.0
         <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Volumes</span>
       </div>
       <ul class="list-disc list-inside space-y-1">
-        <li>Persist data outside container lifecycle</li>
-        <li>Share data between containers</li>
-        <li>Types: named volumes, bind mounts</li>
+        <li>Persistent data storage for containers</li>
+        <li>Survive container lifecycle</li>
+        <li>Can be shared between containers</li>
       </ul>
       <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Create a volume
 docker volume create mydata
@@ -431,6 +444,124 @@ docker run -p 8080:80 nginx
 # In docker-compose.yml:
 # ports:
 #   - "8080:80"
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="logs-monitoring">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Docker Logs & Monitoring</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Logs</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>View container logs with <code>docker logs</code></li>
+        <li>Monitor resource usage with <code>docker stats</code></li>
+        <li>Integrate with monitoring tools (Prometheus, Grafana)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># View logs
+docker logs mycontainer
+# Follow logs
+docker logs -f mycontainer
+# Monitor resource usage
+docker stats
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="exec-attach">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Docker Exec & Attach</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Exec</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><code>docker exec</code>: Run commands in a running container</li>
+        <li><code>docker attach</code>: Attach to a running container's process</li>
+        <li>Useful for debugging and maintenance</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Run a shell in a running container
+docker exec -it mycontainer /bin/bash
+# Attach to container's main process
+docker attach mycontainer
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="manage-containers">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Managing Containers (Start, Stop, Remove)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Manage</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Start, stop, restart, and remove containers</li>
+        <li>Use container IDs or names</li>
+        <li>Remove all stopped containers with <code>docker container prune</code></li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash">docker start mycontainer
+docker stop mycontainer
+docker restart mycontainer
+docker rm mycontainer
+docker container prune
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="prune-cleanup">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Docker System Prune & Cleanup</h2>
+        <span class="bg-teal-500/20 text-teal-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Cleanup</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Remove unused data: containers, images, networks, volumes</li>
+        <li>Frees up disk space</li>
+        <li>Use with caution: can delete important data</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Remove all unused data
+docker system prune -a
+# Remove unused volumes
+docker volume prune
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="docker-cp">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Copying Files (docker cp)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Copy</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Copy files/folders between host and container</li>
+        <li>Useful for backups, logs, and data transfer</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Copy file from container to host
+docker cp mycontainer:/path/in/container/file.txt ./file.txt
+# Copy file from host to container
+docker cp ./file.txt mycontainer:/path/in/container/file.txt
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="build-context">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Docker Build Context</h2>
+        <span class="bg-orange-500/20 text-orange-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Context</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Directory sent to Docker daemon during build</li>
+        <li>Includes Dockerfile and all referenced files</li>
+        <li>Use <code>.dockerignore</code> to exclude files</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Build context is current directory
+docker build -t myapp .
+# Exclude files in .dockerignore
+cat .dockerignore
+node_modules
+.git
 </code></pre>
       <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>

@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MongoDB Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">MongoDB Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#what-is-mongodb" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">What is MongoDB</a>
+    <a href="#mongodb-vs-sql" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">MongoDB vs SQL</a>
+    <a href="#architecture" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Architecture</a>
+    <a href="#bson-format" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">BSON Format</a>
+    <a href="#installation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Installation</a>
+    <a href="#mongo-shell" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Mongo Shell</a>
+    <a href="#databases-collections" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">DBs & Collections</a>
+    <a href="#creating-database" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Creating DB</a>
+    <a href="#creating-collection" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Creating Collection</a>
+    <a href="#data-types" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Types</a>
+    <a href="#crud-operations" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">CRUD Operations</a>
+    <a href="#query-operators" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Query Operators</a>
+    <a href="#projection" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Projection</a>
+    <a href="#sorting" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sorting</a>
+    <a href="#limit-skip" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Limit & Skip</a>
+    <a href="#aggregation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Aggregation</a>
+    <a href="#indexes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Indexes</a>
+    <a href="#data-modeling" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Data Modeling</a>
+    <a href="#embedded-vs-references" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Embedded vs References</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#validation" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Validation</a>
+    <a href="#transactions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Transactions</a>
+    <a href="#backup-restore" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Backup & Restore</a>
+    <a href="#mongodb-atlas" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">MongoDB Atlas</a>
+    <a href="#authentication" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Authentication</a>
+    <a href="#replica-sets" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Replica Sets</a>
+    <a href="#sharding" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Sharding</a>
+    <a href="#performance-tuning" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Performance</a>
+    <a href="#mongoose" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Mongoose</a>
+    <a href="#cli-commands" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">CLI Commands</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="what-is-mongodb">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">What is MongoDB</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <p class="mb-2">MongoDB is a popular NoSQL document database that stores data in flexible, JSON-like documents. It's designed for scalability and performance, making it ideal for modern applications.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Document-oriented NoSQL database</li>
+        <li>Schema-less design</li>
+        <li>High performance and scalability</li>
+        <li>Supports complex queries and aggregation</li>
+        <li>Built-in support for geospatial data</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mongodb-vs-sql">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">MongoDB vs SQL Databases</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Comparison</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>MongoDB:</b> Document-based, schema-less, horizontal scaling</li>
+        <li><b>SQL:</b> Table-based, schema-required, vertical scaling</li>
+        <li><b>MongoDB:</b> JSON-like documents, nested objects</li>
+        <li><b>SQL:</b> Structured tables, relationships</li>
+        <li><b>MongoDB:</b> Flexible schema evolution</li>
+        <li><b>SQL:</b> Schema migration required</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// MongoDB Document
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "email": "john@example.com",
+  "address": {
+    "street": "123 Main St",
+    "city": "New York"
+  },
+  "hobbies": ["reading", "gaming"]
+}
+
+// SQL Tables
+-- users table
+-- addresses table  
+-- hobbies table
+-- user_hobbies junction table
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="architecture">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">MongoDB Architecture</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Architecture</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Database:</b> Container for collections</li>
+        <li><b>Collection:</b> Container for documents</li>
+        <li><b>Document:</b> BSON object (like JSON)</li>
+        <li><b>Field:</b> Key-value pair in document</li>
+        <li><b>Index:</b> Data structure for fast queries</li>
+        <li><b>Replica Set:</b> High availability setup</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Architecture Hierarchy
+Database: "myapp"
+  └── Collection: "users"
+      └── Document: { "_id": ObjectId("..."), "name": "John" }
+          └── Field: "name" = "John"
+
+// Multiple collections in one database
+use myapp
+db.users.find()
+db.products.find()
+db.orders.find()
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="bson-format">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">BSON Format</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">BSON</span>
+      </div>
+      <p class="mb-2">BSON (Binary JSON) is the binary format used by MongoDB to store documents. It extends JSON with additional data types.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Binary representation of JSON</li>
+        <li>Supports additional data types</li>
+        <li>More efficient than JSON</li>
+        <li>Includes type information</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// BSON Data Types
+{
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "string": "Hello World",
+  "number": 42,
+  "boolean": true,
+  "date": new Date("2023-01-01"),
+  "array": [1, 2, 3],
+  "object": { "key": "value" },
+  "null": null,
+  "regex": /pattern/i,
+  "binary": BinData(0, "base64data"),
+  "timestamp": Timestamp(1234567890, 1)
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="installation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Installation & Setup</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Installation</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Download from mongodb.com</li>
+        <li>Install MongoDB Community Server</li>
+        <li>Configure data directory</li>
+        <li>Start MongoDB service</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Ubuntu/Debian
+sudo apt-get install mongodb
+
+# macOS with Homebrew
+brew tap mongodb/brew
+brew install mongodb-community
+
+# Windows
+# Download MSI installer from mongodb.com
+
+# Start MongoDB
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+# Check status
+sudo systemctl status mongod
+
+# Connect to MongoDB
+mongosh
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mongo-shell">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Mongo Shell / MongoDB Compass</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Tools</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Mongo Shell:</b> Command-line interface</li>
+        <li><b>MongoDB Compass:</b> GUI for MongoDB</li>
+        <li><b>mongosh:</b> New MongoDB shell</li>
+        <li><b>Studio 3T:</b> Alternative GUI tool</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Connect to MongoDB
+mongosh
+mongosh "mongodb://localhost:27017"
+mongosh "mongodb://username:password@host:port/database"
+
+# Basic shell commands
+show dbs                    # List databases
+use mydatabase             # Switch database
+show collections           # List collections
+help                       # Show help
+exit                       # Exit shell
+
+# MongoDB Compass
+# Download from mongodb.com/try/download/compass
+# Connect using connection string
+mongodb://localhost:27017
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="databases-collections">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Databases & Collections</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Structure</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Database:</b> Logical container for collections</li>
+        <li><b>Collection:</b> Group of documents (like table)</li>
+        <li><b>Document:</b> Individual record (like row)</li>
+        <li><b>Field:</b> Key-value pair (like column)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Database operations
+show dbs                    // List all databases
+use myapp                  // Switch to database
+db                         // Show current database
+db.dropDatabase()          // Delete current database
+
+// Collection operations
+show collections           // List collections
+db.createCollection("users") // Create collection
+db.users.drop()            // Delete collection
+db.users.stats()           // Collection statistics
+
+// Document structure
+{
+  "_id": ObjectId("..."),  // Unique identifier
+  "field1": "value1",      // Field-value pair
+  "field2": 123,
+  "nested": {              // Nested document
+    "subfield": "value"
+  },
+  "array": [1, 2, 3]       // Array field
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="creating-database">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Creating a Database</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Database</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use <code>use</code> command to switch/create</li>
+        <li>Database created when first document inserted</li>
+        <li>Database name restrictions apply</li>
+        <li>Case-sensitive names</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Create/switch to database
+use myapp
+
+// Database is created when you insert first document
+db.users.insertOne({
+  name: "John Doe",
+  email: "john@example.com"
+})
+
+// List databases (will show myapp now)
+show dbs
+
+// Database naming rules
+// - Cannot be empty string
+// - Cannot contain: /, \, ., " ", $, \0
+// - Cannot start with reserved words
+// - Case sensitive
+
+// Examples of valid names
+use myapp
+use my_app
+use myApp123
+use my-app
+
+// Examples of invalid names
+use my app    // Contains space
+use my.app    // Contains dot
+use $myapp    // Starts with $
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="creating-collection">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Creating a Collection</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Collection</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use <code>createCollection()</code> or insert document</li>
+        <li>Collection created automatically on first insert</li>
+        <li>Can specify options during creation</li>
+        <li>Collection name restrictions apply</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Method 1: Explicit creation
+db.createCollection("users")
+
+// Method 2: Implicit creation (insert document)
+db.products.insertOne({
+  name: "Laptop",
+  price: 999.99
+})
+
+// Create collection with options
+db.createCollection("logs", {
+  capped: true,
+  size: 1000000,  // 1MB
+  max: 1000       // Max 1000 documents
+})
+
+// Collection naming rules
+// - Cannot be empty string
+// - Cannot contain: /, \, ., " ", $, \0
+// - Cannot start with reserved words
+// - Case sensitive
+
+// Valid collection names
+db.users
+db.user_profiles
+db.userProfiles
+db.user-profiles
+
+// Invalid collection names
+db.user profiles  // Contains space
+db.user.profiles  // Contains dot
+db.user-profiles  // Starts with -
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-types">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Data Types in MongoDB</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Data Types</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>String:</b> UTF-8 encoded text</li>
+        <li><b>Number:</b> Integer, Double, Decimal128</li>
+        <li><b>Boolean:</b> true/false</li>
+        <li><b>Date:</b> Date and time</li>
+        <li><b>ObjectId:</b> 12-byte unique identifier</li>
+        <li><b>Array:</b> Ordered list of values</li>
+        <li><b>Object:</b> Embedded document</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// MongoDB Data Types
+{
+  // String
+  "name": "John Doe",
+  "email": "john@example.com",
+  
+  // Numbers
+  "age": 30,                    // Integer
+  "salary": 75000.50,           // Double
+  "decimal": NumberDecimal("123.456"), // Decimal128
+  
+  // Boolean
+  "isActive": true,
+  "verified": false,
+  
+  // Date
+  "createdAt": new Date("2023-01-01"),
+  "updatedAt": new Date(),
+  
+  // ObjectId
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "userId": ObjectId("507f1f77bcf86cd799439012"),
+  
+  // Array
+  "hobbies": ["reading", "gaming", "coding"],
+  "scores": [85, 92, 78, 96],
+  
+  // Object (Embedded Document)
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "zipCode": "10001"
+  },
+  
+  // Null
+  "middleName": null,
+  
+  // Regular Expression
+  "pattern": /^[A-Za-z]+$/,
+  
+  // Binary Data
+  "binaryData": BinData(0, "base64encodeddata"),
+  
+  // Timestamp
+  "timestamp": Timestamp(1234567890, 1)
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="crud-operations">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">CRUD Operations</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CRUD</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Create:</b> insertOne, insertMany</li>
+        <li><b>Read:</b> find, findOne</li>
+        <li><b>Update:</b> updateOne, updateMany</li>
+        <li><b>Delete:</b> deleteOne, deleteMany</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// CREATE
+// Insert single document
+db.users.insertOne({
+  name: "John Doe",
+  email: "john@example.com",
+  age: 30
+})
+
+// Insert multiple documents
+db.users.insertMany([
+  { name: "Jane Smith", email: "jane@example.com", age: 25 },
+  { name: "Bob Johnson", email: "bob@example.com", age: 35 }
+])
+
+// READ
+// Find all documents
+db.users.find()
+
+// Find one document
+db.users.findOne({ name: "John Doe" })
+
+// Find with filter
+db.users.find({ age: { $gt: 25 } })
+
+// UPDATE
+// Update one document
+db.users.updateOne(
+  { name: "John Doe" },
+  { $set: { age: 31 } }
+)
+
+// Update multiple documents
+db.users.updateMany(
+  { age: { $lt: 30 } },
+  { $inc: { age: 1 } }
+)
+
+// DELETE
+// Delete one document
+db.users.deleteOne({ name: "John Doe" })
+
+// Delete multiple documents
+db.users.deleteMany({ age: { $lt: 25 } })
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="query-operators">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Query Operators</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Operators</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Comparison:</b> $eq, $gt, $gte, $lt, $lte, $ne</li>
+        <li><b>Logical:</b> $and, $or, $not, $nor</li>
+        <li><b>Element:</b> $exists, $type</li>
+        <li><b>Evaluation:</b> $regex, $expr</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Comparison Operators
+db.users.find({ age: { $gt: 25 } })        // Greater than
+db.users.find({ age: { $gte: 25 } })       // Greater than or equal
+db.users.find({ age: { $lt: 30 } })        // Less than
+db.users.find({ age: { $lte: 30 } })       // Less than or equal
+db.users.find({ age: { $ne: 25 } })        // Not equal
+db.users.find({ age: { $in: [25, 30, 35] } }) // In array
+db.users.find({ age: { $nin: [25, 30] } }) // Not in array
+
+// Logical Operators
+db.users.find({
+  $and: [
+    { age: { $gt: 25 } },
+    { email: { $regex: /@gmail\.com$/ } }
+  ]
+})
+
+db.users.find({
+  $or: [
+    { age: { $lt: 25 } },
+    { age: { $gt: 35 } }
+  ]
+})
+
+// Element Operators
+db.users.find({ email: { $exists: true } }) // Field exists
+db.users.find({ age: { $type: "number" } }) // Field type
+
+// Evaluation Operators
+db.users.find({ name: { $regex: /^J/ } })  // Starts with J
+db.users.find({ name: { $regex: /n$/ } })  // Ends with n
+db.users.find({ name: { $regex: /john/i } }) // Case insensitive
+
+// Complex queries
+db.users.find({
+  $and: [
+    { age: { $gte: 18, $lte: 65 } },
+    { email: { $exists: true } },
+    { $or: [
+      { name: { $regex: /^J/ } },
+      { name: { $regex: /^B/ } }
+    ]}
+  ]
+})
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="projection">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Projection</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Projection</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Include/exclude specific fields</li>
+        <li>Use 1 to include, 0 to exclude</li>
+        <li>Cannot mix include/exclude (except _id)</li>
+        <li>Improves query performance</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Include specific fields
+db.users.find({}, { name: 1, email: 1 })
+// Returns: { "_id": ..., "name": "...", "email": "..." }
+
+// Exclude specific fields
+db.users.find({}, { password: 0, secretKey: 0 })
+// Returns all fields except password and secretKey
+
+// Include with _id exclusion
+db.users.find({}, { name: 1, email: 1, _id: 0 })
+// Returns: { "name": "...", "email": "..." }
+
+// Nested field projection
+db.users.find({}, { "address.city": 1, "address.zipCode": 1 })
+
+// Array element projection
+db.users.find({}, { "hobbies.0": 1, "hobbies.1": 1 })
+
+// Conditional projection
+db.users.find({}, {
+  name: 1,
+  email: 1,
+  age: {
+    $cond: {
+      if: { $gte: ["$age", 18] },
+      then: "$age",
+      else: "$$REMOVE"
+    }
+  }
+})
+
+// Common projection patterns
+// Get only essential user info
+db.users.find({}, { name: 1, email: 1, _id: 0 })
+
+// Exclude sensitive data
+db.users.find({}, { password: 0, ssn: 0, creditCard: 0 })
+
+// Get user summary
+db.users.find({}, { 
+  name: 1, 
+  age: 1, 
+  "address.city": 1, 
+  _id: 0 
+})
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sorting">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Sorting</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Sorting</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use <code>sort()</code> method</li>
+        <li>1 for ascending, -1 for descending</li>
+        <li>Can sort by multiple fields</li>
+        <li>Order matters for compound sorts</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Basic sorting
+db.users.find().sort({ name: 1 })        // Ascending by name
+db.users.find().sort({ age: -1 })        // Descending by age
+
+// Compound sorting
+db.users.find().sort({ age: -1, name: 1 })
+// Sort by age descending, then name ascending
+
+// Sort with filter
+db.users.find({ age: { $gt: 25 } })
+  .sort({ name: 1 })
+
+// Sort with projection
+db.users.find({}, { name: 1, age: 1, _id: 0 })
+  .sort({ age: -1 })
+
+// Sort by nested fields
+db.users.find().sort({ "address.city": 1 })
+
+// Sort by array elements
+db.users.find().sort({ "scores.0": -1 })
+
+// Sort with limit (top 10 oldest users)
+db.users.find()
+  .sort({ age: -1 })
+  .limit(10)
+
+// Sort by date
+db.users.find().sort({ createdAt: -1 })
+
+// Sort by multiple criteria
+db.users.find().sort({
+  isActive: -1,    // Active users first
+  age: -1,         // Then by age descending
+  name: 1          // Then by name ascending
+})
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="limit-skip">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Limiting & Skipping</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Pagination</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>limit():</b> Restrict number of results</li>
+        <li><b>skip():</b> Skip specified number of documents</li>
+        <li>Used together for pagination</li>
+        <li>Order matters: sort → skip → limit</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Limit results
+db.users.find().limit(5)        // Get only 5 documents
+db.users.find().limit(10)       // Get only 10 documents
+
+// Skip documents
+db.users.find().skip(5)         // Skip first 5 documents
+db.users.find().skip(10)        // Skip first 10 documents
+
+// Pagination (page 1: documents 1-10)
+db.users.find()
+  .sort({ name: 1 })
+  .skip(0)
+  .limit(10)
+
+// Pagination (page 2: documents 11-20)
+db.users.find()
+  .sort({ name: 1 })
+  .skip(10)
+  .limit(10)
+
+// Pagination (page 3: documents 21-30)
+db.users.find()
+  .sort({ name: 1 })
+  .skip(20)
+  .limit(10)
+
+// Get top 5 users by age
+db.users.find()
+  .sort({ age: -1 })
+  .limit(5)
+
+// Skip inactive users, get next 10
+db.users.find({ isActive: true })
+  .sort({ createdAt: -1 })
+  .skip(10)
+  .limit(10)
+
+// Pagination function
+function getUsers(page, pageSize) {
+  const skip = (page - 1) * pageSize;
+  return db.users.find()
+    .sort({ name: 1 })
+    .skip(skip)
+    .limit(pageSize);
+}
+
+// Usage
+getUsers(1, 10);  // Page 1, 10 items per page
+getUsers(2, 10);  // Page 2, 10 items per page
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="aggregation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Aggregation Framework</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Aggregation</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>$match:</b> Filter documents</li>
+        <li><b>$group:</b> Group by field</li>
+        <li><b>$sort:</b> Sort results</li>
+        <li><b>$project:</b> Reshape documents</li>
+        <li><b>$lookup:</b> Join collections</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Basic aggregation
+db.users.aggregate([
+  { $match: { age: { $gte: 18 } } },
+  { $group: { _id: "$city", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+])
+
+// Count users by age group
+db.users.aggregate([
+  {
+    $group: {
+      _id: {
+        $cond: {
+          if: { $lt: ["$age", 25] },
+          then: "18-24",
+          else: {
+            $cond: {
+              if: { $lt: ["$age", 35] },
+              then: "25-34",
+              else: "35+"
+            }
+          }
+        }
+      },
+      count: { $sum: 1 },
+      avgAge: { $avg: "$age" }
+    }
+  },
+  { $sort: { _id: 1 } }
+])
+
+// Join with orders collection
+db.users.aggregate([
+  {
+    $lookup: {
+      from: "orders",
+      localField: "_id",
+      foreignField: "userId",
+      as: "orders"
+    }
+  },
+  {
+    $project: {
+      name: 1,
+      email: 1,
+      orderCount: { $size: "$orders" },
+      totalSpent: { $sum: "$orders.amount" }
+    }
+  }
+])
+
+// Complex aggregation
+db.users.aggregate([
+  { $match: { isActive: true } },
+  {
+    $lookup: {
+      from: "orders",
+      localField: "_id",
+      foreignField: "userId",
+      as: "orders"
+    }
+  },
+  {
+    $addFields: {
+      totalOrders: { $size: "$orders" },
+      totalSpent: { $sum: "$orders.amount" }
+    }
+  },
+  {
+    $group: {
+      _id: "$city",
+      userCount: { $sum: 1 },
+      avgOrders: { $avg: "$totalOrders" },
+      totalRevenue: { $sum: "$totalSpent" }
+    }
+  },
+  { $sort: { totalRevenue: -1 } }
+])
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="indexes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Indexes</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Indexes</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Single field:</b> Index on one field</li>
+        <li><b>Compound:</b> Index on multiple fields</li>
+        <li><b>Text:</b> Full-text search</li>
+        <li><b>Geospatial:</b> Location-based queries</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Create single field index
+db.users.createIndex({ email: 1 })
+db.users.createIndex({ age: -1 })
+
+// Create compound index
+db.users.createIndex({ lastName: 1, firstName: 1 })
+db.users.createIndex({ city: 1, age: -1 })
+
+// Create unique index
+db.users.createIndex({ email: 1 }, { unique: true })
+
+// Create sparse index (only on documents with field)
+db.users.createIndex({ middleName: 1 }, { sparse: true })
+
+// Create text index
+db.users.createIndex({ name: "text", bio: "text" })
+
+// Create geospatial index
+db.users.createIndex({ location: "2dsphere" })
+
+// List indexes
+db.users.getIndexes()
+
+// Drop index
+db.users.dropIndex("email_1")
+db.users.dropIndex({ email: 1 })
+
+// Drop all indexes (except _id)
+db.users.dropIndexes()
+
+// Index options
+db.users.createIndex(
+  { email: 1 },
+  {
+    unique: true,
+    sparse: true,
+    background: true,
+    name: "email_unique_index"
+  }
+)
+
+// Compound index order matters
+// Good for queries: { lastName: "Smith", firstName: "John" }
+db.users.createIndex({ lastName: 1, firstName: 1 })
+
+// Bad for queries: { firstName: "John" } (without lastName)
+// Index won't be used efficiently
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="data-modeling">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Data Modeling in MongoDB</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Modeling</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Embedded documents:</b> Store related data together</li>
+        <li><b>References:</b> Store IDs and join when needed</li>
+        <li><b>Hybrid approach:</b> Combine both strategies</li>
+        <li><b>Consider:</b> Read/write patterns, data size</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Embedded approach (One-to-Few)
+// User with embedded addresses
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "email": "john@example.com",
+  "addresses": [
+    {
+      "type": "home",
+      "street": "123 Main St",
+      "city": "New York",
+      "zipCode": "10001"
+    },
+    {
+      "type": "work",
+      "street": "456 Business Ave",
+      "city": "New York",
+      "zipCode": "10002"
+    }
+  ]
+}
+
+// Reference approach (One-to-Many)
+// User document
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+
+// Orders collection
+{
+  "_id": ObjectId("..."),
+  "userId": ObjectId("..."), // Reference to user
+  "items": [...],
+  "total": 150.00,
+  "date": new Date()
+}
+
+// Hybrid approach
+// User with some embedded data and references
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "email": "john@example.com",
+  "profile": {              // Embedded (small, frequently accessed)
+    "bio": "Software developer",
+    "avatar": "url",
+    "preferences": {...}
+  },
+  "orderIds": [             // References (large, less frequent)
+    ObjectId("..."),
+    ObjectId("...")
+  ]
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="embedded-vs-references">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Embedded Documents vs References</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Comparison</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Embedded:</b> Better for small, related data</li>
+        <li><b>References:</b> Better for large, independent data</li>
+        <li><b>Embedded:</b> Atomic operations, single query</li>
+        <li><b>References:</b> Separate collections, joins needed</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// EMBEDDED DOCUMENTS
+// Pros: Atomic operations, single query
+// Cons: Document size limit, duplication
+
+// User with embedded profile
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "profile": {
+    "bio": "Software developer",
+    "avatar": "url",
+    "social": {
+      "twitter": "@johndoe",
+      "linkedin": "linkedin.com/in/johndoe"
+    }
+  }
+}
+
+// Query embedded data
+db.users.find({ "profile.social.twitter": "@johndoe" })
+
+// Update embedded data
+db.users.updateOne(
+  { _id: ObjectId("...") },
+  { $set: { "profile.bio": "Updated bio" } }
+)
+
+// REFERENCES
+// Pros: Normalized data, independent updates
+// Cons: Multiple queries, joins needed
+
+// User document
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "profileId": ObjectId("...")
+}
+
+// Profile document
+{
+  "_id": ObjectId("..."),
+  "bio": "Software developer",
+  "avatar": "url",
+  "social": {...}
+}
+
+// Query with lookup
+db.users.aggregate([
+  {
+    $lookup: {
+      from: "profiles",
+      localField: "profileId",
+      foreignField: "_id",
+      as: "profile"
+    }
+  }
+])
+
+// WHEN TO USE EACH
+// Use Embedded when:
+// - Data is small and related
+// - Data is frequently accessed together
+// - Data doesn't change independently
+
+// Use References when:
+// - Data is large
+// - Data is shared across documents
+// - Data changes independently
+// - Need to query data separately
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Working with Arrays</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Arrays</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>$elemMatch:</b> Match array elements</li>
+        <li><b>$size:</b> Match array length</li>
+        <li><b>$push:</b> Add to array</li>
+        <li><b>$pull:</b> Remove from array</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Array query operators
+// $elemMatch - match array elements
+db.users.find({
+  hobbies: { $elemMatch: { $in: ["reading", "gaming"] } }
+})
+
+// $size - match array length
+db.users.find({ hobbies: { $size: 3 } })
+
+// Array update operators
+// $push - add to array
+db.users.updateOne(
+  { _id: ObjectId("...") },
+  { $push: { hobbies: "swimming" } }
+)
+
+// $push with $each - add multiple elements
+db.users.updateOne(
+  { _id: ObjectId("...") },
+  { $push: { hobbies: { $each: ["swimming", "cycling"] } } }
+)
+
+// $pull - remove from array
+db.users.updateOne(
+  { _id: ObjectId("...") },
+  { $pull: { hobbies: "gaming" } }
+)
+
+// $addToSet - add if not exists
+db.users.updateOne(
+  { _id: ObjectId("...") },
+  { $addToSet: { hobbies: "reading" } }
+)
+
+// Array position operators
+// $ - update first matching element
+db.users.updateOne(
+  { "scores": { $gt: 80 } },
+  { $set: { "scores.$": 85 } }
+)
+
+// Array with objects
+{
+  "_id": ObjectId("..."),
+  "name": "John Doe",
+  "skills": [
+    { "name": "JavaScript", "level": "expert" },
+    { "name": "Python", "level": "intermediate" },
+    { "name": "MongoDB", "level": "beginner" }
+  ]
+}
+
+// Query array objects
+db.users.find({
+  "skills": {
+    $elemMatch: {
+      "name": "JavaScript",
+      "level": "expert"
+    }
+  }
+})
+
+// Update array objects
+db.users.updateOne(
+  { "skills.name": "JavaScript" },
+  { $set: { "skills.$.level": "master" } }
+)
+
+// Array aggregation
+db.users.aggregate([
+  { $unwind: "$hobbies" },
+  { $group: { _id: "$hobbies", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+])
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="validation">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Validation Rules & Schema Validation</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Validation</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Schema validation:</b> Enforce document structure</li>
+        <li><b>Validation rules:</b> Define field requirements</li>
+        <li><b>JSON Schema:</b> Standard validation format</li>
+        <li><b>Validation levels:</b> strict, moderate, off</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Create collection with validation
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "email", "age"],
+      properties: {
+        name: {
+          bsonType: "string",
+          description: "Name must be a string"
+        },
+        email: {
+          bsonType: "string",
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          description: "Email must be valid format"
+        },
+        age: {
+          bsonType: "int",
+          minimum: 0,
+          maximum: 120,
+          description: "Age must be between 0 and 120"
+        },
+        phone: {
+          bsonType: "string",
+          pattern: "^\\+?[1-9]\\d{1,14}$",
+          description: "Phone must be valid format"
+        }
+      }
+    }
+  },
+  validationLevel: "strict",
+  validationAction: "error"
+})
+
+// Add validation to existing collection
+db.runCommand({
+  collMod: "users",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "email"],
+      properties: {
+        name: { bsonType: "string" },
+        email: { bsonType: "string" }
+      }
+    }
+  }
+})
+
+// Complex validation example
+db.createCollection("products", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "price", "category"],
+      properties: {
+        name: {
+          bsonType: "string",
+          minLength: 1,
+          maxLength: 100
+        },
+        price: {
+          bsonType: "double",
+          minimum: 0
+        },
+        category: {
+          enum: ["electronics", "clothing", "books", "food"]
+        },
+        tags: {
+          bsonType: "array",
+          items: { bsonType: "string" },
+          maxItems: 10
+        },
+        inStock: {
+          bsonType: "bool"
+        }
+      }
+    }
+  }
+})
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="transactions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Transactions (Intro to ACID)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Transactions</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>ACID:</b> Atomicity, Consistency, Isolation, Durability</li>
+        <li><b>Multi-document transactions:</b> MongoDB 4.0+</li>
+        <li><b>Session-based:</b> Use sessions for transactions</li>
+        <li><b>Replica sets:</b> Required for transactions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Basic transaction
+const session = db.getMongo().startSession();
+
+session.startTransaction();
+
+try {
+  // Transfer money between accounts
+  db.accounts.updateOne(
+    { _id: ObjectId("account1"), balance: { $gte: 100 } },
+    { $inc: { balance: -100 } },
+    { session }
+  );
+  
+  db.accounts.updateOne(
+    { _id: ObjectId("account2") },
+    { $inc: { balance: 100 } },
+    { session }
+  );
+  
+  // Commit transaction
+  await session.commitTransaction();
+} catch (error) {
+  // Abort transaction on error
+  await session.abortTransaction();
+  throw error;
+} finally {
+  session.endSession();
+}
+
+// Transaction with options
+const session = db.getMongo().startSession({
+  defaultTransactionOptions: {
+    readConcern: { level: "snapshot" },
+    writeConcern: { w: "majority" },
+    readPreference: "primary"
+  }
+});
+
+// Multi-collection transaction
+session.startTransaction();
+
+try {
+  // Update user
+  db.users.updateOne(
+    { _id: ObjectId("user1") },
+    { $inc: { balance: -50 } },
+    { session }
+  );
+  
+  // Create order
+  db.orders.insertOne({
+    userId: ObjectId("user1"),
+    amount: 50,
+    items: ["product1", "product2"]
+  }, { session });
+  
+  // Update inventory
+  db.inventory.updateOne(
+    { productId: "product1" },
+    { $inc: { stock: -1 } },
+    { session }
+  );
+  
+  await session.commitTransaction();
+} catch (error) {
+  await session.abortTransaction();
+  throw error;
+} finally {
+  session.endSession();
+}
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="backup-restore">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Backup & Restore</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Backup</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>mongodump:</b> Export database/collections</li>
+        <li><b>mongorestore:</b> Import from dump files</li>
+        <li><b>mongoexport:</b> Export to JSON/CSV</li>
+        <li><b>mongoimport:</b> Import from JSON/CSV</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Backup entire database
+mongodump --db myapp --out /backup/path
+
+# Backup specific collection
+mongodump --db myapp --collection users --out /backup/path
+
+# Backup with authentication
+mongodump --uri "mongodb://username:password@host:port/myapp" --out /backup/path
+
+# Restore entire database
+mongorestore --db myapp /backup/path/myapp
+
+# Restore specific collection
+mongorestore --db myapp --collection users /backup/path/myapp/users.bson
+
+# Restore with authentication
+mongorestore --uri "mongodb://username:password@host:port/myapp" /backup/path/myapp
+
+# Export to JSON
+mongoexport --db myapp --collection users --out users.json
+
+# Export to CSV
+mongoexport --db myapp --collection users --type=csv --fields name,email,age --out users.csv
+
+# Import from JSON
+mongoimport --db myapp --collection users --file users.json
+
+# Import from CSV
+mongoimport --db myapp --collection users --type=csv --headerline --file users.csv
+
+# Backup with compression
+mongodump --db myapp --gzip --out /backup/path
+
+# Restore compressed backup
+mongorestore --gzip --db myapp /backup/path/myapp
+
+# Backup with query filter
+mongodump --db myapp --collection users --query '{"age": {"$gte": 18}}' --out /backup/path
+
+# Automated backup script
+#!/bin/bash
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/backup/mongodb"
+mongodump --db myapp --out "$BACKUP_DIR/backup_$DATE"
+tar -czf "$BACKUP_DIR/backup_$DATE.tar.gz" "$BACKUP_DIR/backup_$DATE"
+rm -rf "$BACKUP_DIR/backup_$DATE"
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mongodb-atlas">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">MongoDB Atlas (Cloud)</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Atlas</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Cloud database:</b> Managed MongoDB service</li>
+        <li><b>Global clusters:</b> Multi-region deployment</li>
+        <li><b>Auto-scaling:</b> Automatic resource management</li>
+        <li><b>Security:</b> Built-in authentication and encryption</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Atlas connection string
+mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
+
+// Connect to Atlas
+mongosh "mongodb+srv://username:password@cluster.mongodb.net/myapp"
+
+// Atlas connection options
+const uri = "mongodb+srv://username:password@cluster.mongodb.net/myapp?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000
+});
+
+// Atlas features
+// - Automatic backups
+// - Point-in-time recovery
+// - Global clusters
+// - Auto-scaling
+// - Monitoring and alerts
+// - Data lake
+// - Charts (visualization)
+
+// Atlas CLI
+atlas cluster create myCluster --provider AWS --region us-east-1 --tier M10
+
+atlas cluster list
+
+atlas cluster pause myCluster
+
+atlas cluster resume myCluster
+
+atlas cluster delete myCluster
+
+// Atlas backup
+atlas backup create --clusterName myCluster
+
+atlas backup list --clusterName myCluster
+
+atlas backup restore --clusterName myCluster --backupId backupId
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="authentication">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Authentication & Role-Based Access Control</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Auth</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Users:</b> Database users with credentials</li>
+        <li><b>Roles:</b> Permissions assigned to users</li>
+        <li><b>Built-in roles:</b> read, readWrite, dbAdmin</li>
+        <li><b>Custom roles:</b> Define specific permissions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Create user
+use admin
+db.createUser({
+  user: "appuser",
+  pwd: "securepassword",
+  roles: [
+    { role: "readWrite", db: "myapp" },
+    { role: "read", db: "reports" }
+  ]
+})
+
+// Create user in specific database
+use myapp
+db.createUser({
+  user: "appuser",
+  pwd: "securepassword",
+  roles: ["readWrite"]
+})
+
+// Built-in roles
+// read - Read data only
+// readWrite - Read and write data
+// dbAdmin - Database administration
+// userAdmin - User management
+// clusterAdmin - Cluster administration
+// root - Superuser
+
+// Create custom role
+use admin
+db.createRole({
+  role: "appManager",
+  privileges: [
+    {
+      resource: { db: "myapp", collection: "users" },
+      actions: ["find", "insert", "update"]
+    },
+    {
+      resource: { db: "myapp", collection: "orders" },
+      actions: ["find", "insert", "update", "delete"]
+    }
+  ],
+  roles: []
+})
+
+// Assign role to user
+use admin
+db.grantRolesToUser("appuser", [
+  { role: "appManager", db: "admin" }
+])
+
+// List users
+use admin
+db.getUsers()
+
+// List roles
+use admin
+db.getRoles()
+
+// Drop user
+use admin
+db.dropUser("appuser")
+
+// Drop role
+use admin
+db.dropRole("appManager")
+
+// Authentication methods
+// 1. Username/Password
+mongosh --username appuser --password securepassword --authenticationDatabase admin
+
+// 2. Connection string
+mongodb://appuser:securepassword@localhost:27017/myapp?authSource=admin
+
+// 3. Environment variables
+export MONGO_USERNAME=appuser
+export MONGO_PASSWORD=securepassword
+mongosh --username $MONGO_USERNAME --password $MONGO_PASSWORD
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="replica-sets">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Replica Sets (Intro)</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Replica Sets</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>High availability:</b> Multiple copies of data</li>
+        <li><b>Primary node:</b> Handles writes</li>
+        <li><b>Secondary nodes:</b> Handle reads and backups</li>
+        <li><b>Automatic failover:</b> Primary failure recovery</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Initialize replica set
+mongod --replSet "rs0" --port 27017
+
+# Connect to primary and initiate
+mongosh
+rs.initiate({
+  _id: "rs0",
+  members: [
+    { _id: 0, host: "localhost:27017" },
+    { _id: 1, host: "localhost:27018" },
+    { _id: 2, host: "localhost:27019" }
+  ]
+})
+
+# Start secondary nodes
+mongod --replSet "rs0" --port 27018 --dbpath /data/db1
+mongod --replSet "rs0" --port 27019 --dbpath /data/db2
+
+# Check replica set status
+rs.status()
+
+# Check replica set configuration
+rs.conf()
+
+# Add member to replica set
+rs.add("localhost:27020")
+
+# Remove member from replica set
+rs.remove("localhost:27020")
+
+# Force reconfiguration
+rs.reconfig({
+  _id: "rs0",
+  members: [
+    { _id: 0, host: "localhost:27017" },
+    { _id: 1, host: "localhost:27018" },
+    { _id: 2, host: "localhost:27019", priority: 0 }
+  ]
+})
+
+# Connect to replica set
+mongosh "mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=rs0"
+
+# Read preferences
+// Primary (default)
+db.users.find().readPref("primary")
+
+// Secondary
+db.users.find().readPref("secondary")
+
+// Nearest
+db.users.find().readPref("nearest")
+
+// Primary preferred
+db.users.find().readPref("primaryPreferred")
+
+// Secondary preferred
+db.users.find().readPref("secondaryPreferred")
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="sharding">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Sharding (Intro)</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Sharding</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Horizontal scaling:</b> Distribute data across servers</li>
+        <li><b>Shard key:</b> Field used to partition data</li>
+        <li><b>Config servers:</b> Store metadata about shards</li>
+        <li><b>Mongos:</b> Route queries to appropriate shards</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Start config servers
+mongod --configsvr --dbpath /data/configdb --port 27019
+mongod --configsvr --dbpath /data/configdb2 --port 27020
+mongod --configsvr --dbpath /data/configdb3 --port 27021
+
+# Start shard servers
+mongod --shardsvr --dbpath /data/shard1 --port 27017
+mongod --shardsvr --dbpath /data/shard2 --port 27018
+
+# Start mongos (query router)
+mongos --configdb configReplSet/localhost:27019,localhost:27020,localhost:27021 --port 27016
+
+# Connect to mongos and add shards
+mongosh --port 27016
+sh.addShard("localhost:27017")
+sh.addShard("localhost:27018")
+
+# Enable sharding for database
+sh.enableSharding("myapp")
+
+# Enable sharding for collection with shard key
+sh.shardCollection("myapp.users", { "userId": 1 })
+
+# Check sharding status
+sh.status()
+
+# Check shard distribution
+db.users.getShardDistribution()
+
+# Shard key considerations
+// Good shard keys
+{ "userId": 1 }           // High cardinality
+{ "country": 1, "userId": 1 }  // Compound key
+
+// Bad shard keys
+{ "age": 1 }              // Low cardinality
+{ "timestamp": 1 }        // Monotonic (all writes to one shard)
+
+# Balancer operations
+sh.startBalancer()
+sh.stopBalancer()
+sh.isBalancerRunning()
+
+# Move chunks manually
+sh.moveChunk("myapp.users", { "userId": 1000 }, "shard1")
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="performance-tuning">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Performance Tuning & Query Optimization</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Performance</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Index optimization:</b> Create proper indexes</li>
+        <li><b>Query optimization:</b> Use explain() to analyze</li>
+        <li><b>Connection pooling:</b> Manage connections efficiently</li>
+        <li><b>Monitoring:</b> Use profiler and metrics</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Query analysis with explain()
+db.users.find({ age: { $gt: 25 } }).explain("executionStats")
+
+// Analyze query performance
+db.users.find({ email: "john@example.com" }).explain("allPlansExecution")
+
+// Check if index is used
+db.users.find({ age: { $gt: 25 } }).explain("queryPlanner")
+
+// Database profiler
+// Enable profiler
+db.setProfilingLevel(2)  // Log all operations
+
+// Set profiler level
+db.setProfilingLevel(1, { slowms: 100 })  // Log slow operations (>100ms)
+
+// Check profiler status
+db.getProfilingStatus()
+
+// View profiler results
+db.system.profile.find().sort({ ts: -1 }).limit(10)
+
+// Disable profiler
+db.setProfilingLevel(0)
+
+// Index usage statistics
+db.users.aggregate([
+  { $indexStats: {} }
+])
+
+// Collection statistics
+db.users.stats()
+
+// Database statistics
+db.stats()
+
+// Performance optimization tips
+// 1. Use proper indexes
+db.users.createIndex({ email: 1 })
+db.users.createIndex({ age: 1, city: 1 })
+
+// 2. Use projection to limit fields
+db.users.find({}, { name: 1, email: 1, _id: 0 })
+
+// 3. Use limit and skip efficiently
+db.users.find().sort({ createdAt: -1 }).limit(10)
+
+// 4. Use covered queries (index contains all fields)
+db.users.find({ age: { $gt: 25 } }, { age: 1, _id: 0 })
+
+// 5. Use aggregation for complex queries
+db.users.aggregate([
+  { $match: { age: { $gt: 25 } } },
+  { $group: { _id: "$city", count: { $sum: 1 } } }
+])
+
+// 6. Monitor slow queries
+db.system.profile.find({ millis: { $gt: 100 } }).sort({ ts: -1 })
+
+// 7. Use connection pooling
+const client = new MongoClient(uri, {
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  maxIdleTimeMS: 30000
+});
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mongoose">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Using MongoDB with Mongoose (Node.js ODM)</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Mongoose</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>ODM:</b> Object Document Mapper for Node.js</li>
+        <li><b>Schemas:</b> Define document structure</li>
+        <li><b>Models:</b> Create, query, update documents</li>
+        <li><b>Middleware:</b> Pre/post hooks for operations</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-javascript">// Install Mongoose
+npm install mongoose
+
+// Connect to MongoDB
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/myapp', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Define Schema
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true
+  },
+  age: {
+    type: Number,
+    min: 0,
+    max: 120
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+// Create Model
+const User = mongoose.model('User', userSchema);
+
+// CRUD Operations
+// Create
+const user = new User({
+  name: 'John Doe',
+  email: 'john@example.com',
+  age: 30
+});
+await user.save();
+
+// Or use create
+const user = await User.create({
+  name: 'Jane Smith',
+  email: 'jane@example.com',
+  age: 25
+});
+
+// Read
+const users = await User.find({ age: { $gt: 25 } });
+const user = await User.findOne({ email: 'john@example.com' });
+const user = await User.findById(userId);
+
+// Update
+await User.updateOne(
+  { email: 'john@example.com' },
+  { $set: { age: 31 } }
+);
+
+await User.findByIdAndUpdate(userId, { age: 31 });
+
+// Delete
+await User.deleteOne({ email: 'john@example.com' });
+await User.findByIdAndDelete(userId);
+
+// Middleware (Hooks)
+userSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
+});
+
+userSchema.post('save', function(doc) {
+  console.log('User saved:', doc.name);
+});
+
+// Virtual fields
+userSchema.virtual('fullName').get(function() {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+// Instance methods
+userSchema.methods.getAge = function() {
+  return new Date().getFullYear() - this.birthYear;
+};
+
+// Static methods
+userSchema.statics.findByEmail = function(email) {
+  return this.findOne({ email: email });
+};
+
+// Query helpers
+userSchema.query.byAge = function(age) {
+  return this.where({ age: age });
+};
+
+// Usage
+const users = await User.find().byAge(30);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cli-commands">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Common MongoDB CLI Commands</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">CLI</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>mongosh:</b> MongoDB shell</li>
+        <li><b>mongod:</b> MongoDB server</li>
+        <li><b>mongodump/mongorestore:</b> Backup/restore</li>
+        <li><b>mongoexport/mongoimport:</b> Export/import</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-bash"># Start MongoDB server
+mongod --dbpath /data/db
+mongod --config /etc/mongod.conf
+
+# Connect to MongoDB
+mongosh
+mongosh "mongodb://localhost:27017"
+mongosh "mongodb://username:password@host:port/database"
+
+# Basic shell commands
+show dbs                    # List databases
+use myapp                  # Switch database
+show collections           # List collections
+show users                 # List users
+show roles                 # List roles
+show profile               # Show profiler status
+
+# Database operations
+db.dropDatabase()          # Delete current database
+db.stats()                 # Database statistics
+db.getName()               # Current database name
+
+# Collection operations
+db.createCollection("users") # Create collection
+db.users.drop()            # Delete collection
+db.users.stats()           # Collection statistics
+db.users.renameCollection("newusers") # Rename collection
+
+# User management
+db.createUser({...})       # Create user
+db.dropUser("username")    # Delete user
+db.getUsers()              # List users
+db.grantRolesToUser("user", [...]) # Grant roles
+
+# Index operations
+db.users.createIndex({...}) # Create index
+db.users.dropIndex("index_name") # Drop index
+db.users.getIndexes()      # List indexes
+db.users.reIndex()         # Rebuild indexes
+
+# Backup and restore
+mongodump --db myapp --out /backup
+mongorestore --db myapp /backup/myapp
+mongoexport --db myapp --collection users --out users.json
+mongoimport --db myapp --collection users --file users.json
+
+# Monitoring and profiling
+db.setProfilingLevel(1, {slowms: 100}) # Enable profiler
+db.system.profile.find()   # View profiler results
+db.currentOp()             # Current operations
+db.killOp(opId)            # Kill operation
+
+# Replica set commands
+rs.status()                # Replica set status
+rs.conf()                  # Replica set configuration
+rs.add("host:port")        # Add member
+rs.remove("host:port")     # Remove member
+rs.stepDown()              # Step down primary
+
+# Sharding commands
+sh.status()                # Sharding status
+sh.addShard("host:port")   # Add shard
+sh.enableSharding("db")    # Enable sharding
+sh.shardCollection("db.collection", {key: 1}) # Shard collection
+
+# Utility commands
+db.runCommand({ping: 1})   # Ping server
+db.runCommand({serverStatus: 1}) # Server status
+db.runCommand({dbStats: 1}) # Database stats
+db.runCommand({collStats: "users"}) # Collection stats
+
+# Help and documentation
+help                       # General help
+db.help()                  # Database help
+db.users.help()            # Collection help
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.parentElement.querySelector('code');
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          setTimeout(() => {
+            this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+          }, 2000);
+        });
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          targetElement.classList.add('highlight-card');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-card');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX",
+      authDomain: "codepolarity.firebaseapp.com",
+      projectId: "codepolarity",
+      storageBucket: "codepolarity.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdefghijklmnop"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html> 

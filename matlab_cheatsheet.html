@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>MATLAB Cheat Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Roboto+Mono:wght@400;500;700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #111827; }
+    h1, h2, h3, h4, h5, h6, .main-heading, .main-text, nav, .toc-link, .font-bold, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl { font-family: 'Space Grotesk', sans-serif !important; }
+    .main-heading, .font-doto { font-family: 'Doto', sans-serif !important; }
+    code, pre, .text-mono, .font-mono { font-family: 'Roboto Mono', monospace !important; }
+    .code-block { background-color: #1f2937; }
+    pre, code, pre[class*="language-"], code[class*="language-"] { background: transparent !important; }
+    .code-block, .code-block pre, .code-block code { scrollbar-width: none; }
+    .code-block::-webkit-scrollbar, .code-block pre::-webkit-scrollbar, .code-block code::-webkit-scrollbar { display: none; }
+    .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.10) !important; background-color: #e0f2fe !important; transition: box-shadow 0.4s, background-color 0.4s; }
+    .dark .highlight-card { box-shadow: 0 0 0 4px #38bdf8, 0 2px 8px rgba(0,0,0,0.20) !important; background-color: #0e2233 !important; }
+    #back-btn.back-anim { transform: scale(0.85); opacity: 0.5; transition: transform 0.2s, opacity 0.2s; }
+    #back-btn { transition: transform 0.2s, opacity 0.2s; }
+  </style>
+</head>
+<body class="p-8 bg-white text-gray-900 dark:bg-black dark:text-gray-100 pt-20">
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-2 sm:px-4 md:px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
+    <button id="back-btn" class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition mr-2" aria-label="Back">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-blue-500">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div class="flex items-center gap-3 cursor-pointer mr-5" id="logo-toggle">
+      <img src="assets/images/logo .svg" alt="Codepolarity Logo Part 1" id="logo-main" class="h-7 transition-transform duration-700" />
+      <img src="assets/images/cp.svg" alt="Codepolarity Logo Part 2" class="h-7" />
+    </div>
+  </nav>
+  <script>
+    document.getElementById('back-btn').onclick = function(e) {
+      const btn = this;
+      btn.classList.add('back-anim');
+      setTimeout(() => {
+        btn.classList.remove('back-anim');
+        window.location.href = 'Notes.html';
+      }, 200);
+    };
+  </script>
+  <!-- Page Title -->
+  <h1 class="main-heading font-doto font-bold tracking-wide text-2xl sm:text-3xl md:text-4xl text-blue-400 mb-4">MATLAB Cheatsheet</h1>
+  <!-- TOC -->
+  <div class="flex flex-wrap gap-2 mb-8">
+    <a href="#what-is-matlab" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">What is MATLAB</a>
+    <a href="#basic-syntax" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Basic Syntax</a>
+    <a href="#variables" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Variables</a>
+    <a href="#matrices" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Matrices</a>
+    <a href="#arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Arrays</a>
+    <a href="#indexing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Indexing</a>
+    <a href="#operators" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Operators</a>
+    <a href="#functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Functions</a>
+    <a href="#control-flow" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Control Flow</a>
+    <a href="#loops" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Loops</a>
+    <a href="#plotting" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Plotting</a>
+    <a href="#file-io" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">File I/O</a>
+    <a href="#strings" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Strings</a>
+    <a href="#cell-arrays" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Cell Arrays</a>
+    <a href="#structures" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Structures</a>
+    <a href="#mathematical-functions" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Math Functions</a>
+    <a href="#linear-algebra" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Linear Algebra</a>
+    <a href="#statistics" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Statistics</a>
+    <a href="#signal-processing" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Signal Processing</a>
+    <a href="#optimization" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Optimization</a>
+    <a href="#symbolic-math" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Symbolic Math</a>
+    <a href="#gui-development" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">GUI Development</a>
+    <a href="#toolboxes" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Toolboxes</a>
+    <a href="#debugging" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Debugging</a>
+    <a href="#performance" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Performance</a>
+    <a href="#best-practices" class="toc-link px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs font-semibold hover:bg-blue-700/60 transition">Best Practices</a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="what-is-matlab">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">What is MATLAB?</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Intro</span>
+      </div>
+      <p class="mb-2">MATLAB (Matrix Laboratory) is a high-level programming language and numerical computing environment developed by MathWorks. It's widely used for matrix operations, algorithm implementation, and data visualization.</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Matrix-based programming language</li>
+        <li>Extensive mathematical function library</li>
+        <li>Built-in visualization tools</li>
+        <li>Interactive development environment</li>
+        <li>Widely used in engineering and science</li>
+      </ul>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="basic-syntax">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Basic Syntax</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Syntax</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Statements end with semicolon (;) to suppress output</li>
+        <li>Comments start with %</li>
+        <li>Case sensitive</li>
+        <li>1-based indexing</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% This is a comment
+x = 5;        % Semicolon suppresses output
+y = 10        % No semicolon shows output
+disp('Hello'); % Display function
+
+% Multiple statements on one line
+a = 1; b = 2; c = 3;
+
+% Line continuation with ...
+long_variable_name = 1 + 2 + ...
+    3 + 4 + 5;
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="variables">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Variables</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Variables</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Variable names are case sensitive</li>
+        <li>Must start with a letter</li>
+        <li>Can contain letters, digits, and underscores</li>
+        <li>No explicit type declaration needed</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Variable assignment
+x = 10;
+myVariable = 3.14;
+result = x + myVariable;
+
+% Check variable info
+whos x
+class(x)
+size(x)
+
+% Clear variables
+clear x
+clear all
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="matrices">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Matrices</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Matrices</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Fundamental data structure in MATLAB</li>
+        <li>All data is stored as matrices</li>
+        <li>Scalars are 1×1 matrices</li>
+        <li>Vectors are 1×n or n×1 matrices</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Create matrices
+A = [1 2 3; 4 5 6; 7 8 9];  % 3x3 matrix
+B = [1, 2, 3; 4, 5, 6];    % 2x3 matrix
+
+% Special matrices
+zeros(3, 4)    % 3x4 matrix of zeros
+ones(2, 3)     % 2x3 matrix of ones
+eye(3)         % 3x3 identity matrix
+rand(2, 2)     % 2x2 random matrix
+
+% Matrix operations
+C = A + B;     % Matrix addition
+D = A * B;     % Matrix multiplication
+E = A .* B;    % Element-wise multiplication
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Arrays</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Arrays</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Vectors are 1D arrays</li>
+        <li>Matrices are 2D arrays</li>
+        <li>Can create higher dimensional arrays</li>
+        <li>Useful for data manipulation</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Row vector
+row_vec = [1 2 3 4 5];
+
+% Column vector
+col_vec = [1; 2; 3; 4; 5];
+
+% Using colon operator
+vec1 = 1:5;        % [1 2 3 4 5]
+vec2 = 1:2:10;     % [1 3 5 7 9]
+vec3 = 10:-1:1;    % [10 9 8 7 6 5 4 3 2 1]
+
+% 3D array
+array_3d = rand(2, 3, 4);  % 2x3x4 array
+
+% Array functions
+length(vec1)       % Length of vector
+numel(array_3d)    % Number of elements
+ndims(array_3d)    % Number of dimensions
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="indexing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Indexing</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Indexing</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>1-based indexing (not 0-based)</li>
+        <li>Use parentheses for indexing</li>
+        <li>Can use logical indexing</li>
+        <li>Linear indexing available</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">A = [1 2 3; 4 5 6; 7 8 9];
+
+% Element access
+element = A(2, 3);     % Row 2, Column 3
+row = A(2, :);         % Entire row 2
+col = A(:, 3);         % Entire column 3
+
+% Logical indexing
+mask = A > 5;          % Logical matrix
+elements = A(mask);    % Elements where A > 5
+
+% Linear indexing
+linear_idx = A(5);     % 5th element in linear order
+
+% Submatrix
+submatrix = A(1:2, 2:3);  % Rows 1-2, Columns 2-3
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="operators">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Operators</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Operators</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Arithmetic:</b> +, -, *, /, ^, .*, ./, .^</li>
+        <li><b>Relational:</b> ==, ~=, <, >, <=, >=</li>
+        <li><b>Logical:</b> &, |, ~, &&, ||</li>
+        <li><b>Element-wise:</b> .* (element-wise multiplication)</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Arithmetic operators
+a = 5 + 3;     % Addition
+b = 10 - 4;    % Subtraction
+c = 6 * 7;     % Multiplication
+d = 15 / 3;    % Division
+e = 2 ^ 3;     % Exponentiation
+
+% Element-wise operations
+A = [1 2; 3 4];
+B = [5 6; 7 8];
+C = A .* B;    % Element-wise multiplication
+D = A ./ B;    % Element-wise division
+
+% Logical operators
+result1 = (5 > 3) & (2 < 4);  % AND
+result2 = (5 > 3) | (2 > 4);  % OR
+result3 = ~(5 > 3);           % NOT
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Functions</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Functions</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Function files end with .m</li>
+        <li>Function name must match filename</li>
+        <li>Can return multiple outputs</li>
+        <li>Support variable number of arguments</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Function definition (save as myfunction.m)
+function [output1, output2] = myfunction(input1, input2)
+    % Function documentation
+    % This function does something useful
+    
+    % Function body
+    output1 = input1 + input2;
+    output2 = input1 * input2;
+end
+
+% Function call
+[result1, result2] = myfunction(5, 3);
+
+% Anonymous functions
+f = @(x) x^2 + 2*x + 1;
+result = f(3);
+
+% Built-in functions
+sin(pi/2)
+cos(0)
+exp(1)
+log(10)
+sqrt(16)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="control-flow">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Control Flow</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Control</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>if-elseif-else:</b> Conditional execution</li>
+        <li><b>switch-case:</b> Multiple condition handling</li>
+        <li><b>try-catch:</b> Error handling</li>
+        <li><b>return:</b> Exit function early</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% if-elseif-else
+x = 10;
+if x > 0
+    disp('Positive');
+elseif x < 0
+    disp('Negative');
+else
+    disp('Zero');
+end
+
+% switch-case
+day = 'Monday';
+switch day
+    case 'Monday'
+        disp('Start of week');
+    case 'Friday'
+        disp('End of week');
+    otherwise
+        disp('Mid week');
+end
+
+% try-catch
+try
+    result = 10 / 0;
+catch ME
+    disp(['Error: ' ME.message]);
+end
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="loops">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Loops</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Loops</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>for:</b> Iterate over range or array</li>
+        <li><b>while:</b> Loop while condition is true</li>
+        <li><b>break:</b> Exit loop early</li>
+        <li><b>continue:</b> Skip to next iteration</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% for loop
+for i = 1:10
+    disp(i);
+end
+
+% for loop with array
+arr = [1, 2, 3, 4, 5];
+for element = arr
+    disp(element);
+end
+
+% while loop
+count = 0;
+while count < 5
+    count = count + 1;
+    disp(count);
+end
+
+% break and continue
+for i = 1:10
+    if i == 5
+        break;      % Exit loop
+    end
+    if i == 3
+        continue;   % Skip iteration
+    end
+    disp(i);
+end
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="plotting">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Plotting</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Plotting</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>plot:</b> 2D line plots</li>
+        <li><b>scatter:</b> Scatter plots</li>
+        <li><b>subplot:</b> Multiple plots in one figure</li>
+        <li><b>3D plotting:</b> plot3, surf, mesh</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Basic 2D plot
+x = 0:0.1:2*pi;
+y = sin(x);
+plot(x, y);
+title('Sine Wave');
+xlabel('x');
+ylabel('sin(x)');
+grid on;
+
+% Multiple plots
+plot(x, sin(x), 'r-', x, cos(x), 'b--');
+legend('sin(x)', 'cos(x)');
+
+% Subplots
+subplot(2, 1, 1);
+plot(x, sin(x));
+title('Sine');
+
+subplot(2, 1, 2);
+plot(x, cos(x));
+title('Cosine');
+
+% 3D plot
+[X, Y] = meshgrid(-2:0.2:2);
+Z = X.^2 + Y.^2;
+surf(X, Y, Z);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="file-io">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">File I/O</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">File I/O</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>load/save:</b> MATLAB format files</li>
+        <li><b>dlmread/dlmwrite:</b> Delimited text files</li>
+        <li><b>csvread/csvwrite:</b> CSV files</li>
+        <li><b>fopen/fclose:</b> Low-level file operations</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Save and load MATLAB files
+data = rand(5, 5);
+save('data.mat', 'data');
+load('data.mat');
+
+% Read/write CSV files
+csvwrite('data.csv', data);
+loaded_data = csvread('data.csv');
+
+% Read/write text files
+fid = fopen('data.txt', 'w');
+fprintf(fid, '%f %f %f\n', data);
+fclose(fid);
+
+% Read text file
+fid = fopen('data.txt', 'r');
+text_data = fscanf(fid, '%f');
+fclose(fid);
+
+% Import data from Excel
+[num, txt, raw] = xlsread('data.xlsx');
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="strings">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Strings</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Strings</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Use single quotes for strings</li>
+        <li>String arrays for multiple strings</li>
+        <li>String functions for manipulation</li>
+        <li>Character arrays vs string arrays</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Basic strings
+str1 = 'Hello World';
+str2 = "Hello World";  % Double quotes also work
+
+% String arrays
+names = ["Alice", "Bob", "Charlie"];
+ages = [25, 30, 35];
+
+% String concatenation
+result = strcat('Hello', ' ', 'World');
+result2 = ['Hello' ' ' 'World'];
+
+% String functions
+length(str1)           % Length of string
+strcmp(str1, str2)     % String comparison
+strfind(str1, 'o')     % Find substring
+strrep(str1, 'o', '0') % Replace substring
+
+% String formatting
+fprintf('Name: %s, Age: %d\n', names(1), ages(1));
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="cell-arrays">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Cell Arrays</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Cell Arrays</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Store different data types</li>
+        <li>Use curly braces {}</li>
+        <li>Access with () or {}</li>
+        <li>Useful for mixed data</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Create cell array
+cell_array = {1, 'hello', [1 2 3], {4 5}};
+
+% Access elements
+element1 = cell_array{1};    % Get value
+element2 = cell_array(1);    % Get cell
+
+% Cell array of strings
+names = {'Alice', 'Bob', 'Charlie'};
+
+% Cell array with different types
+mixed_data = {42, 'text', rand(3,3), true};
+
+% Convert to/from cell arrays
+num2cell([1 2 3 4])          % Convert array to cell
+cell2mat({1 2 3 4})          % Convert cell to array
+
+% Cell array functions
+iscell(mixed_data)           % Check if cell array
+cellfun(@length, names)      % Apply function to each cell
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="structures">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Structures</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Structures</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Store data with field names</li>
+        <li>Use dot notation for access</li>
+        <li>Can have multiple fields</li>
+        <li>Useful for organizing data</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Create structure
+person.name = 'John';
+person.age = 30;
+person.city = 'New York';
+
+% Access fields
+name = person.name;
+age = person.age;
+
+% Structure array
+people(1).name = 'Alice';
+people(1).age = 25;
+people(2).name = 'Bob';
+people(2).age = 30;
+
+% Access structure array
+first_person = people(1);
+all_names = {people.name};
+
+% Structure functions
+fieldnames(person)           % Get field names
+isfield(person, 'name')      % Check if field exists
+rmfield(person, 'age')       % Remove field
+
+% Convert to/from structure
+struct('name', 'John', 'age', 30)
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="mathematical-functions">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Mathematical Functions</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Math</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Trigonometric:</b> sin, cos, tan, asin, acos, atan</li>
+        <li><b>Exponential:</b> exp, log, log10, sqrt</li>
+        <li><b>Rounding:</b> round, floor, ceil, fix</li>
+        <li><b>Complex:</b> abs, angle, real, imag</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Trigonometric functions
+sin(pi/2)       % Sine
+cos(0)          % Cosine
+tan(pi/4)       % Tangent
+asin(0.5)       % Arcsine
+acos(0.5)       % Arccosine
+atan(1)         % Arctangent
+
+% Exponential and logarithmic
+exp(1)          % e^x
+log(10)         % Natural logarithm
+log10(100)      % Base-10 logarithm
+sqrt(16)        % Square root
+
+% Rounding functions
+round(3.7)      % Round to nearest integer
+floor(3.7)      % Round down
+ceil(3.2)       % Round up
+fix(-3.7)       % Round toward zero
+
+% Complex numbers
+z = 3 + 4i;     % Complex number
+abs(z)          % Magnitude
+angle(z)        % Phase angle
+real(z)         % Real part
+imag(z)         % Imaginary part
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="linear-algebra">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Linear Algebra</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Linear Algebra</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Matrix operations:</b> det, inv, rank, trace</li>
+        <li><b>Eigenvalues:</b> eig, eigs</li>
+        <li><b>Decompositions:</b> lu, qr, svd</li>
+        <li><b>Solving systems:</b> \ operator, linsolve</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Matrix operations
+A = [1 2; 3 4];
+det(A)          % Determinant
+inv(A)          % Inverse
+rank(A)         % Rank
+trace(A)        % Trace
+
+% Eigenvalues and eigenvectors
+[V, D] = eig(A);    % Eigenvalue decomposition
+eigenvalues = diag(D);
+
+% Matrix decompositions
+[L, U] = lu(A);     % LU decomposition
+[Q, R] = qr(A);     % QR decomposition
+[U, S, V] = svd(A); % SVD decomposition
+
+% Solving linear systems
+b = [5; 6];
+x = A \ b;          % Solve Ax = b
+x2 = linsolve(A, b);
+
+% Matrix functions
+expm(A)         % Matrix exponential
+logm(A)         % Matrix logarithm
+sqrtm(A)        % Matrix square root
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="statistics">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Statistics</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Statistics</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Descriptive stats:</b> mean, median, std, var</li>
+        <li><b>Correlation:</b> corr, corrcoef</li>
+        <li><b>Distributions:</b> normrnd, exprnd, unifrnd</li>
+        <li><b>Hypothesis testing:</b> ttest, ztest</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Generate random data
+data = randn(100, 1);  % Normal distribution
+
+% Descriptive statistics
+mean_val = mean(data);
+median_val = median(data);
+std_val = std(data);
+var_val = var(data);
+min_val = min(data);
+max_val = max(data);
+
+% Correlation
+x = randn(100, 1);
+y = 2*x + randn(100, 1);
+correlation = corr(x, y);
+corr_matrix = corrcoef(x, y);
+
+% Random number generation
+normal_data = normrnd(0, 1, 100, 1);    % Normal
+exponential_data = exprnd(2, 100, 1);   % Exponential
+uniform_data = unifrnd(0, 1, 100, 1);   % Uniform
+
+% Hypothesis testing
+[h, p] = ttest(data, 0);    % One-sample t-test
+[h2, p2] = ttest2(x, y);    % Two-sample t-test
+
+% Histogram and probability plots
+histogram(data);
+normplot(data);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="signal-processing">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Signal Processing</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Signal</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Filtering:</b> filter, filtfilt, butter, cheby1</li>
+        <li><b>FFT:</b> fft, ifft, fftshift</li>
+        <li><b>Convolution:</b> conv, xcorr</li>
+        <li><b>Window functions:</b> hamming, hanning, blackman</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Generate signal
+t = 0:0.001:1;
+signal = sin(2*pi*10*t) + 0.5*sin(2*pi*50*t) + 0.1*randn(size(t));
+
+% FFT analysis
+Y = fft(signal);
+P2 = abs(Y/length(signal));
+P1 = P2(1:length(signal)/2+1);
+f = (0:(length(signal)/2))/length(signal);
+
+% Filtering
+[b, a] = butter(4, 0.1, 'low');  % Low-pass filter
+filtered_signal = filtfilt(b, a, signal);
+
+% Convolution
+kernel = ones(1, 10)/10;
+smoothed = conv(signal, kernel, 'same');
+
+% Cross-correlation
+correlation = xcorr(signal, filtered_signal);
+
+% Window functions
+window = hamming(64);
+windowed_signal = signal(1:64) .* window';
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="optimization">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Optimization</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Optimization</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>fminunc:</b> Unconstrained optimization</li>
+        <li><b>fmincon:</b> Constrained optimization</li>
+        <li><b>fminsearch:</b> Nelder-Mead simplex</li>
+        <li><b>lsqnonlin:</b> Nonlinear least squares</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Define objective function
+fun = @(x) x(1)^2 + x(2)^2;  % f(x,y) = x^2 + y^2
+
+% Unconstrained optimization
+x0 = [1, 1];  % Initial guess
+[x_opt, fval] = fminunc(fun, x0);
+
+% Constrained optimization
+A = [1, 1];  % x + y <= 1
+b = 1;
+Aeq = [];    % No equality constraints
+beq = [];
+lb = [0, 0]; % x >= 0, y >= 0
+ub = [];
+[x_opt, fval] = fmincon(fun, x0, A, b, Aeq, beq, lb, ub);
+
+% Nonlinear least squares
+fun_lsq = @(x) [x(1) - 1; x(2) - 2; x(1)^2 + x(2)^2 - 5];
+x0 = [0, 0];
+[x_opt, resnorm] = lsqnonlin(fun_lsq, x0);
+
+% Global optimization
+options = optimoptions('fmincon', 'Algorithm', 'sqp');
+[x_opt, fval] = fmincon(fun, x0, [], [], [], [], lb, ub, [], options);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="symbolic-math">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Symbolic Math</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Symbolic</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Symbolic variables:</b> sym, syms</li>
+        <li><b>Differentiation:</b> diff</li>
+        <li><b>Integration:</b> int</li>
+        <li><b>Solving equations:</b> solve</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Define symbolic variables
+syms x y z
+f = x^2 + y^2 + z^2;
+
+% Differentiation
+df_dx = diff(f, x);
+df_dy = diff(f, y);
+df_dx2 = diff(f, x, 2);  % Second derivative
+
+% Integration
+int_f = int(f, x);       % Indefinite integral
+int_f_def = int(f, x, 0, 1);  % Definite integral
+
+% Solving equations
+eq1 = x + y == 5;
+eq2 = 2*x - y == 1;
+solution = solve([eq1, eq2], [x, y]);
+
+% Symbolic substitution
+f_sub = subs(f, [x, y, z], [1, 2, 3]);
+
+% Taylor series
+taylor_series = taylor(sin(x), x, 0, 'Order', 5);
+
+% Laplace transform
+syms s t
+F = laplace(exp(-t), t, s);
+f_inv = ilaplace(F, s, t);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="gui-development">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">GUI Development</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">GUI</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>GUIDE:</b> GUI development environment</li>
+        <li><b>App Designer:</b> Modern GUI framework</li>
+        <li><b>Programmatic GUI:</b> Create GUIs in code</li>
+        <li><b>Callbacks:</b> Event handling functions</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Create figure and UI elements
+fig = figure('Name', 'Simple GUI', 'Position', [100 100 400 300]);
+
+% Create buttons
+btn1 = uicontrol('Style', 'pushbutton', 'String', 'Plot', ...
+    'Position', [20 20 80 30], 'Callback', @plot_callback);
+
+btn2 = uicontrol('Style', 'pushbutton', 'String', 'Clear', ...
+    'Position', [120 20 80 30], 'Callback', @clear_callback);
+
+% Create text input
+edit1 = uicontrol('Style', 'edit', 'String', '10', ...
+    'Position', [220 20 60 30]);
+
+% Callback functions
+function plot_callback(~, ~)
+    x = 0:0.1:2*pi;
+    y = sin(x);
+    plot(x, y);
+    title('Sine Wave');
+end
+
+function clear_callback(~, ~)
+    clf;
+end
+
+% App Designer (R2016a+)
+% Use appdesigner command to open App Designer
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="toolboxes">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Toolboxes</h2>
+        <span class="bg-pink-500/20 text-pink-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Toolboxes</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Signal Processing:</b> Signal analysis and filtering</li>
+        <li><b>Image Processing:</b> Image analysis and manipulation</li>
+        <li><b>Control System:</b> Control system design and analysis</li>
+        <li><b>Neural Network:</b> Deep learning and neural networks</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Check available toolboxes
+ver
+
+% Signal Processing Toolbox
+if license('test', 'Signal_Toolbox')
+    % Signal processing functions available
+    [b, a] = butter(4, 0.1);
+end
+
+% Image Processing Toolbox
+if license('test', 'Image_Toolbox')
+    % Image processing functions available
+    img = imread('image.jpg');
+    img_gray = rgb2gray(img);
+    img_filtered = medfilt2(img_gray);
+end
+
+% Control System Toolbox
+if license('test', 'Control_Toolbox')
+    % Control system functions available
+    sys = tf([1], [1 2 1]);
+    step(sys);
+end
+
+% Neural Network Toolbox
+if license('test', 'Neural_Network_Toolbox')
+    % Neural network functions available
+    net = feedforwardnet(10);
+    net = train(net, inputs, targets);
+end
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="debugging">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Debugging</h2>
+        <span class="bg-purple-500/20 text-purple-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Debugging</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>dbstop:</b> Set breakpoints</li>
+        <li><b>dbcont:</b> Continue execution</li>
+        <li><b>dbstep:</b> Step through code</li>
+        <li><b>dbstack:</b> Show call stack</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Set breakpoints
+dbstop in myfunction at 10
+dbstop if error
+dbstop if warning
+
+% Debug commands
+dbcont        % Continue execution
+dbstep        % Step into
+dbstep in     % Step into function
+dbstep out    % Step out of function
+dbquit        % Quit debugging
+
+% Show debugging info
+dbstack       % Show call stack
+dbstatus      % Show breakpoints
+dbclear all   % Clear all breakpoints
+
+% Error handling
+try
+    result = risky_function();
+catch ME
+    disp(['Error: ' ME.message]);
+    disp(['Line: ' num2str(ME.line)]);
+    disp(['File: ' ME.file]);
+end
+
+% Profiling
+profile on
+% ... your code ...
+profile off
+profile viewer
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="performance">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Performance</h2>
+        <span class="bg-green-500/20 text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Performance</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Vectorization:</b> Use vector operations instead of loops</li>
+        <li><b>Preallocation:</b> Preallocate arrays for better performance</li>
+        <li><b>Profiling:</b> Use profile to identify bottlenecks</li>
+        <li><b>Memory management:</b> Clear unused variables</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Vectorization (fast)
+x = 1:1000;
+y = sin(x);  % Vectorized operation
+
+% vs Loop (slow)
+y = zeros(size(x));
+for i = 1:length(x)
+    y(i) = sin(x(i));
+end
+
+% Preallocation
+n = 1000;
+result = zeros(n, 1);  % Preallocate
+for i = 1:n
+    result(i) = some_calculation(i);
+end
+
+% Memory management
+clear unused_variable
+pack  % Defragment memory
+
+% Performance timing
+tic;
+% ... your code ...
+elapsed_time = toc;
+
+% Profiling
+profile on
+% ... code to profile ...
+profile off
+profile viewer
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+    <div class="code-block rounded-lg p-2 bg-white text-gray-900 dark:bg-[#181f2a] dark:text-gray-100 text-xs relative group" id="best-practices">
+      <div class="flex justify-between items-center mb-1">
+        <h2 class="text-base font-bold text-white">Best Practices</h2>
+        <span class="bg-blue-500/20 text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">Best Practices</span>
+      </div>
+      <ul class="list-disc list-inside space-y-1">
+        <li><b>Code organization:</b> Use functions and scripts properly</li>
+        <li><b>Documentation:</b> Add comments and help text</li>
+        <li><b>Error handling:</b> Use try-catch blocks</li>
+        <li><b>Variable naming:</b> Use descriptive names</li>
+        <li><b>Vectorization:</b> Avoid loops when possible</li>
+        <li><b>Memory efficiency:</b> Clear unused variables</li>
+      </ul>
+      <pre class="whitespace-pre-wrap text-xs mt-2"><code class="language-matlab">% Good function structure
+function [output1, output2] = my_function(input1, input2)
+    % MY_FUNCTION Brief description of what the function does
+    %
+    % Syntax:
+    %   [output1, output2] = my_function(input1, input2)
+    %
+    % Inputs:
+    %   input1 - Description of input1
+    %   input2 - Description of input2
+    %
+    % Outputs:
+    %   output1 - Description of output1
+    %   output2 - Description of output2
+    %
+    % Example:
+    %   [result1, result2] = my_function(5, 10);
+    
+    % Input validation
+    validateattributes(input1, {'numeric'}, {'scalar', 'positive'});
+    validateattributes(input2, {'numeric'}, {'scalar'});
+    
+    % Main computation
+    try
+        output1 = input1 + input2;
+        output2 = input1 * input2;
+    catch ME
+        error('Computation failed: %s', ME.message);
+    end
+end
+
+% Good variable naming
+data_points = 1000;
+time_vector = 0:0.01:10;
+frequency_response = fft(signal);
+</code></pre>
+      <button class="copy-btn absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 bg-transparent text-gray-300 p-1 rounded transition focus:outline-none" data-copy aria-label="Copy code">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      </button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-matlab.min.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.parentElement.querySelector('code');
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          setTimeout(() => {
+            this.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+          }, 2000);
+        });
+      });
+    });
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          targetElement.classList.add('highlight-card');
+          setTimeout(() => {
+            targetElement.classList.remove('highlight-card');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX",
+      authDomain: "codepolarity.firebaseapp.com",
+      projectId: "codepolarity",
+      storageBucket: "codepolarity.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdefghijklmnop"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html> 
