@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Splash Screen Test - Codepolarity.io</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Doto:wght@100..900&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background-color: #000; color: #fff; min-height: 100vh; }
+    
+    /* Splash Screen Styles */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .splash-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-screen .lottie-container {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+
+    .splash-screen .loading-text {
+      font-family: 'Doto', sans-serif;
+      font-size: 18px;
+      color: #60a7fa;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .splash-screen .loading-dots {
+      display: inline-block;
+      animation: loadingDots 1.5s infinite;
+    }
+
+    @keyframes loadingDots {
+      0%, 20% { content: ""; }
+      40% { content: "."; }
+      60% { content: ".."; }
+      80%, 100% { content: "..."; }
+    }
+
+    /* Hide splash screen on desktop */
+    @media (min-width: 768px) {
+      .splash-screen {
+        display: none !important;
+      }
+    }
+
+    .test-info {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .test-button {
+      background: #60a7fa;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .test-button:hover {
+      background: #4f9ce8;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="lottie-container" id="lottie-container"></div>
+    <div class="loading-text">
+      Loading<span class="loading-dots"></span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-8">Splash Screen Test</h1>
+    
+    <div class="test-info">
+      <h2 class="text-2xl font-bold mb-4">Test Information</h2>
+      <p class="mb-4">This page tests the splash screen functionality. The splash screen should:</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li>Show only on mobile devices (width < 768px)</li>
+        <li>Display your logo animation</li>
+        <li>Hide automatically after the animation completes</li>
+        <li>Only show once per session (use localStorage)</li>
+      </ul>
+      
+      <div class="flex flex-wrap gap-4">
+        <button class="test-button" onclick="resetSplashScreen()">Reset Splash Screen</button>
+        <button class="test-button" onclick="showSplashScreen()">Show Splash Screen</button>
+        <button class="test-button" onclick="checkConditions()">Check Conditions</button>
+      </div>
+      
+      <div id="test-results" class="mt-4 p-4 bg-gray-800 rounded-lg">
+        <h3 class="font-bold mb-2">Test Results:</h3>
+        <div id="results-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if the app is running in standalone mode (PWA) and on mobile
+    function shouldShowSplashScreen() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                          window.navigator.standalone === true;
+      const isMobile = window.innerWidth < 768;
+      const isFirstVisit = !localStorage.getItem('splashShown');
+      
+      return isStandalone && isMobile && isFirstVisit;
+    }
+
+    // Initialize splash screen
+    function initSplashScreen() {
+      const splashScreen = document.getElementById('splash-screen');
+      const lottieContainer = document.getElementById('lottie-container');
+      
+      if (!shouldShowSplashScreen()) {
+        splashScreen.style.display = 'none';
+        return;
+      }
+
+      // Load and play the Lottie animation
+      const animation = lottie.loadAnimation({
+        container: lottieContainer,
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: 'assets/Logo-5-[remix].json'
+      });
+
+      // Handle animation completion
+      animation.addEventListener('complete', () => {
+        setTimeout(() => {
+          splashScreen.classList.add('hidden');
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+          }, 500);
+          localStorage.setItem('splashShown', 'true');
+        }, 500);
+      });
+
+      // Fallback: hide splash screen after 8 seconds
+      setTimeout(() => {
+        if (splashScreen.style.display !== 'none') {
+          splashScreen.classList.add('hidden');
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+          }, 500);
+          localStorage.setItem('splashShown', 'true');
+        }
+      }, 8000);
+    }
+
+    // Test functions
+    function resetSplashScreen() {
+      localStorage.removeItem('splashShown');
+      location.reload();
+    }
+
+    function showSplashScreen() {
+      const splashScreen = document.getElementById('splash-screen');
+      splashScreen.style.display = 'flex';
+      splashScreen.classList.remove('hidden');
+      initSplashScreen();
+    }
+
+    function checkConditions() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                          window.navigator.standalone === true;
+      const isMobile = window.innerWidth < 768;
+      const isFirstVisit = !localStorage.getItem('splashShown');
+      
+      const results = `
+        <p><strong>Is Standalone Mode:</strong> ${isStandalone ? '✅ Yes' : '❌ No'}</p>
+        <p><strong>Is Mobile Device:</strong> ${isMobile ? '✅ Yes' : '❌ No'} (${window.innerWidth}px)</p>
+        <p><strong>Is First Visit:</strong> ${isFirstVisit ? '✅ Yes' : '❌ No'}</p>
+        <p><strong>Should Show Splash:</strong> ${shouldShowSplashScreen() ? '✅ Yes' : '❌ No'}</p>
+      `;
+      
+      document.getElementById('results-content').innerHTML = results;
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initSplashScreen();
+      checkConditions();
+    });
+  </script>
+</body>
+</html> 
