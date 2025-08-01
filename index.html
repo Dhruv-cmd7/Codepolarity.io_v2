@@ -85,6 +85,15 @@
       width: 200px;
       height: 200px;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .splash-screen .fallback-logo {
+      width: 120px;
+      height: 120px;
+      display: none;
     }
 
     .splash-screen .loading-text {
@@ -107,12 +116,14 @@
       80%, 100% { content: "..."; }
     }
 
-    /* Hide splash screen on desktop or when not in standalone mode */
+    /* Hide splash screen on desktop (uncomment for production) */
+    /*
     @media (min-width: 768px) {
       .splash-screen {
         display: none !important;
       }
     }
+    */
   </style>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <!-- Firebase App (the core Firebase SDK) -->
@@ -144,10 +155,18 @@
 <body class="pt-8 md:pt-16 p-4 md:p-8">
 <!-- Splash Screen -->
 <div id="splash-screen" class="splash-screen">
-  <div class="lottie-container" id="lottie-container"></div>
+  <div class="lottie-container" id="lottie-container">
+    <img src="assets/images/logo circle .svg" alt="Codepolarity Logo" class="fallback-logo" id="fallback-logo">
+  </div>
   <div class="loading-text">
     Loading<span class="loading-dots"></span>
   </div>
+</div>
+
+<!-- Test buttons for splash screen (remove in production) -->
+<div style="position: fixed; top: 10px; right: 10px; z-index: 10000; display: flex; gap: 10px;">
+  <button onclick="resetSplashScreen()" style="background: #60a7fa; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Reset Splash</button>
+  <button onclick="showSplashScreen()" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Show Splash</button>
 </div>
 
 <nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-1 bg-transparent backdrop-blur-md mt-2" style="height: 64px;">
@@ -1935,14 +1954,14 @@ if (profileBtn && profileMenu) {
 
 <!-- Splash Screen JavaScript -->
 <script>
-  // Check if the app is running in standalone mode (PWA) and on mobile
+  // Check if the splash screen should be shown
   function shouldShowSplashScreen() {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                        window.navigator.standalone === true;
     const isMobile = window.innerWidth < 768;
     const isFirstVisit = !localStorage.getItem('splashShown');
     
-    return isStandalone && isMobile && isFirstVisit;
+    // Show splash screen on mobile devices on first visit
+    // Also show on desktop for testing purposes (you can remove this later)
+    return isFirstVisit;
   }
 
   // Initialize splash screen
@@ -1950,50 +1969,119 @@ if (profileBtn && profileMenu) {
     const splashScreen = document.getElementById('splash-screen');
     const lottieContainer = document.getElementById('lottie-container');
     
+    console.log('Splash screen initialization started');
+    console.log('Should show splash screen:', shouldShowSplashScreen());
+    
     if (!shouldShowSplashScreen()) {
+      console.log('Hiding splash screen - conditions not met');
       splashScreen.style.display = 'none';
       return;
     }
 
-    // Load and play the Lottie animation
-    const animation = lottie.loadAnimation({
-      container: lottieContainer,
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      path: 'assets/Logo-5-[remix] (1).json'
-    });
+    console.log('Showing splash screen and loading animation');
+    
+    // Show splash screen
+    splashScreen.style.display = 'flex';
+    splashScreen.classList.remove('hidden');
 
-    // Handle animation completion
-    animation.addEventListener('complete', () => {
-      // Add a small delay before hiding the splash screen
+    // Load and play the Lottie animation
+    try {
+      const animation = lottie.loadAnimation({
+        container: lottieContainer,
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: 'assets/Logo-5-[remix] (1).json'
+      });
+
+      // Handle animation completion
+      animation.addEventListener('complete', () => {
+        console.log('Animation completed');
+        // Add a small delay before hiding the splash screen
+        setTimeout(() => {
+          splashScreen.classList.add('hidden');
+          
+          // Remove the splash screen from DOM after transition
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+            console.log('Splash screen hidden');
+          }, 500);
+          
+          // Mark splash screen as shown
+          localStorage.setItem('splashShown', 'true');
+        }, 500);
+      });
+
+      // Handle animation errors
+      animation.addEventListener('error', (error) => {
+        console.error('Lottie animation error:', error);
+        // Show fallback logo
+        const fallbackLogo = document.getElementById('fallback-logo');
+        if (fallbackLogo) {
+          fallbackLogo.style.display = 'block';
+        }
+        // Hide splash screen after showing fallback for 3 seconds
+        setTimeout(() => {
+          splashScreen.classList.add('hidden');
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+          }, 500);
+          localStorage.setItem('splashShown', 'true');
+        }, 3000);
+      });
+
+    } catch (error) {
+      console.error('Error loading Lottie animation:', error);
+      // Show fallback logo
+      const fallbackLogo = document.getElementById('fallback-logo');
+      if (fallbackLogo) {
+        fallbackLogo.style.display = 'block';
+      }
+      // Hide splash screen after showing fallback for 3 seconds
       setTimeout(() => {
         splashScreen.classList.add('hidden');
-        
-        // Remove the splash screen from DOM after transition
         setTimeout(() => {
           splashScreen.style.display = 'none';
         }, 500);
-        
-        // Mark splash screen as shown
         localStorage.setItem('splashShown', 'true');
-      }, 500);
-    });
+      }, 3000);
+    }
 
     // Fallback: hide splash screen after 8 seconds if animation doesn't complete
     setTimeout(() => {
       if (splashScreen.style.display !== 'none') {
-        splashScreen.classList.add('hidden');
+        console.log('Fallback: hiding splash screen after timeout');
+        // Show fallback logo
+        const fallbackLogo = document.getElementById('fallback-logo');
+        if (fallbackLogo) {
+          fallbackLogo.style.display = 'block';
+        }
+        // Hide splash screen after showing fallback for 2 seconds
         setTimeout(() => {
-          splashScreen.style.display = 'none';
-        }, 500);
-        localStorage.setItem('splashShown', 'true');
+          splashScreen.classList.add('hidden');
+          setTimeout(() => {
+            splashScreen.style.display = 'none';
+          }, 500);
+          localStorage.setItem('splashShown', 'true');
+        }, 2000);
       }
     }, 8000);
   }
 
   // Initialize when DOM is loaded
   document.addEventListener('DOMContentLoaded', initSplashScreen);
+  
+  // Function to reset splash screen for testing (remove in production)
+  window.resetSplashScreen = function() {
+    localStorage.removeItem('splashShown');
+    location.reload();
+  };
+  
+  // Function to manually show splash screen for testing (remove in production)
+  window.showSplashScreen = function() {
+    localStorage.removeItem('splashShown');
+    initSplashScreen();
+  };
 </script>
 </body>
 </html>
