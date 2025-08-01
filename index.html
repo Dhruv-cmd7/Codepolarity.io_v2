@@ -30,16 +30,19 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      z-index: 99999;
       opacity: 1;
       transition: opacity 0.8s ease-in-out;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
     }
     
     .mobile-splash.hidden {
@@ -48,53 +51,59 @@
     }
     
     .splash-logo-container {
-      width: 200px;
-      height: 200px;
-      margin-bottom: 2rem;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 2.5rem;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .splash-logo {
       width: 100%;
       height: 100%;
+      filter: drop-shadow(0 0 20px rgba(96, 167, 250, 0.3));
     }
     
     .splash-text {
       font-family: 'Doto', sans-serif;
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: 700;
       color: #fff;
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       opacity: 0;
       animation: fadeInUp 1s ease-out 0.5s forwards;
+      text-shadow: 0 0 10px rgba(96, 167, 250, 0.5);
     }
     
     .splash-subtitle {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #60a7fa;
       text-align: center;
       opacity: 0;
       animation: fadeInUp 1s ease-out 1s forwards;
+      letter-spacing: 0.1em;
     }
     
     .splash-loading {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(96, 167, 250, 0.3);
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(96, 167, 250, 0.2);
       border-top: 3px solid #60a7fa;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-top: 2rem;
+      margin-top: 3rem;
       opacity: 0;
-      animation: spin 1s linear infinite, fadeIn 1s ease-out 1.5s forwards;
+      animation: spin 1.2s linear infinite, fadeIn 1s ease-out 1.5s forwards;
+      box-shadow: 0 0 15px rgba(96, 167, 250, 0.3);
     }
     
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -128,6 +137,13 @@
       
       .main-content.visible {
         opacity: 1;
+      }
+      
+      /* Ensure body doesn't have padding on mobile during splash */
+      body {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden;
       }
     }
   </style>
@@ -194,7 +210,7 @@
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
-<body class="pt-8 md:pt-16 p-4 md:p-8">
+<body class="pt-8 md:pt-16 p-4 md:p-8" id="body">
 
 <!-- Mobile Splash Screen -->
 <div class="mobile-splash" id="mobile-splash">
@@ -1999,11 +2015,18 @@ if (profileBtn && profileMenu) {
 <!-- Splash Screen JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const body = document.getElementById('body');
+  
   // Only show splash screen on mobile devices
   if (window.innerWidth < 768) {
     const splashScreen = document.getElementById('mobile-splash');
     const mainContent = document.getElementById('main-content');
     const splashLogo = document.getElementById('splash-logo');
+    
+    // Remove body padding/margin for full-screen splash
+    body.style.padding = '0';
+    body.style.margin = '0';
+    body.style.overflow = 'hidden';
     
     // Load and play the Lottie animation
     const animation = lottie.loadAnimation({
@@ -2019,8 +2042,11 @@ document.addEventListener('DOMContentLoaded', function() {
       splashScreen.classList.add('hidden');
       mainContent.classList.add('visible');
       
-      // Remove splash screen from DOM after animation completes
+      // Restore body styling and remove splash screen
       setTimeout(() => {
+        body.style.padding = '';
+        body.style.margin = '';
+        body.style.overflow = '';
         splashScreen.remove();
       }, 800);
     }, 3000);
