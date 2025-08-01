@@ -74,13 +74,6 @@
       .main-content.visible {
         opacity: 1;
       }
-      
-      /* Ensure body doesn't have padding on mobile during splash */
-      body {
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow: hidden;
-      }
     }
   </style>
   <style>
@@ -1954,6 +1947,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const splashLogo = document.getElementById('splash-logo');
     
+    // Store original body styles
+    const originalPadding = body.style.padding;
+    const originalMargin = body.style.margin;
+    const originalOverflow = body.style.overflow;
+    
     // Remove body padding/margin for full-screen splash
     body.style.padding = '0';
     body.style.margin = '0';
@@ -1986,9 +1984,17 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Restore body styling and remove splash screen
       setTimeout(() => {
+        // Force restore body to original state
         body.style.padding = '';
         body.style.margin = '';
         body.style.overflow = '';
+        body.style.height = '';
+        body.style.width = '';
+        
+        // Ensure scrolling is enabled
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        
         splashScreen.remove();
       }, 800);
     }, 3000);
